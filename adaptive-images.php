@@ -1,7 +1,7 @@
 <?php
 
     /*
-        Adaptive Images for WordPress 
+        Plugin Name: Adaptive Images for WordPress 
         Plugin URI: http://www.nevma.gr
         Description: Resizes your images, according to each user's screen size, to reduce total download time of web pages in mobile devices.
         Version: 0.2.02
