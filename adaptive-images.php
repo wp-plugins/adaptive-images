@@ -14,7 +14,7 @@
 
 $wprxr_pluginname = "WP Resolutions";
 $wprxr_shortname = "wprxr";
-$wprxr_ai_path = plugin_dir_path(__FILE__) . "adaptive-images.php";
+$wprxr_ai_path = plugin_dir_path(__FILE__) . "adaptive-images/ai-main.php";
 $wprxr_options = array (
 
 array(  "type" => "open"),
