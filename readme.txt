@@ -32,14 +32,17 @@ work like a CDN. It is a self hosted, in-your-website solution. But it works!
 = The plugin has the following fundamental goals = 
 
  1. Help reduce the total download time of web pages in mobile devices.
- 2. Work unobtrusively. You enable it and it works. You disable it and it gets out of the way.
+ 2. Work unobtrusively. You enable it and it works. You disable it and it gets out of your way. Has got to be dead simple.
  3. Provide a transparent solution that is independant of the development process itself.
 
 
 
-= Todos =
+== Todos ==
 
- - Check that requested files are strictly images, which are inside the watched directories.
+This is an off-hand todo list:
+
+ - Check that requested files are strictly images
+ - Check that requested files are strictly inside the watched directories.
  - Put configuration in a separate file, which will be included.
  - Clean image cache methods.
  - Clean image cache on demand.
@@ -60,11 +63,16 @@ work like a CDN. It is a self hosted, in-your-website solution. But it works!
 
 == Frequently Asked Questions ==
 
-= What's the story =
+= What's the story? =
 
 First came the Adaptive images solution http://adaptive-images.com/ which is still there and it works on its own. Then 
 came the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions. But it is not in the plugin repository
 and it is not compatible with the latest WordPress versions. So we are updating and maintaining it (so far).
+
+= Is it heavy? =
+
+Well, not much. The image resizing process is not computationally negligible, but the images are only resized when
+necessary and they are cached.
 
 
 
