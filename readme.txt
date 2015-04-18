@@ -1,4 +1,4 @@
-=== Adaptive Images for WprdPress ===
+=== Adaptive Images for WordPress ===
 
 Contributors: nevma
 Donate link: http://www.nevma.gr/
