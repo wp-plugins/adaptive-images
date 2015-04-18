@@ -10,7 +10,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Adaptive images http://adaptive-images.com/ resizes your images, according to each user's screen size, to reduce total 
-download time of web pages in mobile devices. 
+download time in mobile devices. 
 
 
 
