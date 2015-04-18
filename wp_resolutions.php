@@ -1,13 +1,16 @@
 <?php
-/*
-Plugin Name: WP Resolutions 
-Plugin URI: http://wpresolutions.co
-Description: Resolutions will make sure that image files are never bigger than what a device can use.
-Version: Beta
-Author: J&oslash;rgen Hookham
-Author URI: http://jorgen.co
-License: GPL
-*/
+
+    /*
+        Adaptive Images for WordPress 
+        Plugin URI: http://www.nevma.gr
+        Description: Resizes your images, according to each user's screen size, to reduce total download time of web pages in mobile devices.
+        Version: 0.2.01
+        Author: Nevma - Creative Know-How
+        Author URI: http://www.nevma.gr
+        License: GPL2
+        License URI: https://www.gnu.org/licenses/gpl-2.0.html
+    */
+
 
 $wprxr_pluginname = "WP Resolutions";
 $wprxr_shortname = "wprxr";
