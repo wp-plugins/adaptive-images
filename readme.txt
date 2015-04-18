@@ -5,7 +5,7 @@ Donate link: http://www.nevma.gr/
 Tags: wurfl, wit, cdn, device detection, mobile, images
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 0.2.02
+Stable tag: 0.2.03
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,11 +29,24 @@ updated and made compatible with the current versions of WordPress.
 The resized versions of the pictures are kept in a special directory in the `/wp-content` folder. The plugin does not
 work like a CDN. It is a self hosted, in-your-website solution. But it works!
 
+By default these breakpoints are taken into consideration: 
+
+ - 1024px screens
+ - &nbsp;600px screens
+ - &nbsp;320px screens
+
+But you can change this at will!
+
 = The plugin has the following fundamental goals = 
 
  1. Help reduce the total download time of web pages in mobile devices.
  2. Work unobtrusively. You enable it and it works. You disable it and it gets out of your way. Has got to be dead simple.
  3. Provide a transparent solution that is independant of the development process itself.
+
+ = Caution = 
+
+ The plugin *needs* to add a little bot of code to your htaccess file in order to function properly. It removes this code 
+ once disabled. If you are not cool with that, then you should not install it!
 
 
 
@@ -89,6 +102,10 @@ No worries upgrading. Just do it!
 
 
 == Changelog ==
+
+= 0.2.03 =
+
+ - Set the default screen size breakpoints to 1024, 600, 320.
 
 = 0.2.02 =
 
