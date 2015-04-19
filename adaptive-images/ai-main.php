@@ -13,8 +13,8 @@
 /* CONFIG ----------------------------------------------------------------------------------------------------------- */
 
 $resolutions   = array(1024, 600, 320); // the resolution break-points to use (screen widths, in pixels)
-$cache_path    = "ai-cache"; // where to store the generated re-sized images. Specify from your document root!
-$jpg_quality   = 75; // the quality of any generated JPGs on a scale of 0 to 100
+$cache_path    = "cache-ai"; // where to store the generated re-sized images. Specify from your document root!
+$jpg_quality   = 80; // the quality of any generated JPGs on a scale of 0 to 100
 $sharpen       = TRUE; // Shrinking images can blur details, perform a sharpen on re-scaled images?
 $watch_cache   = TRUE; // check that the adapted image isn't stale (ensures updated source images are re-cached)
 $browser_cache = 60*60*24*7; // How long the BROWSER cache should last (seconds, minutes, hours, days. 7days by default)
@@ -24,10 +24,25 @@ $browser_cache = 60*60*24*7; // How long the BROWSER cache should last (seconds,
 --------------------------------------------------------------------------------------------------------------------- */
 
 /* get all of the required data from the HTTP request */
-$document_root  = $_SERVER['DOCUMENT_ROOT'];
+// $document_root  = $_SERVER['DOCUMENT_ROOT'];
+$document_root  = realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../../../' ) . '/';
+ // var_dump($document_root);
+
+// var_dump($_SERVER);
+
+// $DR = $_SERVER['DOCUMENT_ROOT'];
+// echo $DR . '<br><br>';
+// $DR = preg_replace( '/\//i', '\/', $DR );
+// echo $DR . '<br>';
+// $DR = preg_replace( '/\./i', '\\.', $DR );
+// echo $DR . '<br><br>';
+// echo __FILE__ . '<br><br>';
+// echo preg_replace( '/' . $DR . '/i', '', __FILE__ );
+// die();
+
 $requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
 $requested_file = basename($requested_uri);
-$source_file    = $document_root.$requested_uri;
+$source_file    = $_SERVER['DOCUMENT_ROOT'].$requested_uri;
 $resolution     = FALSE;
 
 /* Mobile detection 
@@ -224,6 +239,8 @@ function generateImage($source_file, $cache_file, $resolution) {
 
   return $cache_file;
 }
+
+//=====================================================================================================================
 
 // check if the file exists at all
 if (!file_exists($source_file)) {

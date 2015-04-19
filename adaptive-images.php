@@ -4,7 +4,7 @@
         Plugin Name: Adaptive Images for WordPress 
         Plugin URI: http://www.nevma.gr
         Description: Resizes your images, according to each user's screen size, to reduce total download time of web pages in mobile devices.
-        Version: 0.2.03
+        Version: 0.2.02
         Author: Nevma - Creative Know-How
         Author URI: http://www.nevma.gr
         License: GPL2
@@ -12,32 +12,37 @@
     */
 
 
-$wprxr_pluginname = "WP Resolutions";
+global $wprxr_pluginname;
+global $wprxr_shortname;
+global $wprxr_ai_path;
+global $wprxr_options;
+
+$wprxr_pluginname = "Adaptive Images";
 $wprxr_shortname = "wprxr";
 $wprxr_ai_path = plugin_dir_path(__FILE__) . "adaptive-images/ai-main.php";
 $wprxr_options = array (
 
-array(  "type" => "open"),
+	array(  "type" => "open"),
 
-/**
- * This option provides the possibility to edit adaptive-images.php config section directly from plugin settings page.
- * Make sure adaptive-images.php has write permissions
- * This option is not saved in WordPress database.
- **/
-array(	"name" => "Adaptive-images config",
-		"desc" => "Edit config section of adaptive-images.php",
-		"id" => $shortname . "_ai_config",
-		"type" => "textarea",
-		"std" => wprxr_get_ai_config(),
-		"handler" => "wprxr_set_ai_config" ),
+	/**
+	 * This option provides the possibility to edit adaptive-images.php config section directly from plugin settings page.
+	 * Make sure adaptive-images.php has write permissions
+	 * This option is not saved in WordPress database.
+	 **/
+	array(	"name" => "Adaptive-images config",
+			"desc" => "Edit config section of adaptive-images.php",
+			"id" => $wprxr_shortname . "_ai_config",
+			"type" => "textarea",
+			"std" => wprxr_get_ai_config(),
+			"handler" => "wprxr_set_ai_config" ),
 
-array(	"name" => "Watch paths",
-		"desc" => "Enter the paths that you want Resolutions to watch. Put each path on a new line (separate paths with a return.)",
-		"id" => $shortname . "_include_paths",
-		"type" => "textarea",
-		"std" => "/wp-content/uploads/"),
+	array(	"name" => "Watch paths for images",
+			"desc" => "Enter the paths that you want Resolutions to watch. Put each path on a new line (separate paths with a return.)",
+			"id" => $wprxr_shortname . "_include_paths",
+			"type" => "textarea",
+			"std" => "/wp-content/uploads/"),
 
-array(  "type" => "close")
+	array(  "type" => "close")
 
 );
 
@@ -58,12 +63,18 @@ function wprxr_js()
  **/
 function wprxr_get_ai_config( $context = "" )
 {
+	// echo 'GET CONFIG <br>';
 	if( !$context )
 	{
 		global $wprxr_ai_path;
 		$context = file_get_contents( $wprxr_ai_path );
 	}
 	preg_match("%/\* ?CONFIG -+ ?\*/\r?\n?(.*)\r?\n?/\* ?END CONFIG%ms", $context, $matches );
+
+	// var_dump($matches);
+
+	// die();
+
 	return $matches[1];
 }
 
@@ -76,6 +87,7 @@ function wprxr_get_ai_config( $context = "" )
  **/
 function wprxr_set_ai_config( $val )
 {
+	// echo 'SET CONFIG <br>';
 	// Get current config
 	global $wprxr_ai_path;
 	$everything = file_get_contents( $wprxr_ai_path );
@@ -95,7 +107,7 @@ function wprxr_add_page()
     global $wprxr_options, $wprxr_pluginname, $wprxr_shortname;
 	$options = $wprxr_options;
 	$pluginname = $wprxr_pluginname;
-	$shortname = $wprxr_shortname;
+	// $shortname = $wprxr_shortname;
 
     if ( $_GET['page'] == 'wprxr' )
     {
@@ -128,7 +140,7 @@ function wprxr_add_page()
         }
     }
 
-    add_options_page("WP Resolutions", "WP Resolutions", 'edit_themes', 'wprxr', 'wprxr_page');
+    add_options_page("Adaptive Images", "Adaptive Images", 'manage_options', 'wprxr', 'wprxr_page');
 }
 
 
@@ -152,9 +164,9 @@ function wprxr_activate()
 	
 	$old_htaccess = file_get_contents(get_home_path() . '.htaccess');
 		
-	if ( preg_match('/# WP Resolutions.*# END WP Resolutions\n/s', $old_htaccess) )
+	if ( preg_match('/# Adaptive Images.*# END Adaptive Images\n/s', $old_htaccess) )
 	{
-		$new_htaccess = preg_replace('/# WP Resolutions.*# END WP Resolutions\n/s', $new_htaccess, $old_htaccess);
+		$new_htaccess = preg_replace('/# Adaptive Images.*# END Adaptive Images\n/s', $new_htaccess, $old_htaccess);
 	}
 	
 	else
@@ -171,7 +183,7 @@ function wprxr_activate()
 function wprxr_deactivate()
 {
 	$old_htaccess = file_get_contents(get_home_path() . '.htaccess');
-	$new_htaccess = preg_replace('/# WP Resolutions.*# END WP Resolutions\n/s', '', $old_htaccess);
+	$new_htaccess = preg_replace('/# Adaptive Images.*# END Adaptive Images\n/s', '', $old_htaccess);
 	file_put_contents(get_home_path() . '.htaccess', $new_htaccess);
 }
 
@@ -182,13 +194,15 @@ function wprxr_htaccess ()
 {
 	global $wprxr_ai_path;
 
+	// var_dump( $wprxr_ai_path );
+
 	$theme_directory = "/".trim(str_replace(str_replace("\\", "/", $_SERVER["DOCUMENT_ROOT"]), '', str_replace("\\", "/", dirname(__FILE__))), "/");
 
-	$wprxr_include_paths = get_settings('wprxr_include_paths');
+	$wprxr_include_paths =  get_option('wprxr_include_paths');
 	
 	$includes = explode("\n", $wprxr_include_paths);
     
-	$new_htaccess = "# WP Resolutions\n<IfModule mod_rewrite.c>\nRewriteEngine On\n\n# Watch directories:";
+	$new_htaccess = "# Adaptive Images\n<IfModule mod_rewrite.c>\nRewriteEngine On\n\n# Watch directories:";
 	
 	$i = 0;
 	$length = count($includes) - 1;
@@ -200,21 +214,28 @@ function wprxr_htaccess ()
 		$i++;
 	}
 
-	$new_htaccess .= "\n\nRewriteRule \.(?:jpe?g|gif|png)$ " . $wprxr_ai_path . "\n</IfModule>\n# END WP Resolutions\n";
+	$DR = $_SERVER['DOCUMENT_ROOT'];
+	$DR = preg_replace( '/\//i', '\/', $DR );
+	$DR = preg_replace( '/\./i', '\\.', $DR );
+	$image_handling_script = preg_replace( '/' . $DR . '/i', '', __FILE__ ); 
+	$image_handling_script = substr( $image_handling_script, 0, strrpos( $image_handling_script, '/', -3 ) );
+	$image_handling_script .= '/adaptive-images/ai-main.php';
+
+	$new_htaccess .= "\n\nRewriteRule \.(?:jpe?g|gif|png)$ " . $image_handling_script . " [L]\n</IfModule>\n# END Adaptive Images\n";
 	
 	return $new_htaccess;
 }
 
 
 
-// The WP Resolutions settings page
+// The Adaptive Images settings page
 function wprxr_page()
 {
 
 	global $wprxr_options, $wprxr_pluginname, $wprxr_shortname;
 	$options = $wprxr_options;
 	$pluginname = $wprxr_pluginname;
-	$shortname = $wprxr_shortname;
+	// $shortname = $wprxr_shortname;
 	
 	$new_htaccess = wprxr_htaccess();
 
@@ -229,9 +250,9 @@ function wprxr_page()
 		
 		$old_htaccess = file_get_contents(get_home_path() . '.htaccess');
 		
-		if ( preg_match('/# WP Resolutions.*# END WP Resolutions\n/s', $old_htaccess) )
+		if ( preg_match('/# Adaptive Images.*# END Adaptive Images\n/s', $old_htaccess) )
 		{
-			$new_htaccess = preg_replace('/# WP Resolutions.*# END WP Resolutions\n/s', $new_htaccess, $old_htaccess);
+			$new_htaccess = preg_replace('/# Adaptive Images.*# END Adaptive Images\n/s', $new_htaccess, $old_htaccess);
 		}
 		
 		else
@@ -241,7 +262,7 @@ function wprxr_page()
 		
 		file_put_contents(get_home_path() . '.htaccess', $new_htaccess);
 		
-		echo '<div id="message" class="updated fade"><p><strong>WP Resolutions updated successfully.</strong></p></div>';
+		echo '<div id="message" class="updated fade"><p><strong>Adaptive Images updated successfully.</strong></p></div>';
     }
 ?>
 
@@ -256,7 +277,7 @@ foreach ($options as $value)
 	{
 
 		case "open":
-			echo '<table width="100%" border="0" style="background-color:#eef5fb; padding:10px;">';
+			echo '<table width="100%" border="0" style="padding:10px;">';
 		break;
 
 		case "close":
@@ -264,16 +285,16 @@ foreach ($options as $value)
 		break;
 
 		case "title":
-			echo '<table width="100%" border="0" style="background-color:#dceefc; padding:5px 10px;"><tr>';
+			echo '<table width="100%" border="0" style="padding:5px 10px;"><tr>';
     		echo '<td colspan="2"><h3 style="font-family:Georgia,\'Times New Roman\',Times,serif;">' .  $value['name'] . '</h3></td>';
 			echo '</tr>';
 		break;
 
 		case 'text':
-			$value_or_std = ( get_settings( $value['id'] ) != "" ) ? get_settings( $value['id'] ) : $value['std'];
+			$value_or_std = (  get_option( $value['id'] ) != "" ) ?  get_option( $value['id'] ) : $value['std'];
 			echo '<tr>';
-			echo '<td width="20%" rowspan="2" valign="middle"><strong>' . $value['name'] . '</strong></td>';
-			echo '<td width="80%"><input style="width:400px;" name="' . $value['id'] . '" id="' . $value['id'] . '" type="' . $value['type'] . '" value="' . $value_or_std . '" /></td>';
+			echo '<td width="20%" rowspan="2" valign="top"><strong>' . $value['name'] . '</strong></td>';
+			echo '<td width="80%"><input style="width:90%;" name="' . $value['id'] . '" id="' . $value['id'] . '" type="' . $value['type'] . '" value="' . $value_or_std . '" /></td>';
 			echo '</tr>';
 			echo '<tr>';
 			echo '<td><small>' . $value['desc'] . '</small></td>';
@@ -281,10 +302,10 @@ foreach ($options as $value)
 		break;
 
 		case 'textarea':
-			$value_or_std = ( get_settings( $value['id'] ) != "" ) ? get_settings( $value['id'] ) : $value['std'];
+			$value_or_std = (  get_option( $value['id'] ) != "" ) ?  get_option( $value['id'] ) : $value['std'];
 			echo '<tr>';
-			echo '<td width="20%" rowspan="2" valign="middle"><strong>' . $value['name'] . '</strong></td>';
-			echo '<td width="80%"><textarea name="' . $value['id'] . '" style="width:400px; height:200px;" type="' . $value['type'] . '" cols="" rows="">' . $value_or_std . '</textarea></td>';
+			echo '<td width="20%" rowspan="2" valign="top"><strong>' . $value['name'] . '</strong></td>';
+			echo '<td width="80%"><textarea name="' . $value['id'] . '" style="width:90%; height:200px;" type="' . $value['type'] . '" cols="" rows="">' . $value_or_std . '</textarea></td>';
 			echo '</tr>';
 			echo '<tr>';
 			echo '<td><small>' . $value['desc'] . '</small></td>';
@@ -293,11 +314,11 @@ foreach ($options as $value)
 
 		case 'select':
 			echo '<tr>';
-			echo '<td width="20%" rowspan="2" valign="middle"><strong>' . $value['name'] . '</strong></td>';
-			echo '<td width="80%"><select style="width:240px;" name="' . $value['id'] . '" id="' . $value['id'] . '">';
+			echo '<td width="20%" rowspan="2" valign="top"><strong>' . $value['name'] . '</strong></td>';
+			echo '<td width="80%"><select name="' . $value['id'] . '" id="' . $value['id'] . '">';
 			foreach ($value['options'] as $option)
 			{
-				$selected = ( get_settings( $value['id'] ) == $option || $option == $value['std']) ? ' selected="selected"' : '';
+				$selected = (  get_option( $value['id'] ) == $option || $option == $value['std']) ? ' selected="selected"' : '';
 				echo '<option' . $selected . '>' . $option . '</option>';
 			}
 			echo '</select></td>';
@@ -308,9 +329,9 @@ foreach ($options as $value)
 		break;
 
 		case "checkbox":
-			$cheked = (get_settings($value['id'])) ? ' checked="checked"' : '';
+			$cheked = ( get_option($value['id'])) ? ' checked="checked"' : '';
 			echo '<tr>';
-			echo '<td width="20%" rowspan="2" valign="middle"><strong>' . $value['name'] . '</strong></td>';
+			echo '<td width="20%" rowspan="2" valign="top"><strong>' . $value['name'] . '</strong></td>';
 			echo '<td width="80%">';
 			echo '<input type="checkbox" name="' . $value['id'] . '" id="' .  $value['id'] . '" value="true"' . $checked . '/>';
 			echo '</td>';
@@ -346,14 +367,14 @@ function wprxr_add_settings_link($links, $file)
 	 
 	if ( $file == $this_plugin )
 	{
-		$settings_link = '<a href="options-general.php?page=wprxr">'.__("Settings", "WP Resolutions").'</a>';
+		$settings_link = '<a href="options-general.php?page=wprxr">'.__("Settings", "Adaptive Images").'</a>';
 		array_unshift($links, $settings_link);
 	}
 	
 	return $links;
 }
 
-add_action(wp_head, wprxr_js, 0);
+add_action('wp_head', 'wprxr_js', 0);
 add_action('admin_menu', 'wprxr_add_page');
 register_activation_hook(__FILE__, 'wprxr_activate');
 register_deactivation_hook(__FILE__, 'wprxr_deactivate');

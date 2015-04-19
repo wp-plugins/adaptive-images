@@ -5,7 +5,7 @@ Donate link: http://www.nevma.gr/
 Tags: wurfl, wit, cdn, device detection, mobile, images
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 0.2.03
+Stable tag: 0.2.04
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,10 @@ No worries upgrading. Just do it!
 
 
 == Changelog ==
+
+= 0.2.04 =
+
+ - Refactoring code.
 
 = 0.2.03 =
 
