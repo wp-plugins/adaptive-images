@@ -1,11 +1,12 @@
+
 === Adaptive Images for WordPress ===
 
 Contributors: nevma
 Donate link: http://www.nevma.gr/
-Tags: wurfl, wit, cdn, device detection, mobile, images
+Tags: wurfl, wit, mobile, adaptive, images, resize, optimize, downsize
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 0.2.04
+Stable tag: 0.2.05
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,8 +58,11 @@ This is an off-hand todo list:
  - Check that requested files are strictly images
  - Check that requested files are strictly inside the watched directories.
  - Put configuration in a separate file, which will be included.
+ - Configuration should not be hardcoded but it should also not require WordPress to load and it should not be 
+   overriden in each plugin update.
  - Clean image cache methods.
  - Clean image cache on demand.
+ - What about if a user actually wants (!) to see the full versions of images even when in a mobile network?
 
 
 
@@ -103,6 +107,11 @@ No worries upgrading. Just do it!
 
 == Changelog ==
 
+= 0.2.05 =
+
+ - If the original requested image width and the device screen size are bigger than maximum available breakpoint, then 
+   serve the the original image. 
+
 = 0.2.04 =
 
  - Refactoring code.
@@ -121,8 +130,9 @@ No worries upgrading. Just do it!
  - Corrected basic PHP errors.
  - Corrected basic WordPress errors.
  - Now compatible with version 4.1.1.
+ - New document root takes into account installations in subdirectories.
 
 = 0.1 =
 
- - The version forked from https://github.com/JorgenHookham/WP-Resolutions.
- - It does not work with WordPress version (at least) 4.1.1.
+ - The version forked from the WP Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions.
+ - This version does not work with WordPress anymore (at least version 4.1.1 and upwards).

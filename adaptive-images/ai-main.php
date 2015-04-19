@@ -25,20 +25,8 @@ $browser_cache = 60*60*24*7; // How long the BROWSER cache should last (seconds,
 
 /* get all of the required data from the HTTP request */
 // $document_root  = $_SERVER['DOCUMENT_ROOT'];
+
 $document_root  = realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../../../' ) . '/';
- // var_dump($document_root);
-
-// var_dump($_SERVER);
-
-// $DR = $_SERVER['DOCUMENT_ROOT'];
-// echo $DR . '<br><br>';
-// $DR = preg_replace( '/\//i', '\/', $DR );
-// echo $DR . '<br>';
-// $DR = preg_replace( '/\./i', '\\.', $DR );
-// echo $DR . '<br><br>';
-// echo __FILE__ . '<br><br>';
-// echo preg_replace( '/' . $DR . '/i', '', __FILE__ );
-// die();
 
 $requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
 $requested_file = basename($requested_uri);
@@ -262,12 +250,17 @@ if (isset($_COOKIE['resolution'])) {
   $cookie_value = $_COOKIE['resolution'];
 
   // does the cookie look valid? [whole number, comma, potential floating number]
-  if (! preg_match("/^[0-9]+[,]*[0-9\.]+$/", "$cookie_value")) { // no it doesn't look valid
+  if (! preg_match("/^[0-9]+[,]*[0-9\.]+$/", "$cookie_value")) 
+  { 
+    // no it doesn't look valid
     setcookie("resolution", "$cookie_value", time()-100); // delete the mangled cookie
   }
-  else { // the cookie is valid, do stuff with it
+  else 
+  { 
+    // the cookie is valid, do stuff with it
     $cookie_data   = explode(",", $_COOKIE['resolution']);
     $client_width  = (int) $cookie_data[0]; // the base resolution (CSS pixels)
+
     $total_width   = $client_width;
     $pixel_density = 1; // set a default, used for non-retina style JS snippet
     if (@$cookie_data[1]) { // the device's pixel density factor (physical pixels per CSS pixel)
@@ -308,6 +301,28 @@ if (isset($_COOKIE['resolution'])) {
         }
       }
     }
+
+    //*** NEVMA ***
+
+    $image_info = @GetImageSize($source_file);
+
+    // echo 'test = ';
+
+    // if orginal image width and device screen are both bigger than the biggest breakpoint
+    if ( $image_info[0] > $resolution && $total_width > $resolution ) { 
+
+      // echo 'true';
+      // echo ', ' . $total_width;
+      
+      // then show the original image
+      sendImage($source_file, $browser_cache);
+    }
+
+    // echo 'false';
+    // echo ', ' . $total_width;
+
+    //*** NEVMA ***
+
   }
 }
 
@@ -324,6 +339,8 @@ if(substr($requested_uri, 0,1) == "/") {
 
 /* whew might the cache file be? */
 $cache_file = $document_root."/$cache_path/$resolution/".$requested_uri;
+
+$image_info = @GetImageSize($source_file);
 
 /* Use the resolution value as a path variable and check to see if an image of the same name exists at that path */
 if (file_exists($cache_file)) { // it exists cached at that size
