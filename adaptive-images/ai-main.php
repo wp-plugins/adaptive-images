@@ -18,12 +18,12 @@
 
 /* CONFIG ----------------------------------------------------------------------------------------------------------- */
 
-$resolutions   = array( 1024, 600, 320 ); // the resolution break-points to use (screen widths, in pixels)
-$cache_dir     = "cache-ai";              // where to store the generated re-sized images.
-$jpg_quality   = 65;                      // the quality of any generated JPGs on a scale of 0 to 100
-$sharpen       = TRUE;                    // Shrinking images can blur details, perform a sharpen on re-scaled images?
-$watch_cache   = TRUE;                    // check that the adapted image isn't stale (ensures updated source images are re-cached)
-$browser_cache = 60*60*24*7;              // How long the BROWSER cache should last (seconds, minutes, hours, days. 7days by default)
+$resolutions   = array( 1024, 600, 320 ); // the resolution breakpoints of screens widths in pixels
+$cache_dir     = "cache-ai";              // where to store the generated resized images
+$jpg_quality   = 65;                      // the quality of any generated JPGs (from 0 to 100)
+$sharpen       = TRUE;                    // perform a sharpen on rescaled images to reduce blur
+$watch_cache   = TRUE;                    // check that a resized image isn't stale 
+$browser_cache = 60*60*24*7;              // how long the browser cache should last (s*m*h*d)
 
 /* END CONFIG ----------------------------------------------------------------------------------------------------------
 ------------------------ Don't edit anything after this line unless you know what you're doing -------------------------
