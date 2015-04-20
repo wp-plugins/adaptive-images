@@ -6,7 +6,7 @@ Donate link: http://www.nevma.gr/
 Tags: wurfl, wit, mobile, adaptive, images, resize, optimize, downsize
 Requires at least: 4.0
 Tested up to: 4.1.1
-Stable tag: 0.2.05
+Stable tag: 0.2.06
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,20 +49,9 @@ But you can change this at will!
  The plugin *needs* to add a little bot of code to your htaccess file in order to function properly. It removes this code 
  once disabled. If you are not cool with that, then you should not install it!
 
+ = WURFL Image Tailor =
 
-
-== Todos ==
-
-This is an off-hand todo list:
-
- - Check that requested files are strictly images
- - Check that requested files are strictly inside the watched directories.
- - Put configuration in a separate file, which will be included.
- - Configuration should not be hardcoded but it should also not require WordPress to load and it should not be 
-   overriden in each plugin update.
- - Clean image cache methods.
- - Clean image cache on demand.
- - What about if a user actually wants (!) to see the full versions of images even when in a mobile network?
+ Checkout WURFL Image Tailor connector for WordPress https://wordpress.org/plugins/wurfl-image-tailor-connector/.
 
 
 
@@ -95,7 +84,9 @@ necessary and they are cached.
 
 == Screenshots ==
 
-1. Screenshot 1 description.
+1. Install and activate the plugin.
+2. Resized versions of your images are created and saved in an image cache directory in /wp-content.
+3. Total web page load time is reduced dramatically.
 
 
 
@@ -106,6 +97,10 @@ No worries upgrading. Just do it!
 
 
 == Changelog ==
+
+= 0.2.06 =
+
+ - Settings are now separate in an ai-user-settings.php file.
 
 = 0.2.05 =
 

@@ -1,0 +1,12 @@
+
+This is an off-hand todo list: 
+
+ - Check that requested files are strictly images
+ - Check that requested files are strictly inside the watched directories.
+ - Put configuration in a separate file, which will be included.
+ - Configuration should not be hardcoded but it should also not require WordPress to load and it should not be 
+   overriden in each plugin update.
+ - Clean image cache methods.
+ - Clean image cache on demand.
+ - What about if a user actually wants (!) to see the full versions of images even when in a mobile network?
+ - Present htaccess settings more beautifully.

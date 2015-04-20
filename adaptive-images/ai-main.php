@@ -10,24 +10,39 @@
    LEGAL:
    Adaptive Images by Matt Wilcox is licensed under a Creative Commons Attribution 3.0 Unported License.
 
+
+
+   THE FOLLOWING ARE DEFAULT VALUES WHICH CAN BE OVERRIDEN IN THE ADMIN ==>
+
+
+
 /* CONFIG ----------------------------------------------------------------------------------------------------------- */
 
-$resolutions   = array(1024, 600, 320); // the resolution break-points to use (screen widths, in pixels)
-$cache_path    = "cache-ai"; // where to store the generated re-sized images. Specify from your document root!
-$jpg_quality   = 80; // the quality of any generated JPGs on a scale of 0 to 100
-$sharpen       = TRUE; // Shrinking images can blur details, perform a sharpen on re-scaled images?
-$watch_cache   = TRUE; // check that the adapted image isn't stale (ensures updated source images are re-cached)
-$browser_cache = 60*60*24*7; // How long the BROWSER cache should last (seconds, minutes, hours, days. 7days by default)
+$resolutions   = array( 1024, 600, 320 ); // the resolution break-points to use (screen widths, in pixels)
+$cache_dir     = "cache-ai";              // where to store the generated re-sized images.
+$jpg_quality   = 65;                      // the quality of any generated JPGs on a scale of 0 to 100
+$sharpen       = TRUE;                    // Shrinking images can blur details, perform a sharpen on re-scaled images?
+$watch_cache   = TRUE;                    // check that the adapted image isn't stale (ensures updated source images are re-cached)
+$browser_cache = 60*60*24*7;              // How long the BROWSER cache should last (seconds, minutes, hours, days. 7days by default)
 
 /* END CONFIG ----------------------------------------------------------------------------------------------------------
 ------------------------ Don't edit anything after this line unless you know what you're doing -------------------------
 --------------------------------------------------------------------------------------------------------------------- */
 
+
+
+// Nevma 
+
+if ( file_exists( realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/ai-user-settings.php' ) ) ) {
+
+  include( 'ai-user-settings.php' );
+
+}
+
 /* get all of the required data from the HTTP request */
-// $document_root  = $_SERVER['DOCUMENT_ROOT'];
 
+// set the document root to the /wp-content folder
 $document_root  = realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../../../' ) . '/';
-
 $requested_uri  = parse_url(urldecode($_SERVER['REQUEST_URI']), PHP_URL_PATH);
 $requested_file = basename($requested_uri);
 $source_file    = $_SERVER['DOCUMENT_ROOT'].$requested_uri;
@@ -47,12 +62,12 @@ if(!is_mobile()){
   $is_mobile = TRUE;
 }
 
-// does the $cache_path directory exist already?
-if (!is_dir("$document_root/$cache_path")) { // no
-  if (!mkdir("$document_root/$cache_path", 0755, true)) { // so make it
-    if (!is_dir("$document_root/$cache_path")) { // check again to protect against race conditions
+// does the $cache_dir directory exist already?
+if (!is_dir("$document_root/$cache_dir")) { // no
+  if (!mkdir("$document_root/$cache_dir", 0755, true)) { // so make it
+    if (!is_dir("$document_root/$cache_dir")) { // check again to protect against race conditions
       // uh-oh, failed to make that directory
-      sendErrorImage("Failed to create cache directory at: $document_root/$cache_path");
+      sendErrorImage("Failed to create cache directory at: $document_root/$cache_dir");
     }
   }
 }
@@ -306,20 +321,20 @@ if (isset($_COOKIE['resolution'])) {
 
     $image_info = @GetImageSize($source_file);
 
-    // echo 'test = ';
+    // echo $image_info[0] . '<br>';
+    // echo $resolution . '<br>';
+    // echo $total_width . '<br>';
 
     // if orginal image width and device screen are both bigger than the biggest breakpoint
     if ( $image_info[0] > $resolution && $total_width > $resolution ) { 
 
-      // echo 'true';
-      // echo ', ' . $total_width;
+      // echo 'true' . '<br>';
       
       // then show the original image
       sendImage($source_file, $browser_cache);
     }
 
-    // echo 'false';
-    // echo ', ' . $total_width;
+    // echo 'false' . '<br>';
 
     //*** NEVMA ***
 
@@ -338,7 +353,7 @@ if(substr($requested_uri, 0,1) == "/") {
 }
 
 /* whew might the cache file be? */
-$cache_file = $document_root."/$cache_path/$resolution/".$requested_uri;
+$cache_file = $document_root."/$cache_dir/$resolution/".$requested_uri;
 
 $image_info = @GetImageSize($source_file);
 
