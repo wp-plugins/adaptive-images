@@ -46,8 +46,10 @@ But you can change this at will!
 
  = Caution = 
 
- The plugin *needs* to add a little bot of code to your htaccess file in order to function properly. It removes this code 
+ The plugin *needs* to add a little bit of code to your htaccess file in order to function properly. It removes this code 
  once disabled. If you are not cool with that, then you should not install it!
+
+
 
  = WURFL Image Tailor =
 
@@ -86,7 +88,7 @@ necessary and they are cached.
 
 1. Install and activate the plugin.
 2. Resized versions of your images are created and saved in an image cache directory in /wp-content.
-3. Total web page load time is reduced dramatically.
+3. Total web page load time on a mobile device is reduced dramatically.
 
 
 

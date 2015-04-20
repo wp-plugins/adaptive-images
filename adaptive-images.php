@@ -11,6 +11,13 @@
         License URI: https://www.gnu.org/licenses/gpl-2.0.html
     */
 
+    // Exit if file is accessed directly.
+
+    if ( ! defined( 'ABSPATH' ) ) {
+
+        exit; 
+
+    }
 
 global $wprxr_pluginname;
 global $wprxr_shortname;
