@@ -4,14 +4,16 @@
         Plugin Name: Adaptive Images for WordPress 
         Plugin URI: http://www.nevma.gr
         Description: Resizes your images, according to each user's screen size, to reduce total download time of web pages in mobile devices.
-        Version: 0.2.06
+        Version: 0.2.08
         Author: Nevma - Creative Know-How
         Author URI: http://www.nevma.gr
         License: GPL2
         License URI: https://www.gnu.org/licenses/gpl-2.0.html
     */
 
-    // Exit if file is accessed directly.
+
+
+    // Exit, if file is accessed directly.
 
     if ( ! defined( 'ABSPATH' ) ) {
 
@@ -19,49 +21,43 @@
 
     }
 
+
+
 global $wprxr_pluginname;
 global $wprxr_shortname;
 global $wprxr_ai_path;
 global $wprxr_ai_user_settings_path;
-global $wprxr_options;
 
 $wprxr_pluginname = "Adaptive Images";
 $wprxr_shortname = "wprxr";
 $wprxr_ai_path = plugin_dir_path(__FILE__) . "adaptive-images/ai-main.php";
 $wprxr_ai_user_settings_path = plugin_dir_path(__FILE__) . "adaptive-images/ai-user-settings.php";
-$wprxr_options = array (
-
-	array(  "type" => "open"),
-
-	/**
-	 * This option provides the possibility to edit adaptive-images.php config section directly from plugin settings page.
-	 * Make sure adaptive-images.php has write permissions
-	 * This option is not saved in WordPress database.
-	 **/
-	array(	"name" => "Adaptive-images config",
-			"desc" => "Edit config section of adaptive-images.php",
-			"id" => $wprxr_shortname . "_ai_config",
-			"type" => "textarea",
-			"std" => wprxr_get_ai_config(),
-			"handler" => "wprxr_set_ai_config" ),
-
-	array(	"name" => "Watch paths for images",
-			"desc" => "Enter the paths that you want Resolutions to watch. Put each path on a new line (separate paths with a return.)",
-			"id" => $wprxr_shortname . "_include_paths",
-			"type" => "textarea",
-			"std" => "/wp-content/uploads/"),
-
-	array(  "type" => "close")
-
-);
 
 
 
-// Javascript cookie needs to be created before any image requests (including css)
-function wprxr_js()
-{
-	echo "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';</script>";
+/**
+ * Sets cookie with device screen width.
+ * 
+ * Outputs a Javascript code in the head of the user page which calculates the devices screen width and saves it in a
+ * special cookie. This has to happen as early as possible in the page so that consequent requests for images in the 
+ * server will be carrying this cookie and the server can decide correctly what image size to serve.
+ * 
+ * @author Nevma
+ * 
+ * @return Nothing really!
+ */
+
+function adaptive_images_head_cookie_javascript () { ?>
+
+	<script type = "text/javascript">
+
+		document.cookie = 'resolution=' + Math.max( screen.width, screen.height ) + '; path=/';
+
+	</script> <?php
+
 }
+
+
 
 /**
  * This function returns config section of adaptive images php file
@@ -97,22 +93,14 @@ function wprxr_set_ai_config( $val )
 	global $wprxr_ai_path;
 	global $wprxr_ai_user_settings_path;
 
-	// var_dump($val);
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'adaptive-images-save-settings' ) ) {
 
-	/* OLD CONFIG SET -->
+		return;
 
-	$everything = file_get_contents( $wprxr_ai_path );
-	$currentConfig = wprxr_get_ai_config( $everything );
-
-	// Get file with new config
-	$newFile = str_replace( $currentConfig, "\n" . stripslashes($val), $everything );
-
-	// Save new file
-	file_put_contents( $wprxr_ai_path, $newFile ) or die("Cannot write to adaptive-images.php. Check file permissions.");
-	
-	*/
+	}
 
 	// Nevma
+
 	$settings_code = 
 		"<?php " . 
 			"\n\n" . 
@@ -125,15 +113,51 @@ function wprxr_set_ai_config( $val )
 
 	file_put_contents( $wprxr_ai_user_settings_path, $settings_code ) or die("Cannot write to user settings php file. Check file permissions.");
 
+	add_action( 'admin_notices', 'adaptive_images_admin_notice_settings_saved' );
+
 }
+
+
+// Nevma
+
+function wprxr_get_config () {
+
+	return array (
+
+		array(  "type" => "open"),
+
+		array(	"name" => "Adaptive-images config",
+				"desc" => "Edit config section of adaptive-images.php",
+				"id" => $wprxr_shortname . "_ai_config",
+				"type" => "textarea",
+				"std" => wprxr_get_ai_config(),
+				"handler" => "wprxr_set_ai_config" ),
+
+		array(	"name" => "Watch paths for images",
+				"desc" => "Enter the paths that you want Adaptive-images Images to watch. Put each path on a new line.",
+				"id" => $wprxr_shortname . "_include_paths",
+				"type" => "textarea",
+				"std" => "/wp-content/uploads/"),
+
+		array(  "type" => "close")
+
+	);
+
+}
+
 
 
 function wprxr_add_page()
 {
 
-    global $wprxr_options, $wprxr_pluginname, $wprxr_shortname;
-	$options = $wprxr_options;
+    global $wprxr_pluginname, $wprxr_shortname;
+
 	$pluginname = $wprxr_pluginname;
+
+	// Nevma
+	// Initiliaze settings here to start with
+
+	$options = wprxr_get_config();
 
     if ( $_GET['page'] == 'wprxr' )
     {
@@ -154,15 +178,12 @@ function wprxr_add_page()
 			    	// Use update_option if no option handler specified
 		        	update_option( $value['id'], $_REQUEST[ $value['id'] ]  );
 		        }
-		        
 		        else
 		        {
 		        	delete_option( $value['id'] );
 		        }
 			}
 
-            header("Location: options-general.php?page=wprxr&saved=true");
-            die;
         }
     }
 
@@ -258,10 +279,11 @@ function wprxr_htaccess ()
 function wprxr_page()
 {
 
-	global $wprxr_options, $wprxr_pluginname, $wprxr_shortname;
-	$options = $wprxr_options;
+	global $wprxr_pluginname, $wprxr_shortname;
+
 	$pluginname = $wprxr_pluginname;
-	// $shortname = $wprxr_shortname;
+
+	$options = wprxr_get_config();
 	
 	$new_htaccess = wprxr_htaccess();
 
@@ -291,7 +313,13 @@ function wprxr_page()
 	    }
 	?>
 
+
+	
 	<form method="post">
+
+	<input type = "hidden" name = "nonce" value = "<?php echo wp_create_nonce( 'adaptive-images-save-settings' ); ?>" />
+
+	<h3>Image cache configuration</h3>
 
 	<?php
 
@@ -306,7 +334,7 @@ function wprxr_page()
 			break;
 
 			case "close":
-				echo '</table><br />';
+				echo '</table>';
 			break;
 
 			case "title":
@@ -372,12 +400,252 @@ function wprxr_page()
 	?>
 
 	<p class="submit">
-	<input name="save" type="submit" value="Save changes" />
-	<input type="hidden" name="action" value="save" />
+		<input class = "button-primary" name="save" type="submit" value="Save configuration" />
+		<input type="hidden" name="action" value="save" />
 	</p>
 	</form>
 
+
+
+	<h3>Cleanup image cache</h3>
+
+	<p>
+		Deletes all files from the image cache directories in order to start the cache fresh and clean. Might take a few moments, if your server is up to it, so be patient. Run multiples times in case of browser timeout, eventually all image cache files will be deleted.
+	</p>
+	
+	<p>
+		<?php $result = adaptive_images_dir_size( realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../wp-content/' ) . '/cache-ai/' ); ?>
+		Cache size: <strong><?php echo adaptive_images_file_size_human( $result['size'] ); ?></strong> (<?php echo $result['files']; ?> files)
+	</p>
+	
+	<p class="submit">
+		<a class = "button-primary" href = "?page=<?php echo $wprxr_shortname; ?>&cleanup=true&nonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-cache' ); ?>" title = "Cleanup image cache">Cleanup image cache</a>
+	</p>
+
 	<?php
+}
+
+
+
+/**
+ * Deletes the contents of a directory recursively.
+ * 
+ * Takes the path of a directory as an argument and traverses it recursively deleting its child files and directories
+ * recursively as well.
+ * 
+ * @author Nevma
+ * 
+ * @param $dir The directory whose contents to delete recursively.
+ * 
+ * @return An array with the totals of files and sizes.
+ */
+
+function adaptive_images_file_size_human ( $size ) {
+
+	$kilo_byte = 1024;
+	$mega_byte = 1024 * $kilo_byte;
+	$giga_byte = 1024 * $mega_byte;
+
+	if ( $size < $kilo_byte ) {
+		
+		return $size . 'bytes';
+
+	} else if ( $size < $mega_byte ) {
+
+		return round( $size / $kilo_byte, 2 ) . 'kb';
+	
+	} else if ( $size < $giga_byte ) {
+
+		return round( $size / $mega_byte, 2 ) . 'mb';
+
+	} else {
+
+		return round( $size / $giga_byte, 2 ) . 'gb';
+
+	}
+} 
+
+
+
+/**
+ * Deletes the contents of a directory recursively.
+ * 
+ * Takes the path of a directory as an argument and traverses it recursively deleting its child files and directories
+ * recursively as well.
+ * 
+ * @author Nevma
+ * 
+ * @param $dir The directory whose contents to delete recursively.
+ * 
+ * @return An array with the totals of files and sizes.
+ */
+
+function adaptive_images_dir_size ( $dir ) {
+
+	static $total_files = 0;
+	static $total_size  = 0;
+
+    if ( is_dir( $dir ) && ! is_link( $dir ) ) {
+
+        $objects = scandir( $dir );
+
+        foreach ( $objects as $object ) {
+
+	        if ( $object != "." && $object != ".." ) {
+
+	        	$file = $dir . "/" . $object;
+
+	            if ( filetype( $file ) != "dir" ) { 
+	            	
+	            	$total_files++;
+	            	$total_size += filesize( $file );
+
+	            } else {
+
+	            	adaptive_images_dir_size( $file );
+
+	            }
+
+	        }
+        }
+
+    }
+
+	return array( 'files' => $total_files, 'size' => $total_size );
+
+} 
+
+
+
+/**
+ * Deletes the contents of a directory recursively.
+ * 
+ * Takes the path of a directory as an argument and traverses it recursively deleting its child files and directories
+ * recursively as well.
+ * 
+ * @author Nevma
+ * 
+ * @param $dir The directory whose contents to delete recursively.
+ * 
+ * @return An array with the totals of directories and files deleted so far.
+ */
+
+function adaptive_images_rmdir_recursive ( $dir ) {
+
+	static $total_files = 0;
+	static $total_dirs  = 0;
+
+    if ( is_dir( $dir ) && ! is_link( $dir ) ) {
+
+        $objects = scandir( $dir );
+
+        foreach ( $objects as $object ) {
+
+	        if ( $object != "." && $object != ".." ) {
+
+	        	$file = $dir . "/" . $object;
+
+	            if ( filetype( $file ) == "dir" ) { 
+
+	            	adaptive_images_rmdir_recursive( $file );
+	            	$total_dirs++;
+
+	            } else {
+
+	            	unlink( $file );
+	            	$total_files++;
+
+	            }
+
+	        }
+        }
+
+  	  	reset( $objects );
+    	rmdir( $dir );
+
+    }
+
+	return array( 'files' => $total_files, 'dirs' => $total_dirs );
+
+} 
+
+
+
+/**
+ * Adaptive images settings successfully saved.
+ * 
+ * Prints an admin notice message in the settings page that informs the user of the outcome of the settings saving 
+ * action was successfull.
+ * 
+ * @author Nevma
+ * 
+ * @return Nothing really!
+ */
+
+function adaptive_images_admin_notice_settings_saved () { ?>
+
+    <div class="updated">
+        <p>
+        	Adaptive images settings have been successfully saved!
+        </p>
+    </div> <?php 
+
+}
+
+
+
+/**
+ * Image cache successfully cleaned up admin message.
+ * 
+ * Prints an admin notice message in the settings page that informs the user of the outcome of the images cache 
+ * cleanup request.
+ * 
+ * @author Nevma
+ * 
+ * @return Nothing really!
+ */
+
+function adaptive_images_admin_notice_cache_cleaned () { ?>
+
+    <div class="updated">
+        <p>
+        	The image cache has been successfully cleaned up! <br>
+        	We have deleted <strong><?php echo $_SESSION['result_cleanup'] ? $_SESSION['result_cleanup']['dirs'] : 0; ?></strong> directories 
+        	and <strong><?php echo $_SESSION['result_cleanup'] ? $_SESSION['result_cleanup']['files'] : 0; ?></strong> image files in total.
+        </p>
+    </div> <?php 
+
+    unset( $_SESSION['result_cleanup'] );
+
+}
+
+
+
+/**
+ * Cleans up image cache.
+ * 
+ * Cleans up the adaptive images cache by recursively deleting all the directories and iamges files of the cache 
+ * directory and down.
+ * 
+ * @author Nevma
+ * 
+ * @return Nothing really!
+ */
+
+function adaptive_images_cleanup_image_cache () {
+
+	if ( isset( $_GET['cleanup'] ) && $_GET['cleanup'] == 'true' && wp_verify_nonce( $_GET['nonce'], 'adaptive-images-cleanup-cache' ) ) {
+
+		$cache_dir = realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../wp-content/' ) . '/cache-ai/';
+
+		$result = adaptive_images_rmdir_recursive( $cache_dir );
+
+		$_SESSION['result_cleanup'] = $result;
+
+		add_action( 'admin_notices', 'adaptive_images_admin_notice_cache_cleaned' );
+
+	}
+
 }
 
 
@@ -399,7 +667,20 @@ function wprxr_add_settings_link($links, $file)
 	return $links;
 }
 
-add_action('wp_head', 'wprxr_js', 0);
+
+
+// Sets up the cookie generating Javascript in the head of the page.
+
+add_action( 'wp_head', 'adaptive_images_head_cookie_javascript', 0 );
+
+
+
+// Sets up the adaptive images image cache cleanup action.
+
+add_action( 'admin_init', 'adaptive_images_cleanup_image_cache' );
+
+
+
 add_action('admin_menu', 'wprxr_add_page');
 register_activation_hook(__FILE__, 'wprxr_activate');
 register_deactivation_hook(__FILE__, 'wprxr_deactivate');

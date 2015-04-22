@@ -1,5 +1,5 @@
 <?php
-/* PROJECT INFO --------------------------------------------------------------------------------------------------------
+/* PROJECT INFO -------------------------------------------------------------------------------------------------------
    Version:   1.5.2
    Changelog: http://adaptive-images.com/changelog.txt
 
@@ -12,32 +12,52 @@
 
 
 
-   THE FOLLOWING ARE DEFAULT VALUES WHICH CAN BE OVERRIDEN IN THE ADMIN ==>
+   THE FOLLOWING ARE DEFAULT VALUES WHICH CAN BE OVERRIDEN IN THE ADMIN
+   DO NOT, I REPEAT DO NOT OVERRIDE THEM HERE UNLESS YOU ARE DEBUGGING SOMETHING
+
+/* CONFIG ---------------------------------------------------------------------------------------------------------- */
+
+/**
+ * Yes, the following is PHP code...
+ * We will make it more user friendly in the future.
+ * Promise!
+ */
+
+// the resolution breakpoints of screens widths in pixels
+$resolutions = array( 1024, 600, 320 ); 
+
+// where to store the generated resized images
+$cache_dir = "cache-ai";
+
+// the quality of any generated JPGs (from 0 to 100)
+$jpg_quality = 65;
+
+// perform a sharpen on rescaled images to reduce blur
+$sharpen = TRUE;
+
+// check that a resized image isn't stale 
+$watch_cache = TRUE;
+
+// how long the browser cache should last (s*m*h*d)
+$browser_cache = 60*60*24*7;
+
+/* END CONFIG ------------------------------------------------------------------------------------------------------ */
 
 
 
-/* CONFIG ----------------------------------------------------------------------------------------------------------- */
+// Nevma >>
 
-$resolutions   = array( 1024, 600, 320 ); // the resolution breakpoints of screens widths in pixels
-$cache_dir     = "cache-ai";              // where to store the generated resized images
-$jpg_quality   = 65;                      // the quality of any generated JPGs (from 0 to 100)
-$sharpen       = TRUE;                    // perform a sharpen on rescaled images to reduce blur
-$watch_cache   = TRUE;                    // check that a resized image isn't stale 
-$browser_cache = 60*60*24*7;              // how long the browser cache should last (s*m*h*d)
-
-/* END CONFIG ----------------------------------------------------------------------------------------------------------
------------------------- Don't edit anything after this line unless you know what you're doing -------------------------
---------------------------------------------------------------------------------------------------------------------- */
-
-
-
-// Nevma 
+// Include user defined settings from WP admin, if any.
 
 if ( file_exists( realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/ai-user-settings.php' ) ) ) {
 
   include( 'ai-user-settings.php' );
 
 }
+
+// << Nevma 
+
+
 
 /* get all of the required data from the HTTP request */
 
@@ -317,26 +337,21 @@ if (isset($_COOKIE['resolution'])) {
       }
     }
 
-    //*** NEVMA ***
+    // Nevma >>
+
+    // If orginal image width and device screen are both bigger than the biggest breakpoint.
 
     $image_info = @GetImageSize($source_file);
 
-    // echo $image_info[0] . '<br>';
-    // echo $resolution . '<br>';
-    // echo $total_width . '<br>';
-
-    // if orginal image width and device screen are both bigger than the biggest breakpoint
     if ( $image_info[0] > $resolution && $total_width > $resolution ) { 
 
-      // echo 'true' . '<br>';
-      
-      // then show the original image
+      // Then send the original image itself as the best solution.
+
       sendImage($source_file, $browser_cache);
+
     }
 
-    // echo 'false' . '<br>';
-
-    //*** NEVMA ***
+    // << Nevma
 
   }
 }

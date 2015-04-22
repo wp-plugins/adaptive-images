@@ -3,10 +3,10 @@
 
 Contributors: nevma
 Donate link: http://www.nevma.gr/
-Tags: wurfl, wit, mobile, adaptive, images, resize, optimize, downsize
+Tags: adaptive images, responsive images, mobile images, wurfl, wit, resize, optimize, downsize
 Requires at least: 4.0
-Tested up to: 4.1.1
-Stable tag: 0.2.06
+Tested up to: 4.1.2
+Stable tag: 0.2.08
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,19 +41,33 @@ But you can change this at will!
 = The plugin has the following fundamental goals = 
 
  1. Help reduce the total download time of web pages in mobile devices.
- 2. Work unobtrusively. You enable it and it works. You disable it and it gets out of your way. Has got to be dead simple.
+ 2. Work unobtrusively. You enable it and it works. You disable it and it gets out of your way.
  3. Provide a transparent solution that is independant of the development process itself.
+ 4. Be unaware of the yet-not-finalized `picture` element or `srcset` attribute.
+
+= How to test it = 
+
+In order to test if the plugin works you can:
+
+ 1. Check in the /wp-contents directory to see the /cache-ai directory and its contents. This is where the resized 
+    images are kept and cached.
+ 2. Test with a tool like http://www.webpagetest.org/, but first make sure you set the "Emulate Mobile Browser" 
+    setting in the "Advanced Settings" > "Chrome" tab.
+
+ Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
+ being resized at all. This is the whole idea: serving each device the images sizes which are proper for it.
 
  = Caution = 
 
- The plugin *needs* to add a little bit of code to your htaccess file in order to function properly. It removes this code 
- once disabled. If you are not cool with that, then you should not install it!
-
-
+ - The plugin needs to add a little bit of code to your htaccess file in order to function properly. It removes this 
+   code  once disabled. If you are not cool with that, then you should not install it!
+ - The plugin cannot work as-is with a CDN or Varnish server, because the CDN or Varnish would not know in a definitive 
+   way which image they should cache or serve each time.
 
  = WURFL Image Tailor =
 
- Checkout WURFL Image Tailor connector for WordPress https://wordpress.org/plugins/wurfl-image-tailor-connector/.
+ Also, checkout WURFL Image Tailor connector for WordPress https://wordpress.org/plugins/wurfl-image-tailor-connector/ 
+ which is another promising mobile images approach that works as a service. 
 
 
 
@@ -99,6 +113,13 @@ No worries upgrading. Just do it!
 
 
 == Changelog ==
+
+= 0.2.08 =
+
+ - Added cache size calculation.
+ - Added cache clean up methods.
+ - Added nonces to admin actions.
+ - Documentation enhancements.
 
 = 0.2.06 =
 
