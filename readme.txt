@@ -56,12 +56,12 @@ In order to test if the plugin works you can:
     setting in the "Advanced Settings" > "Chrome" tab. Test with and without this setting and watch the numbers.
  3. Test with a mobile device (a smpartphone or a tablet), and watch your website load in a snap.
 
-Do not test with a normal desktop browser! A usual browser will simply be served the original images without them  
-being resized at all. This is the whole idea: serving each device the images sizes which are proper for it.
+Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
+being resized at all. This is the whole idea: serving each device the image sizes which are proper for it.
 
  = Caution = 
 
- - The plugin needs to add a little bit of code to your htaccess file in order to function properly. It removes this 
+ - The plugin needs to add a little bit of code to your .htaccess file in order to function properly. It removes this 
    code  once disabled. If you are not cool with that, then&hellip; tough luck!
  - The plugin cannot work out of the box with a CDN (or Varnish server for that matter), because the CDN or Varnish 
    would not know in a definitive way which image they should cache or serve each time.
