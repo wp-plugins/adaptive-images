@@ -389,17 +389,42 @@
 
         if ( ! adaptive_images_plugin_is_gd_extension_installed() ) {
 
-            add_settings_error( 
-                'adaptive-images-settings', 
-                'adaptive-images-settings-error', 
-                '<h3>Adaptive Images Error &mdash; PHP GD image library missing <hr />' . 
-                '<p>The PHP GD image library, is not detected in your server.</p>' . 
-                '<p>This is absolutely necessary for the plugin to function properly. Please deactivate the plugin immediately and activate it after having installed the PHP GD image library.</p>' . 
-                '<p>You should probably contact your system administrator about this. You may find more information about it at the <a href = "http://php.net/manual/en/book.image.php">PHP GD image library page</a>, in the php.net website.</p>', 
-                'error' 
-            ); 
+            add_action( 'admin_notices', 'adaptive_images_actions_check_gd_available_message' );
 
         }
+
+    }
+
+
+
+    /**
+     * Adds the admin notice error that informs the user when the check for the PHP GD has failed. It is done via an
+     * admin notice and not via the settings errors, because in some pages the settings errors are called by the system
+     * itself and this results in being called multiple times.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void Nothing really!
+     */
+
+    function adaptive_images_actions_check_gd_available_message () {
+
+        echo 
+            '<div class = "error settings-error notice is-dismissible adaptive-images-settings-error">' .
+                '<p>' . 
+                    'Adaptive Images Error &mdash; PHP GD image library missing' . 
+                '</p>' . 
+                '<hr />' . 
+                '<p>' . 
+                    'The PHP GD image library is not detected in your server.' .
+                '</p>' . 
+                '<p>' . 
+                    'This is absolutely necessary for the plugin to function properly. Please deactivate the plugin immediately and activate it after having installed the PHP GD image library.' . 
+                '</p>' . 
+                '<p>' . 
+                    'You should probably contact your system administrator about this. You may find more information about it at the <a href = "http://php.net/manual/en/book.image.php">PHP GD image library page</a>, in the php.net website.' . 
+                '</p>' . 
+            '</div>';
 
     }
 
@@ -438,10 +463,35 @@
 
         if ( ! $htaccess_available || ! $htaccess_contents_updated ) {
 
-            $permissions = adaptive_images_plugin_file_permissions( $htaccess );
+            add_action( 'admin_notices', 'adaptive_images_actions_check_htaccess_ok_message' );
 
-            $message = 
-                'Adaptive Images Error &mdash; Htaccess file not updated <hr />' . 
+        }
+
+    }
+
+
+
+    /**
+     * Adds the admin notice error that informs the user when the check for the htaccess has failed. It is done via an
+     * admin notice and not via the settings errors, because in some pages the settings errors are called by the system
+     * itself and this results in being called multiple times.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void Nothing really!
+     */
+
+    function adaptive_images_actions_check_htaccess_ok_message () {
+
+        $htaccess = adaptive_images_plugin_get_htaccess_file_path();
+        $permissions = adaptive_images_plugin_file_permissions( $htaccess );
+
+        echo 
+            '<div class = "error settings-error notice is-dismissible adaptive-images-settings-error">' .
+                '<p>' . 
+                    'Adaptive Images Error &mdash; Htaccess file not updated' . 
+                '</p>' . 
+                '<hr />' . 
                 '<p>' . 
                     'The Adaptive Images settings are saved, but the .htaccess file was not able to be updated yet.' .
                 '</p>' . 
@@ -450,16 +500,8 @@
                 '</p>' . 
                 '<p>' . 
                     'The .htaccess file permissions are: <code>' . $htaccess . ' => ' . $permissions . '</code>.' . 
-                '</p>';
-
-            add_settings_error( 
-                'adaptive-images-settings', 
-                'adaptive-images-settings-error', 
-                $message, 
-                'error' 
-            ); 
-
-        }
+                '</p>' . 
+            '</div>';
 
     }
 
@@ -479,17 +521,41 @@
 
         if ( ! adaptive_images_plugin_are_options_set() ) {
 
-            add_settings_error( 
-                'adaptive-images-settings', 
-                'adaptive-images-settings-error', 
-                'Adaptive Images Error &mdash; Settings not saved <hr />' . 
-                '<p>The Adaptive Images settings have not been saved yet.</p>' . 
-                '<p>The plugin is active but its settings have not been initialized, so the plugin is not actually functioning yet.</p>' . 
-                '<p>Nothing to worry about, just go to <a href = "options-general.php?page=adaptive-images">Adaptive Images Settings</a> page in order to save your configuration and start to actually use the plugin.</p>', 
-                'error' 
-            ); 
+            add_action( 'admin_notices', 'adaptive_images_actions_check_settings_saved_message' );
 
         }
+
+    }
+
+
+
+    /**
+     * Adds the admin notice error that informs the user when the check for the settings has failed. It is done via an
+     * admin notice and not via the settings errors, because in some pages the settings errors are called by the system
+     * itself and this results in being called multiple times.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void Nothing really!
+     */
+
+    function adaptive_images_actions_check_settings_saved_message () {
+
+        echo 
+            '<div class = "error settings-error notice is-dismissible adaptive-images-settings-error">' .
+                '<p>' . 
+                    'Adaptive Images Error &mdash; Settings not saved' . 
+                '</p>' .
+                '<hr />' . 
+                '<p>' . 
+                    'The Adaptive Images settings have not been saved yet.' . 
+                '</p>' . 
+                '<p>' . 
+                    'The plugin is active but its settings have not been initialized, so the plugin is not actually functioning yet.' . 
+                '</p>' . 
+                '<p>Nothing to worry about, just go to <a href = "options-general.php?page=adaptive-images">Adaptive Images Settings</a> page in order to save your configuration and start to actually use the plugin.'.
+                '</p>' . 
+            '</div>';
 
     }
 

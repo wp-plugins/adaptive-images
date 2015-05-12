@@ -63,6 +63,10 @@
 
     // Adds the action which checks for plugin upgrades.
 
+    add_action( 'admin_head', 'adaptive_images_admin_show_admin_css' );
+
+    // Adds the action which checks for plugin upgrades.
+
     add_action( 'admin_head', 'adaptive_images_upgrade_plugin_upgraded' );
 
     // Adds the action which checks the PHP GD image library availability.
@@ -76,10 +80,6 @@
     // Adds the action which checks the PHP GD image library availability.
 
     add_action( 'admin_head', 'adaptive_images_actions_check_htaccess_ok' );
-
-    // Adds the action which shows admin settings errors and messages.
-
-    add_action( 'admin_head', 'adaptive_images_admin_show_settings_errors', 9999 );
 
 
 

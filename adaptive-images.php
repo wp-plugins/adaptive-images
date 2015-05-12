@@ -7,15 +7,15 @@
      *                                                                                                                *
      *      Nevma (info@nevma.gr)                                                                                     *
      *                                                                                                                *
-     ******************************************************************************************************************/
+     *****************************************************************************************************************/
 
 
 
     /*
        Plugin Name: Adaptive Images for WordPress 
        Plugin URI: http://www.nevma.gr
-       Description: Resizes your images, by device screen size, to reduce download time in mobile devices automatically.
-       Version: 0.3.0
+       Description: Resizes your images, by device screen size, to reduce download time in the mobile web.
+       Version: 0.3.01
        Author: Nevma - Creative Know-How
        Author URI: http://www.nevma.gr
        License: GPL2
@@ -36,11 +36,7 @@
      * the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA.
      * 
      * GPL: http://www.gnu.org/copyleft/gpl.html
-     */
-    
-    
-     
-    /**  
+     * 
      * Uses Adaptive Images, version 1.5.2, http://adaptive-images.com, https://github.com/MattWilcox/Adaptive-Images, 
      * by Matt Wilcox, which is licensed under a Creative Commons Attribution 3.0 Unported License.
      */

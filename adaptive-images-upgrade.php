@@ -37,6 +37,8 @@
 
         if ( ! $options && get_option( 'wprxr_include_paths', FALSE ) !== FALSE ) {
 
+            // Fake the options array of version 0.2.08.
+
         	$options = array( 'version' => '0.2.08' );
 
         }
@@ -48,6 +50,8 @@
         	return;
 
         }
+
+
 
         // Check if we have just upgraded from a lower version.
 
@@ -61,40 +65,52 @@
 
         }
 
-        $message = 
-            'Adaptive Images &mdash; Upgraded <hr />' .
-            '<p>' . 
-                'The Adaptive Images plugin has been recently updated to version ' . $current_version . 
-            '.</p>';
 
 
+        // Stuff necessary for upgrading to plugin version 0.3.0 from previous version 0.2.08.
 
-        // Stuff necessary for upgrading to plugin version 0.3.0 from previous early versions.
-
-        if ( $previous_version == '0.2.08' && $current_version == '0.3.0' ) {
+        if ( $previous_version == '0.2.08' ) {
             
             adaptive_images_upgrade_plugin_upgraded_to_v030();
 
-            $message .= 
+        }
+
+        add_action( 'admin_notices', 'adaptive_images_upgrade_plugin_upgraded_message' );
+
+    }
+
+
+
+    /**
+     * Adds the admin notice error that informs the user when the pluggin has been upgraded. It is done via an  admin
+     * notice and not via the settings errors, because in some pages the settings errors are called by the system 
+     * itself and this results in being called multiple times.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void Nothing really!
+     */
+
+    function adaptive_images_upgrade_plugin_upgraded_message () {
+
+        $current_version = adaptive_images_plugin_get_version();
+
+        echo 
+            '<div class = "updated settings-error notice is-dismissible adaptive-images-settings-error">' .
+                '<p>' . 
+                    'Adaptive Images &mdash; Upgraded' . 
+                '</p>' . 
+                '<hr />' . 
+                '<p>' . 
+                    'The Adaptive Images plugin has been recently updated to version ' . $current_version . '.' .
+                '</p>' . 
                 '<p>' .
                     'You should probably save your settings once again in <a href = "options-general.php?page=adaptive-images">Adaptive Images Settings</a>, because version 0.3.0 was a major rewrite of the code.'  .
                 '</p>' .
                 '<p>' .
                     'We are very sorry for the inconvenience and we promise to keep a steady path from now on.'. 
-                '</p>';
-
-        }
-
-
-
-        // Inform user of this change
-
-        add_settings_error( 
-            'adaptive-images-settings', 
-            'adaptive-images-settings-error', 
-            $message, 
-            'updated' 
-        ); 
+                '</p>' . 
+            '</div>';
 
     }
 
@@ -121,7 +137,7 @@
 	        $htaccess_old_contents = file_get_contents( $htaccess );
 	        $htaccess_new_contents = preg_replace( '/# Adaptive Images.*# END Adaptive Images\n/s', '', $htaccess_old_contents );
 
-	        $bytes = @file_put_contents( $htaccess, $htaccess_new_contents );
+	        @file_put_contents( $htaccess, $htaccess_new_contents );
 
 	    }
 
@@ -131,7 +147,7 @@
 
 	    $old_cache_path = realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../wp-content/' ) . '/cache-ai/';
 
-	    $result = adaptive_images_actions_rmdir_recursive( $old_cache_path );
+	    adaptive_images_actions_rmdir_recursive( $old_cache_path );
 
 
 

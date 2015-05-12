@@ -22,24 +22,22 @@
 
 
     /**
-     * Shows the admin settings messages once, so they are not printed too many times.
+     * Adds some admin related CSS rules for the plugin.
      * 
      * @author Nevma (info@nevma.gr)
      * 
      * @return Nothing really!
      */
 
-    function adaptive_images_admin_show_settings_errors () {
+    function adaptive_images_admin_show_admin_css () { ?>
 
-        $screen = get_current_screen();
+        <style type = "text/css">
 
-        // No need to do it in the settings pages, the system does it already.
+            /* Make our admin notices look like other WordPress settings errors. */
 
-        if ( strpos( $screen->id, 'settings_page' ) !== 0 ) {
+            .adaptive-images-settings-error { font-weight: bold; }
 
-            settings_errors( 'adaptive-images-settings', false, true );
-
-        }
+        </style> <?php
 
     }
 
