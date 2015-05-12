@@ -1,5 +1,5 @@
 <?php
 
-    // Nothing here! 
+    // Nothing here! Noone should access this file legitimately.
 
 ?>

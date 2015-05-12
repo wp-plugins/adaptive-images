@@ -1,11 +1,15 @@
 
 
 
-                            ==========================================
-                            #                                        #
-                            # Message from the plugin author (Nevma) #
-                            #                                        #
-                            ==========================================
+          .===============================================.
+          #                                                #
+          #                                                #
+          #     MESSAGE FROM THE MAIN PLUGIN AUTHOR        #
+          #     ===================================        #
+          #                                                #
+          #                   Nevma (info@nevma.gr)        #
+          #                                                #
+          *================================================*
 
 
 
@@ -26,12 +30,10 @@
             device screen width are both bigger than the biggest available breakpoint
 
 4. The file ai-user-settings.php is a file that overrides the Adaptive Images library settings. It is controlled in 
-   the settings of the WordPress plugin admin area. If it is not available then the usual settings inside the library 
+   the settings of the WordPress plugin admin area. If it is not available then the default settings inside the library
    will be used.
 
 
-=======================================================================================================================
 
-
- * Apart from the above, the Adaptive Images library logic is actually unchanged.
- * One could simply ignore all these and override them with the original file and it should all still be fine.
+ - Apart from the above, the Adaptive Images library logic is actually unchanged.
+ - One could simply ignore all these and override them with the original file and it should all still be fine.

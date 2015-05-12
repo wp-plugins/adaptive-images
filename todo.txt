@@ -1,7 +1,73 @@
 
-This is just an off-hand todo list: 
 
- - Present htaccess settings more beautifully.
- - Cleanup cache afer some time
- - Cleanup cache if it gets too big
- - What about if a user actually wants to see the full versions of images, even when in a mobile network? 
+
+          ===========================================
+          #                                         #
+          #                                         #
+          #               T  O  D  O                #
+          #              ============               #
+          #                                         #
+          #          Nevma (info@nevma.gr)          #
+          #                                         #
+          #                                         #
+          ===========================================
+
+
+
+  An off-hand todo list: 
+  ======================
+
+   - Allow default expires headers for cached images.
+   - More user friendly messages with icons and stuff.
+   - Some pngs actually become bigger after being resized!
+   - Inform if plugin is activated but settings not yet set.
+   - Thank the users for using the plugin and ask them to rate it. 
+
+
+
+  Future ideas:
+  =============
+
+   - Cleanup cache afer some time, to invalidate it.
+   - Cleanup cache if it gets bigger than a given size.
+   - When an image is deleted in the media gallery then its resized versions should be deleted, too.
+   - What about if a user actually wants to see the full versions of images, even when in a mobile network? 
+   - Enable and disable on demand with an admin button that updates the htaccess file.
+   - When breakpoints change delete the cache directories of the unused breakpoints.
+   - Redirect directly from htaccess to correct image size when the cookie is already available without PHP.
+   - Send better error images when adaptive images resize does not work. 
+
+
+
+  COULD AN IMAGE OUTSIDE OF THE WATCHED DIRECTORIES BE REQUESTED FROM OUR SCRIPT? SEEMS IMPOSSIBLE!
+
+  WHAT HAPPENS TO IMAGES WITH WIDTH THAT IS BETWEEN TWO BREAKPOINTS? 
+
+  SHOW UPGRADE MESSAGES IN ALL ADMIN PAGES, NOT ONLY IN SETTINGS!
+
+  IF AN IMPORTANT CHECK FAILED THEN PERHAPS THE PLUGIN SHOULD ROLL BACK ITS CHANGES.
+
+
+
+  Plugin needs 3 settings in order to function properly:
+  ======================================================
+
+   1. database options
+   2. htacess file bit
+   3. user settings php
+
+   Check for all the above and inform the user accordingly
+
+
+
+  Tests to check with each version:
+  ==================================
+
+   - Clean install
+   - Deactivate then activate plugin
+   - Older version upgrade
+   - Is GD PHP library available
+   - Is .htaccess available
+   - Is user settings file available
+   - Images are actually sent correctly for each breakpoint
+   - Uninstall cleanup
