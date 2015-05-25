@@ -32,9 +32,9 @@ not work like a CDN. It is a self hosted, in-your-website solution. And it works
 
 By default the following breakpoints are in effect: 
 
- - `1024px screens`
- - ` 640px screens`
- - ` 480px screens`
+ - `1024px` wide screens
+ - `640px` wide screens
+ - `480px` wide screens
 
 Bear in mind that we need to take into account each device in its portait orientation, which is gives us the biggest
 width. But you can change these at will. 

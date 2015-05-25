@@ -1,16 +1,18 @@
 
 
 
-          ===========================================
-          #                                         #
-          #                                         #
-          #               T  O  D  O                #
-          #              ============               #
-          #                                         #
-          #          Nevma (info@nevma.gr)          #
-          #                                         #
-          #                                         #
-          ===========================================
+          .================================================================.
+          #                                                                #
+          #                                                                #
+          #                                                                #
+          #               N  O  T  E  S    &    T  O  D  O  S              #
+          #              =====================================             #
+          #                                                                #
+          #                      Nevma (info@nevma.gr)                     #
+          #                                                                #
+          #                                                                #
+          #                                                                #
+          .================================================================.
 
 
 
@@ -22,6 +24,8 @@
    - Some pngs actually become bigger after being resized!
    - Inform if plugin is activated but settings not yet set.
    - Thank the users for using the plugin and ask them to rate it. 
+   - Some way to test the resized images (perhaps fake cookie).
+   - Admin setting for portrait/landscape width.
 
 
 
@@ -39,16 +43,6 @@
 
 
 
-  COULD AN IMAGE OUTSIDE OF THE WATCHED DIRECTORIES BE REQUESTED FROM OUR SCRIPT? SEEMS IMPOSSIBLE!
-
-  WHAT HAPPENS TO IMAGES WITH WIDTH THAT IS BETWEEN TWO BREAKPOINTS? 
-
-  SHOW UPGRADE MESSAGES IN ALL ADMIN PAGES, NOT ONLY IN SETTINGS!
-
-  IF AN IMPORTANT CHECK FAILED THEN PERHAPS THE PLUGIN SHOULD ROLL BACK ITS CHANGES.
-
-
-
   Plugin needs 3 settings in order to function properly:
   ======================================================
 
@@ -56,18 +50,16 @@
    2. htacess file bit
    3. user settings php
 
-   Check for all the above and inform the user accordingly
 
 
-
-  Tests to check with each version:
-  ==================================
+  Tests cases to check with each version:
+  =======================================
 
    - Clean install
    - Deactivate then activate plugin
    - Older version upgrade
    - Is GD PHP library available
-   - Is .htaccess available
-   - Is user settings file available
-   - Images are actually sent correctly for each breakpoint
+   - Is .htaccess available/writeable
+   - Is user settings file available/writeable
+   - Images correctly sent for each breakpoint
    - Uninstall cleanup
