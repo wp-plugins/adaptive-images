@@ -6,7 +6,7 @@ Donate link: http://www.nevma.gr/
 Tags: adaptive images, responsive images, mobile images, mobile, images, resize, optimize, downsize, wurfl, wit
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 0.3.01
+Stable tag: 0.3.02
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,15 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.3.2 =
+
+ - When no device size/resolution is detected then show the original image. Helps avoid misunderstandings and sends 
+   search engines the actual images instead of the resized ones.
+
+= 0.3.1 =
+
+ - Documentation enhancements.
 
 = 0.3.0 =
 

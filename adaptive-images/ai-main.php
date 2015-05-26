@@ -38,14 +38,16 @@
 
 
 
-  // Nevma >>
+  // Nevma -->>
+
   // Include user defined settings from WP admin, if any.
   if ( file_exists( realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/ai-user-settings.php' ) ) ) {
 
     include( 'ai-user-settings.php' );
 
   }
-  // << Nevma 
+
+  // <<-- Nevma 
 
 
 
@@ -327,7 +329,7 @@
         }
       }
 
-      // Nevma >>
+      // Nevma -->>
       $image_info = @GetImageSize( $source_file );
       $image_width = $image_info[0];
 
@@ -345,7 +347,7 @@
         sendImage( $source_file, $browser_cache );
 
       }
-      // << Nevma
+      // <<-- Nevma
 
     }
   }
@@ -353,7 +355,16 @@
   /* No resolution was found (no cookie or invalid cookie) */
   if (!$resolution) {
     // We send the lowest resolution for mobile-first approach, and highest otherwise
-    $resolution = $is_mobile ? min($resolutions) : max($resolutions);
+    
+    // Nevma -->>
+
+    // Original code:
+    // $resolution = $is_mobile ? min($resolutions) : max($resolutions);
+
+    // But we want to send the original file when there is no cookie, so:
+    sendImage( $source_file, $browser_cache );
+
+    // <<-- Nevma
   }
 
   /* if the requested URL starts with a slash, remove the slash */
