@@ -10,8 +10,8 @@ Stable tag: 0.3.02
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adaptive images resizes your images, by device screen size, to reduce download time in mobile devices automatically, 
-based on http://adaptive-images.com/. 
+Adaptive images plugin  transparently resizes your images, by device screen size, in order to reduce download time in
+mobile devices automatically. 
 
 
 
@@ -19,13 +19,22 @@ based on http://adaptive-images.com/.
 
 = Adaptive Images Solution =
 
-Adaptive images http://adaptive-images.com/ is a standalone solution for resizing and optimizing images which are
-delivered to mobile devices so that the total download time is drastically reduced. It uses a bit of Javascript on the
-client, to determine the device size and set a special cookie, and PHP on the server to serve the images. 
+Resizes and optimizes images delivered to mobile devices, so that the total download time is drastically reduced. It
+wraps and expands the functionality of Adaptive Images http://adaptive-images.com/ for WordPress! With a tiny bit of 
+Javascript on the client, it determines the device size and sets a special cookie, so that it can serve an appropriate 
+image size for each device.
 
-This plugin wraps this functionality especially for WordPress! It was based on a fork of the WP-Resolutions plugin
-https://github.com/JorgenHookham/WP-Resolutions, which was never added to the WordPress plugin repository. It has been
-completely rewritten and made compatible with the current versions of WordPress.
+(Originally it was based on a fork of the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
+now it is a complete rewrite!)
+
+= Has the following fundamental goals = 
+
+ 1. Reduce the total download time in mobile devices.
+ 2. Work unobtrusively. Enable it and it works. Disable it vanishes.
+ 3. Provide a transparent solution, independant of your code.
+ 4. Be unaware of the yet-not-finalized `picture` element or `srcset` attribute.
+
+ = Interesting facts =
 
 The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` folder. The plugin does
 not work like a CDN. It is a self hosted, in-your-website solution. And it works!
@@ -36,35 +45,29 @@ By default the following breakpoints are in effect:
  - `640px` wide screens
  - `480px` wide screens
 
-Bear in mind that we need to take into account each device in its portait orientation, which is gives us the biggest
-width. But you can change these at will. 
+The plugin takes into account each device in its portait orientation. 
 
-= The plugin has the following fundamental goals = 
+= How to test = 
 
- 1. Help reduce the total download time of web pages in mobile devices.
- 2. Work unobtrusively. You enable it and it works. You disable it and it gets out of your way.
- 3. Provide a transparent solution that is independant of the development process itself.
- 4. Be unaware of the yet-not-finalized `picture` element or `srcset` attribute.
+In order to test whether the plugin works you can:
 
-= How to really test the plugin = 
-
-In order to test if the plugin works you can:
-
- 1. Check in the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is 
+ 1. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
+    setting in the "Advanced Settings" > "Chrome" tab. 
+ 2. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing.
+ 3. Check in the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is 
     where the resized images are kept and cached by default.
- 2. Test with a tool like http://www.webpagetest.org/, but first make sure you set the "Emulate Mobile Browser" 
-    setting in the "Advanced Settings" > "Chrome" tab. Test with and without this setting and watch the numbers.
- 3. Test with a mobile device (a smpartphone or a tablet), and watch your website load in a snap.
+ 4. Test with an actual mobile device, a smartphone or tablet. Watch your website load in a snap.
 
 Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
-being resized at all. This is the whole idea: serving each device the image sizes which are proper for it.
+being resized at all. This is the whole idea: serving each device the image sizes which are appropriate for it.
 
  = Caution = 
 
- - The plugin needs to add a little bit of code to your .htaccess file in order to function properly. It removes this 
-   code  once disabled. If you are not cool with that, then&hellip; tough luck!
+ - The plugin needs to add a little bit of code to your `.htaccess` file in order to function properly. It removes 
+   this code  once disabled. If you are not cool with that, then&hellip; tough luck! 
  - The plugin cannot work out of the box with a CDN (or Varnish server for that matter), because the CDN or Varnish 
-   would not know in a definitive way which image they should cache or serve each time.
+   are unaware of the device size cookie and they cannot know in a definitive way which image they should cache or 
+   serve for each device.
 
  = WURFL Image Tailor =
 
@@ -100,17 +103,17 @@ Well, not much really. The image resizing process is not computationally negligi
 when they are first requested and then they are cached. However, the images in the watched directories (the ones the 
 plugin is responsible for resizing) are ultimately delivered by a PHP script and not a generic Apache process. 
 
-= Can it work with a CDN? =
+= Can it work with a CDN/Varnish? =
 
-Not out of the box. The reason is that the service responsible for delivering the images (in this case the CDN) must be
-aware of the resizing process and the client cookie it is based on. If one has access to their CDN configuration then 
-they could probably extend it to take that cookie into account and act accordingly.
+Not out of the box! The reason is that the service responsible for delivering the images (in this case the CDN or Varnish) must be aware of the resizing process and the client cookie it is based on. If one has access to their CDN or
+Varnish configuration, then they could probably extend it to take that cookie into account and act accordingly.
 
 = Does the plugin help with art direction? =
 
-No! Simple as that. Art direction in responsive images is entirely different, yet important, problem. This plugin does
-tackle it. But it works in a supplementary way. This means that you can combine it with any art direction solution.
-This plugin will continue to work and serve resized versions of the "art-directed" responsive images.
+No! Simple as that. Art direction in responsive images is an entirely different, yet important, problem. This plugin 
+does not tackle with it. But it works in a supplementary way. This means that you can combine it with any art 
+direction solution. This plugin will continue to work and serve resized versions of your responsive images even after 
+you have done art direction on them.
 
 
 
@@ -140,6 +143,10 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.3.3 =
+
+ - Added Last-modified HTTP header for resized images, as the best practices do suggest.
 
 = 0.3.2 =
 

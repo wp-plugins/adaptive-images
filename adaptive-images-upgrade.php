@@ -73,25 +73,32 @@
             
             adaptive_images_upgrade_plugin_upgraded_to_v030();
 
-        }
+            add_action( 'admin_notices', 'adaptive_images_upgrade_plugin_upgraded_to_v030_message' );
 
-        add_action( 'admin_notices', 'adaptive_images_upgrade_plugin_upgraded_message' );
+        } else {
+
+            // We probably do not need this message but let's keep just in case.
+
+            // add_action( 'admin_notices', 'adaptive_images_upgrade_plugin_upgraded_message' );
+            
+        }
 
     }
 
 
 
     /**
-     * Adds the admin notice error that informs the user when the pluggin has been upgraded. It is done via an  admin
-     * notice and not via the settings errors, because in some pages the settings errors are called by the system 
-     * itself and this results in being called multiple times.
+     * Adds the admin notice message that informs the user when the pluggin has been upgraded to version 0.3.0, which 
+     * has a major rewrite and the user settings needed to be manually updated. It is done via an  admin notice and 
+     * not via the settings errors, because in some pages the settings errors are called by the system itself and this
+     * results in being called multiple times.
      * 
      * @author Nevma (info@nevma.gr)
      * 
      * @return void Nothing really!
      */
 
-    function adaptive_images_upgrade_plugin_upgraded_message () {
+    function adaptive_images_upgrade_plugin_upgraded_to_v030_message () {
 
         $current_version = adaptive_images_plugin_get_version();
 
@@ -109,6 +116,35 @@
                 '</p>' .
                 '<p>' .
                     'We are very sorry for the inconvenience and we promise to keep a steady path from now on.'. 
+                '</p>' . 
+            '</div>';
+
+    }
+
+
+
+    /**
+     * Adds the admin notice message that informs the user when the pluggin has been generally upgraded. It is done 
+     * via an  admin notice and not via the settings errors, because in some pages the settings errors are called by
+     * the system itself and this results in being called multiple times.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void Nothing really!
+     */
+
+    function adaptive_images_upgrade_plugin_upgraded_message () {
+
+        $current_version = adaptive_images_plugin_get_version();
+
+        echo 
+            '<div class = "updated settings-error notice is-dismissible adaptive-images-settings-error">' .
+                '<p>' . 
+                    'Adaptive Images &mdash; Upgraded' . 
+                '</p>' . 
+                '<hr />' . 
+                '<p>' . 
+                    'The Adaptive Images plugin has been succesfully updated to version ' . $current_version . '.' .
                 '</p>' . 
             '</div>';
 

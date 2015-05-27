@@ -12,7 +12,7 @@
           #                                                                #
           #                                                                #
           #                                                                #
-          .================================================================.
+          ==================================================================
 
 
 
@@ -20,12 +20,21 @@
   ======================
 
    - Allow default expires headers for cached images.
-   - More user friendly messages with icons and stuff.
    - Some pngs actually become bigger after being resized!
-   - Inform if plugin is activated but settings not yet set.
-   - Thank the users for using the plugin and ask them to rate it. 
-   - Some way to test the resized images (perhaps fake cookie).
+   - Some way to test the resized images (perhaps a fake cookie or param).
    - Admin setting for portrait/landscape width.
+   - Thank the users for using the plugin and ask them to rate it. 
+   - More user friendly messages with icons and stuff.
+
+   - WP Multisite
+   - W3 Total Cache
+   - Hyper Cache
+   - WP Super Cach
+   - Autoptimize
+   - Better WordPress Minify
+
+   - Add screenshot from GTmetrix.
+   - Cleanup Webpagetest screenshot from WURFL.
 
 
 
@@ -35,9 +44,8 @@
    - Cleanup cache afer some time, to invalidate it.
    - Cleanup cache if it gets bigger than a given size.
    - When an image is deleted in the media gallery then its resized versions should be deleted, too.
-   - What about if a user actually wants to see the full versions of images, even when in a mobile network? 
-   - Enable and disable on demand with an admin button that updates the htaccess file.
-   - When breakpoints change delete the cache directories of the unused breakpoints.
+   - What if a user actually wants to see the full version of an image, even in a mobile network? 
+   - When breakpoints are changed delete the cache directories of the unused breakpoints.
    - Redirect directly from htaccess to correct image size when the cookie is already available without PHP.
    - Send better error images when adaptive images resize does not work. 
 
