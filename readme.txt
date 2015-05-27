@@ -6,12 +6,12 @@ Donate link: http://www.nevma.gr/
 Tags: adaptive images, responsive images, mobile images, mobile, images, resize, optimize, downsize, wurfl, wit
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 0.3.02
+Stable tag: 0.3.03
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adaptive images plugin  transparently resizes your images, by device screen size, in order to reduce download time in
-mobile devices automatically. 
+Adaptive images plugin transparently resizes your website&apos;s images, according to target device screen size, in 
+order to dramatically reduce overall download times in mobile environments. 
 
 
 
@@ -24,8 +24,8 @@ wraps and expands the functionality of Adaptive Images http://adaptive-images.co
 Javascript on the client, it determines the device size and sets a special cookie, so that it can serve an appropriate 
 image size for each device.
 
-(Originally it was based on a fork of the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
-now it is a complete rewrite!)
+Originally it was based on a fork of the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
+now it is a complete rewrite!
 
 = Has the following fundamental goals = 
 
@@ -40,17 +40,15 @@ The resized versions of the pictures are kept in a special directory in the `/wp
 not work like a CDN. It is a self hosted, in-your-website solution. And it works!
 
 By default the following breakpoints are in effect: 
-
  - `1024px` wide screens
  - `640px` wide screens
  - `480px` wide screens
 
 The plugin takes into account each device in its portait orientation. 
 
-= How to test = 
+= How to test the plugin = 
 
 In order to test whether the plugin works you can:
-
  1. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
     setting in the "Advanced Settings" > "Chrome" tab. 
  2. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing.
@@ -68,11 +66,6 @@ being resized at all. This is the whole idea: serving each device the image size
  - The plugin cannot work out of the box with a CDN (or Varnish server for that matter), because the CDN or Varnish 
    are unaware of the device size cookie and they cannot know in a definitive way which image they should cache or 
    serve for each device.
-
- = WURFL Image Tailor =
-
- Also, checkout WURFL Image Tailor connector for WordPress https://wordpress.org/plugins/wurfl-image-tailor-connector/ 
- which is another promising mobile images approach that works as a service. 
 
 
 
