@@ -36,6 +36,8 @@
    - Add screenshot from GTmetrix.
    - Cleanup Webpagetest screenshot from WURFL.
 
+   - Define error handler inside ai-main.php http://php.net/manual/en/function.set-error-handler.php.
+
 
 
   Future ideas:

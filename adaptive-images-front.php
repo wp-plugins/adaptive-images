@@ -22,7 +22,9 @@
 
 
     /**
-     * Prints the Javascript code in the beginning of the head element, which sets the cookie with the user device width.
+     * Prints out the Javascript code in the beginning of the head element, which sets the cookie with the user device 
+     * width/resolution. This cookie is necessary from there and on so that the plugin can know which image sizes to 
+     * serve to this client.
      * 
      * @author Nevma (info@nevma.gr)
      * 
