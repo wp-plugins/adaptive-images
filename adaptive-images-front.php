@@ -33,11 +33,13 @@
 
     function adaptive_images_front_head_cookie_javascript () { ?>
 
+        <!--noptimize-->
         <script type = "text/javascript">
 
             document.cookie = 'resolution=' + Math.max( screen.width, screen.height ) + '; path=/';
 
-        </script> <?php
+        </script> 
+        <!--/noptimize--> <?php
 
     }
 

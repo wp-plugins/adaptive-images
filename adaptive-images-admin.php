@@ -869,19 +869,10 @@
 
         // PHP GD image library debug info.
 
-        $message = '<p>PHP GD library ';
-
-        if ( adaptive_images_plugin_is_gd_extension_installed() ) {
-
-            $message .= ' is installed OK.';
-
-        } else {
-
-            $message .= ' is NOT installed.';
-
-        }
-
-        $message .= '</p>';
+        $message = 
+            '<p>' . 
+                'PHP GD library is ' . ( adaptive_images_plugin_is_gd_extension_installed() ? '' : 'not ' ) . ' installed.' . 
+            '</p>';
 
 
 
@@ -889,15 +880,37 @@
 
         $cache_path = adaptive_images_plugin_get_cahe_directory_path();
 
-        $message .= '<p>Image cache directory ' . ( file_exists( $cache_path ) ? 'is OK' : 'has NOT been created' ) . '.';
-        $message .= file_exists( $cache_path ) ? '<br /> <code>' . $cache_path . ' => ' . adaptive_images_plugin_file_permissions( $cache_path ) . '</code>' : '';
-        $message .= '</p>';
+        $message .= 
+            '<p>' .
+                'Image cache directory has ' . ( file_exists( $cache_path ) ? '' : 'not ' ) . 'been created.' .
+                ( 
+                    file_exists( $cache_path ) ? 
+                        '<br />'.
+                        '<code>' . 
+                            $cache_path . ' => ' . adaptive_images_plugin_file_permissions( $cache_path ) . 
+                        '</code>' : 
+                    ''
+                ) . 
+            '</p>';
 
 
 
         // Htaccess file availability
 
-        $message .= '<p>Installation .htaccess file is ' . ( adaptive_images_plugin_is_htaccess_available() ? '' : 'NOT' ) . ' available.</p>';
+        $htaccess = adaptive_images_plugin_get_htaccess_file_path();
+
+        $message .= 
+            '<p>' .
+                'Installation .htaccess file is ' . ( adaptive_images_plugin_is_htaccess_available() ? '' : 'not' ) . ' available.' . 
+                ( 
+                    file_exists( $htaccess ) ? 
+                        '<br />'.
+                        '<code>' . 
+                            $htaccess . ' => ' . adaptive_images_plugin_file_permissions( $htaccess ) . 
+                        '</code>' : 
+                    ''
+                ) . 
+            '</p>';
 
 
 
