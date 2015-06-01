@@ -24,8 +24,8 @@ wraps and expands the functionality of Adaptive Images http://adaptive-images.co
 Javascript on the client, it determines the device size and sets a special cookie, so that it can serve an appropriate 
 image size for each device.
 
-Originally it was based on a fork of the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
-now it is a complete rewrite!
+(Originally it was based on a fork of the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
+now it is a complete rewrite!)
 
 = Fundamental goals = 
 
@@ -36,11 +36,11 @@ now it is a complete rewrite!
 
 = Default breakpoints =
 
- - `1024px` wide screens
- - `640px` wide screens
- - `480px` wide screens
+ - 1024px wide screens
+ - 640px wide screens
+ - 480px wide screens
 
-The plugin takes into account each device in its portait orientation. 
+The plugin takes into account each device in its landscape -that is its largest- orientation. 
 
 = How to test it = 
 
@@ -54,7 +54,7 @@ The plugin takes into account each device in its portait orientation.
 Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
 being resized at all. This is the whole idea: serving each device the image sizes which are appropriate for it.
 
- = Caution = 
+ = Stuff to know = 
 
  - The plugin needs to add a little bit of code to your `.htaccess` file in order to function properly. It removes 
    this code  once disabled. If you are not cool with that, then&hellip; tough luck! 
