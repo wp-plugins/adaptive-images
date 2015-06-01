@@ -40,6 +40,7 @@ The resized versions of the pictures are kept in a special directory in the `/wp
 not work like a CDN. It is a self hosted, in-your-website solution. And it works!
 
 By default the following breakpoints are in effect: 
+
  - `1024px` wide screens
  - `640px` wide screens
  - `480px` wide screens
@@ -49,6 +50,7 @@ The plugin takes into account each device in its portait orientation.
 = How to test the plugin = 
 
 In order to test whether the plugin works you can:
+
  1. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
     setting in the "Advanced Settings" > "Chrome" tab. 
  2. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing.
