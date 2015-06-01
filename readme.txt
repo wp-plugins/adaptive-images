@@ -54,7 +54,7 @@ The plugin takes into account each device in its landscape -that is its largest-
 Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
 being resized at all. This is the whole idea: serving each device the image sizes which are appropriate for it.
 
- = Stuff to know = 
+ = Stuff to keep in mind = 
 
  - The plugin needs to add a little bit of code to your `.htaccess` file in order to function properly. It removes 
    this code  once disabled. If you are not cool with that, then&hellip; tough luck! 
