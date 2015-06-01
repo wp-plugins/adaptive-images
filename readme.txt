@@ -27,19 +27,14 @@ image size for each device.
 Originally it was based on a fork of the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
 now it is a complete rewrite!
 
-= Has the following fundamental goals = 
+= Fundamental goals = 
 
  1. Reduce the total download time in mobile devices.
  2. Work unobtrusively. Enable it and it works. Disable it vanishes.
  3. Provide a transparent solution, independant of your code.
  4. Be unaware of the yet-not-finalized `picture` element or `srcset` attribute.
 
- = Interesting facts =
-
-The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` folder. The plugin does
-not work like a CDN. It is a self hosted, in-your-website solution. And it works!
-
-By default the following breakpoints are in effect: 
+= Default breakpoints =
 
  - `1024px` wide screens
  - `640px` wide screens
@@ -47,9 +42,7 @@ By default the following breakpoints are in effect:
 
 The plugin takes into account each device in its portait orientation. 
 
-= How to test the plugin = 
-
-In order to test whether the plugin works you can:
+= How to test it = 
 
  1. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
     setting in the "Advanced Settings" > "Chrome" tab. 
@@ -68,6 +61,7 @@ being resized at all. This is the whole idea: serving each device the image size
  - The plugin cannot work out of the box with a CDN (or Varnish server for that matter), because the CDN or Varnish 
    are unaware of the device size cookie and they cannot know in a definitive way which image they should cache or 
    serve for each device.
+ - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` folder. 
 
 
 
