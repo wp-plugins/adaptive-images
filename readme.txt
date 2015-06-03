@@ -10,8 +10,8 @@ Stable tag: 0.3.04
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adaptive images plugin transparently resizes your website&apos;s images, according to target device screen size, in 
-order to dramatically reduce overall download times in mobile environments. 
+Adaptive images plugin transparently resizes your website&apos;s images, by device screen size, in order to reduce 
+download times in mobile environments. 
 
 
 
@@ -20,18 +20,16 @@ order to dramatically reduce overall download times in mobile environments.
 = Adaptive Images Solution =
 
 Resizes and optimizes images delivered to mobile devices, so that the total download time is drastically reduced. It
-wraps and expands the functionality of Adaptive Images http://adaptive-images.com/ for WordPress! With a tiny bit of 
-Javascript on the client, it determines the device size and sets a special cookie, so that it can serve an appropriate 
-image size for each device.
-
-(Originally it was based on a fork of the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
-now it is a complete rewrite!)
+wraps and expands the functionality of Adaptive Images http://adaptive-images.com/ for WordPress! It works 
+transparently, as a filter between the device and your website. With a tiny bit of Javascript on the client, it 
+determines the device size and sets a special resolution cookie, so that it can serve an appropriate optimized 
+image size to it.
 
 = Fundamental goals = 
 
- 1. Reduce the total download time in mobile devices.
+ 1. Reduce the total download time in mobile devices dramatically.
  2. Work unobtrusively. Enable it and it works. Disable it vanishes.
- 3. Provide a transparent solution, independant of your code.
+ 3. Provide a totally transparent solution, independant of your code.
  4. Be unaware of the yet-not-finalized `picture` element or `srcset` attribute.
 
 = Default breakpoints =
@@ -40,13 +38,16 @@ now it is a complete rewrite!)
  - 640px wide screens
  - 480px wide screens
 
-The plugin takes into account each device in its landscape -that is its largest- orientation. 
+The plugin takes into account each device in its landscape -that is its largest- orientation, because it cannot 
+predict which one the user will choose to use or when they might switch between orientations. But the overall result 
+remains excellent.
 
 = How to test it = 
 
  1. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
     setting in the "Advanced Settings" > "Chrome" tab. 
- 2. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing.
+ 2. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing. The plugin will 
+    have no effect on desktop sized devices.
  3. Check in the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is 
     where the resized images are kept and cached by default.
  4. Test with an actual mobile device, a smartphone or tablet. Watch your website load in a snap.
@@ -58,10 +59,15 @@ being resized at all. This is the whole idea: serving each device the image size
 
  - The plugin needs to add a little bit of code to your `.htaccess` file in order to function properly. It removes 
    this code  once disabled. If you are not cool with that, then&hellip; tough luck! 
- - The plugin cannot work out of the box with a CDN (or Varnish server for that matter), because the CDN or Varnish 
-   are unaware of the device size cookie and they cannot know in a definitive way which image they should cache or 
-   serve for each device.
+ - It cannot work out of the box with a CDN (or Varnish server, for that matter), because the CDN or Varnish server 
+   are unaware of the device size cookie and they cannot know in a definitive way which image they should serve or 
+   cache for each device.
+ - It does not care whether the device is actually mobile or not. It checks the device screen resolution. If you have 
+   set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets 
+   mostly themobile ones.
  - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` folder. 
+
+Thanks for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love creative feedback!
 
 
 
