@@ -81,8 +81,8 @@
 
         }
         
-        $links[] = '<a href = "https://wordpress.org/plugins/adaptive-images/">' . 'Plugin page in WP repository' . '</a>';
-        $links[] = '<a href = "http://wordpress.org/support/plugin/adaptive-images">' . 'Plugin support page in WP repository' . '</a>';
+        $links[] = '<a href = "https://wordpress.org/plugins/adaptive-images/">' . 'Plugin page' . '</a>';
+        $links[] = '<a href = "http://wordpress.org/support/plugin/adaptive-images">' . 'Plugin support page' . '</a>';
 
         return $links;
 

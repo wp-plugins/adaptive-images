@@ -18,7 +18,7 @@
        Plugin URI: http://www.nevma.gr
        Description: Resizes your images, by device screen size, to reduce download time in the mobile web.
        Version: 0.3.04
-       Author: Nevma - Creative Know-How
+       Author: Nevma
        Author URI: http://www.nevma.gr
        License: GPL2
        License URI: https://www.gnu.org/licenses/gpl-2.0.html
