@@ -67,6 +67,13 @@ being resized at all. This is the whole idea: serving each device the image size
    mostly themobile ones.
  - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` folder. 
 
+= Credits = 
+
+ - The plugin uses Adaptive Images http://adaptive-images.com/ adapted for WordPress. So far this functionality is only
+   very slightly changed.
+ - It was originally it was based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/ but 
+   now it is a complete rewrite!
+
 Thanks for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love creative feedback!
 
 
