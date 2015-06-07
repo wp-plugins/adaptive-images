@@ -92,10 +92,14 @@
     } else {
       header("Content-Type: image/jpeg");
     }
-    header("Cache-Control: private, max-age=".$browser_cache);
-    header('Expires: '.gmdate('D, d M Y H:i:s', time()+$browser_cache).' GMT');
-  
+
     // Nevma -->>
+
+    // If plugin browser cache is set to zero then do nothing, so that the default settings will take effect.
+    if ( $browser_cache > 0 ) {
+      header("Cache-Control: private, max-age=".$browser_cache);
+      header('Expires: '.gmdate('D, d M Y H:i:s', time()+$browser_cache).' GMT');
+    }
 
     // Add last modified cache header.
     header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', filemtime( $filename ) ) . ' GMT' );

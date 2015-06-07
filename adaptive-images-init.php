@@ -2,10 +2,12 @@
 
     /******************************************************************************************************************
      *                                                                                                                *
+     *                                                                                                                *
      *      THIS FILE HOLDS ALL THE INCLUDES, ACTIONS AND FILTERS NECESSARY                                           *
      *      ===============================================================                                           *
      *                                                                                                                *
      *      Nevma (info@nevma.gr)                                                                                     *
+     *                                                                                                                *
      *                                                                                                                *
      ******************************************************************************************************************/
 
@@ -28,16 +30,23 @@
     require_once( 'adaptive-images-upgrade.php' );
     require_once( 'adaptive-images-admin.php' );
     require_once( 'adaptive-images-front.php' );
+    require_once( 'adaptive-images-debug.php' );
 
 
 
     // Update installation htaccess when plugin is activated.
 
-    register_activation_hook( adaptive_images_plugin_get_name(), 'adaptive_images_actions_update_htaccess' );
+    register_activation_hook( 
+        adaptive_images_plugin_get_name(), 
+        'adaptive_images_actions_update_htaccess' 
+    );
 
     // Restore installation htaccess when plugin is deactivated.
 
-    register_deactivation_hook( adaptive_images_plugin_get_name(), 'adaptive_images_actions_restore_htaccess' );
+    register_deactivation_hook( 
+        adaptive_images_plugin_get_name(), 
+        'adaptive_images_actions_restore_htaccess' 
+    );
     
 
 
@@ -47,9 +56,12 @@
 
     // Adds a filter which adds the plugin settings link to the pugin links.
 
-    add_filter( 'plugin_action_links_' . adaptive_images_plugin_get_name(), 'adaptive_images_admin_add_plugin_settings_link' ); 
+    add_filter( 
+        'plugin_action_links_' . adaptive_images_plugin_get_name(), 
+        'adaptive_images_admin_add_plugin_settings_link' 
+    ); 
 
-    // Adds a filter chich adds a link to the plugin support page to the additional links of the plugin.
+    // Adds a filter which adds the support page link to the additional links of the plugin.
 
     add_filter( 'plugin_row_meta', 'adaptive_images_admin_add_row_meta', 10, 2 );
 

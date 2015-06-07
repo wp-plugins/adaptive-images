@@ -2,10 +2,12 @@
 
     /******************************************************************************************************************
      *                                                                                                                *
-     *      THE PLUGIN UPGRADE FUNCTIONS                                                                              *
-     *      ============================                                                                              *
+     *                                                                                                                *
+     *      PLUGIN UPGRADE FUNCTIONS                                                                                  *
+     *      ========================                                                                                  *
      *                                                                                                                *
      *      Nevma (info@nevma.gr)                                                                                     *
+     *                                                                                                                *
      *                                                                                                                *
      ******************************************************************************************************************/
 
@@ -56,8 +58,8 @@
         // Check if we have just upgraded from a lower version.
 
         $previous_version = $options['version'];
-        $current_version = adaptive_images_plugin_get_version();
-        $plugin_upgraded = strcmp( $previous_version, $current_version ) < 0; 
+        $current_version  = adaptive_images_plugin_get_version();
+        $plugin_upgraded  = strcmp( $previous_version, $current_version ) < 0; 
 
         if ( ! $plugin_upgraded ) {
 
@@ -79,7 +81,10 @@
 
             // We probably do not need this message but let's keep just in case.
 
-            // add_action( 'admin_notices', 'adaptive_images_upgrade_plugin_upgraded_message' );
+            add_action( 'admin_notices', 'adaptive_images_upgrade_plugin_upgraded_message' );
+
+            $options['version'] = $current_version;
+            update_option( 'adaptive-images', $options );
             
         }
 
@@ -166,7 +171,7 @@
 
 	    $htaccess = adaptive_images_plugin_get_htaccess_file_path();
 
-	    $htaccess_available = adaptive_images_plugin_is_htaccess_available();
+	    $htaccess_available = adaptive_images_plugin_is_htaccess_writeable();
 
 	    if ( $htaccess_available ) {
 

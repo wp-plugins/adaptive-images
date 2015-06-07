@@ -2,10 +2,12 @@
 
     /******************************************************************************************************************
      *                                                                                                                *
+     *                                                                                                                *
      *      ALL FUNCTIONS RELEVANT TO THE GENERAL PLUGIN FUNCTIONS                                                    *
      *      ======================================================                                                    *
      *                                                                                                                *
      *      Nevma (info@nevma.gr)                                                                                     *
+     *                                                                                                                *
      *                                                                                                                *
      ******************************************************************************************************************/
 
@@ -60,7 +62,7 @@
 
     function adaptive_images_plugin_check_empty_setting ( &$options, $key ) {
 
-        if ( ! isset( $options[$key] ) || ! $options[$key] )  {
+        if ( ! isset( $options[$key] ) )  {
 
             $defaults = adaptive_images_plugin_get_default_settings();
 
@@ -189,14 +191,14 @@
 
     
     /**
-     * Checks whether the installation htaccess file is actually writable.
+     * Checks whether the installation .htaccess file is actually writable.
      * 
      * @author Nevma (info@nevma.gr)
      * 
      * @return boolean Whether the installation htaccess file is actually writable.
      */
 
-    function adaptive_images_plugin_is_htaccess_available () {
+    function adaptive_images_plugin_is_htaccess_writeable () {
 
         $htaccess = adaptive_images_plugin_get_htaccess_file_path();
 

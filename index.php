@@ -4,4 +4,4 @@
 
 ?>
 
-You are a very naughty boy! (Or girl!)
+You are a very naughty boy! Or girl!

@@ -2,10 +2,12 @@
 
     /******************************************************************************************************************
      *                                                                                                                *
-     *      ALL THE ADMIN PLUGIN SETTINGS AREA FUNCTIONS                                                              *
-     *      ============================================                                                              *
+     *                                                                                                                *
+     *      PLUGIN SETTINGS PAGE FUNCTIONS                                                                            *
+     *      ==============================                                                                            *
      *                                                                                                                *
      *      Nevma (info@nevma.gr)                                                                                     *
+     *                                                                                                                *
      *                                                                                                                *
      ******************************************************************************************************************/
 
@@ -348,7 +350,7 @@
             
             <input type = "checkbox" id = "adaptive-images[sharpen-images]" name = "adaptive-images[sharpen-images]" <?php echo $options['sharpen-images'] ? 'checked = "checked"' : ''; ?> /> 
 
-            Yes, sharpen JPEG images after compressiing and resizing, in order to reduce blur.
+            Yes, sharpen JPEG images after compressing and resizing, in order to reduce blur.
 
         </label> <?php
 
@@ -397,6 +399,7 @@
         adaptive_images_plugin_check_empty_setting( $options, 'browser-cache' ); ?>
 
         <select type = "text" id = "adaptive-images[browser-cache]" name = "adaptive-images[browser-cache]">
+            <option value = "0" <?php echo $options['browser-cache'] == '0' ? 'selected = "selected"' : ''; ?>> Default </option>
             <option value = "0.125" <?php echo $options['browser-cache'] == '0.125' ? 'selected = "selected"' : ''; ?>> 3  hours </option>
             <option value = "0.25"  <?php echo $options['browser-cache'] == '0.25'  ? 'selected = "selected"' : ''; ?>> 6  hours </option>
             <option value = "0.5"   <?php echo $options['browser-cache'] == '0.5'   ? 'selected = "selected"' : ''; ?>> 12 hours </option>
@@ -431,11 +434,9 @@
 
         <div class = "wrap">
 
-            <h2>Adaptive Images</h2>
+            <h2>Adaptive Images Settings</h2>
 
             <form method = "post" action = "options.php">
-
-            <h3>Image cache settings</h3>
 
                 <?php 
                     // Print plugin settings form.
@@ -454,7 +455,7 @@
             <br />
             <hr />
 
-            <h3>Other actions</h3>
+            <h3>Adaptive Images Tools</h3>
 
             <style type = "text/css">
 
@@ -468,31 +469,32 @@
                 <tbody>
                    <tr>
                         <td>
-                           
                             Cleanup the image cache. 
                             <br /><br />
                             <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=cleanup-image-cache&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-image-cache' ); ?>">Cleanup image cache</a> 
                             <br />
                             <small>(might take some time)</small>
-
                         </td>
                         <td>
-                           
                             Calculate total size of image cache. 
                             <br /><br />
                             <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=calculate-cache-size&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-calculate-cache-size' ); ?>">Calculate cache size</a> 
                             <br />
                             <small>(might take some time)</small>
-
                         </td>
                         <td>
-                            
                             Print plugin debug information. 
                             <br /><br />
                             <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=print-debug-info&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-print-debug-info' ); ?>">Print debug info</a> 
                             <br />
                             <small>(this is quite quick)</small>
-
+                        </td>
+                        <td>
+                            Print diagnostic information. 
+                            <br /><br />
+                            <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=print-diagnostic-info&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-print-diagnostic-info' ); ?>">Print diagnostics</a> 
+                            <br />
+                            <small>(this is quite quick)</small>
                         </td>
                    </tr> 
                 </tbody>
@@ -506,17 +508,24 @@
 
             <p>
                 Thank you so much for trying out this plugin. <br />
-                We are totally commited to idea of reducing image sizes for mobile devices, but without compromising their quality at the same time <br />
-                But we need your help in order to achieve this. Please, do not hesitate to report any problems and send us any suggestions you have at the plugin support page. We really appreciate it.
+                We are totally commited to idea of reducing image sizes for mobile devices, but without compromising their quality at the same time. <br />
+                We need your help in order to achieve this. Please, do not hesitate to <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">report any problems and send us any suggestions</a></strong> at the plugin support page. We will really appreciate it!
                 <br />
                 <br />
-                <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">Adaptive Images plugin support page</a></strong>
+                Many-many thanks, 
                 <br />
+                <strong><a href = "http://www.nevma.gr">Nevma, the development team!</a></strong>
+            </p>
+
+            <p>
+                &#127775;&#127775;&#127775;&#127775;&#127775;
                 <br />
-                Many thanks, 
-                <br />
-                The development team!
-            </p> 
+                PS: We also appreciate <strong><a href = "https://wordpress.org/support/view/plugin-reviews/adaptive-images">honest reviews and ratings</a></strong>, if you can spare the time!
+            </p>
+
+            <?php $options = adaptive_images_plugin_get_options(); ?>
+
+            <p style = "font-style: italic;">Adaptive Images v.<?php echo $options['version']; ?></p>
 
         </div> <?php
 
@@ -550,7 +559,10 @@
                 'Cleanup image cache <hr />' . 
                 '<p>Total files deleted from the adaptive images cache: ' . $result['files'] . '</p>' .  
                 '<p>Total directories deleted from the adaptive images cache: ' . $result['dirs'] . '</p>' .  
-                '<p>Total size deleted from the adaptive images cache: ' . adaptive_images_plugin_file_size_human( $result['size'] ) . '</p>', 
+                '<p>' . 
+                    'Total size deleted from the adaptive images cache: ' . 
+                    adaptive_images_plugin_file_size_human( $result['size'] ) . 
+                '</p>', 
                 'updated' 
             ); 
 
@@ -573,7 +585,10 @@
                 'Calculate cache size <hr />' . 
                 '<p>Total files in the adaptive images cache: ' . $cache_size['files'] . '</p>' .  
                 '<p>Total directories in the adaptive images cache: ' . $cache_size['dirs'] . '</p>' .  
-                '<p>Total size of the adaptive images cache: ' . adaptive_images_plugin_file_size_human( $cache_size['size'] ) . '</p>', 
+                '<p>' . 
+                    'Total size of the adaptive images cache: ' . 
+                    adaptive_images_plugin_file_size_human( $cache_size['size'] ) . 
+                '</p>', 
                 'updated' 
             ); 
 
@@ -583,19 +598,35 @@
 
         // Print plugin info action.
 
-        if ( isset( $_GET['action'] ) && 
-             $_GET['action'] == 'print-debug-info' && 
-             wp_verify_nonce( $_GET['_wpnonce'], 'adaptive-images-print-debug-info' ) ) {
+         if ( $_GET['action'] == 'print-debug-info' && 
+              wp_verify_nonce( $_GET['_wpnonce'], 'adaptive-images-print-debug-info' ) ) {
 
             add_settings_error( 
                 'adaptive-images-settings', 
                 'adaptive-images-settings-error', 
                 'Debug info <hr />' . 
-                adaptive_images_admin_debug_info( FALSE ), 
+                adaptive_images_debug_general_info( FALSE ), 
                 'updated' 
             ); 
 
-        } 
+        }
+
+
+
+        // Print system info action.
+
+         if ( $_GET['action'] == 'print-diagnostic-info' && 
+              wp_verify_nonce( $_GET['_wpnonce'], 'adaptive-images-print-diagnostic-info' ) ) {
+
+            add_settings_error( 
+                'adaptive-images-settings', 
+                'adaptive-images-settings-error', 
+                'System information <hr />' . 
+                adaptive_images_debug_diagnostic_info( FALSE ), 
+                'updated' 
+            ); 
+
+        }
 
     }
 
@@ -745,7 +776,9 @@
 
         $browser_cache = floatval( $data['browser-cache'] );
 
-        if ( $browser_cache < 0.125  ) {
+        // nwda_pre_var_dump( $browser_cache < 0 );
+
+        if ( $browser_cache < 0  ) {
 
             $browser_cache = $defaults['browser-cache'];
 
@@ -769,11 +802,12 @@
 
         // Notify user appropriately.
 
-        $message = 'Adaptive Images &mdash; Settings updated. <hr /> <p>The settings have been saved in the database.</p>';
+        $message = 
+            'Adaptive Images &mdash; Settings updated. <hr /> <p>The settings have been saved in the database.</p>';
 
 
 
-        // Add the adaptive images htaccess rewrite block.
+        // Add the adaptive images .htaccess rewrite block.
 
         $result = adaptive_images_actions_update_htaccess( $data );
 
@@ -798,7 +832,7 @@
 
             $message .=
                 '<p>' . 
-                    'The htaccess file was successfully updated: ' . 
+                    'The .htaccess file was successfully updated: ' . 
                     '<code>' . adaptive_images_plugin_get_htaccess_file_path() . '</code>.' .
                 '</p>';
 
@@ -846,96 +880,6 @@
 
 
         return $data;
-
-    }
-
-
-
-    /**
-     * Prints useful debug information for the plugin.
-     * 
-     * @author Nevma (info@nevma.gr)
-     * 
-     * @param bool $echo Whether to echo the result or return it as a string.
-     * 
-     * @return Nothing really!
-     */
-
-    function adaptive_images_admin_debug_info ( $echo = true ) {
-
-        $options = get_option( 'adaptive-images' );
-        
-        
-
-        // PHP GD image library debug info.
-
-        $message = 
-            '<p>' . 
-                'PHP GD library is ' . ( adaptive_images_plugin_is_gd_extension_installed() ? '' : 'not ' ) . ' installed.' . 
-            '</p>';
-
-
-
-        // Image cache directory debug info.
-
-        $cache_path = adaptive_images_plugin_get_cahe_directory_path();
-
-        $message .= 
-            '<p>' .
-                'Image cache directory has ' . ( file_exists( $cache_path ) ? '' : 'not ' ) . 'been created.' .
-                ( 
-                    file_exists( $cache_path ) ? 
-                        '<br />'.
-                        '<code>' . 
-                            $cache_path . ' => ' . adaptive_images_plugin_file_permissions( $cache_path ) . 
-                        '</code>' : 
-                    ''
-                ) . 
-            '</p>';
-
-
-
-        // Htaccess file availability
-
-        $htaccess = adaptive_images_plugin_get_htaccess_file_path();
-
-        $message .= 
-            '<p>' .
-                'Installation .htaccess file is ' . ( adaptive_images_plugin_is_htaccess_available() ? '' : 'not' ) . ' available.' . 
-                ( 
-                    file_exists( $htaccess ) ? 
-                        '<br />'.
-                        '<code>' . 
-                            $htaccess . ' => ' . adaptive_images_plugin_file_permissions( $htaccess ) . 
-                        '</code>' : 
-                    ''
-                ) . 
-            '</p>';
-
-
-
-        // Image cache settings dump.
-
-        $message .= '<p>Adaptive images settings dump:</p>';
-        $message .= '<pre>';
-        ob_start();
-        var_dump( $options );
-        $message .= ob_get_clean();
-        $message .= '</pre>';
-
-
-
-        // Echo debug info or return it.
-
-        if ( $echo ) {
-            
-            echo $message;
-
-        } else {
-
-            return $message;
-
-        }
 
     }
 

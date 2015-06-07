@@ -2,10 +2,12 @@
 
     /******************************************************************************************************************
      *                                                                                                                *
+     *                                                                                                                *
      *      ALL THE ADMINISTRATIVE ACTIONS OF THE PLUGIN                                                              *
      *      ============================================                                                              *
      *                                                                                                                *
      *      Nevma (info@nevma.gr)                                                                                     *
+     *                                                                                                                *
      *                                                                                                                *
      ******************************************************************************************************************/
 
@@ -87,13 +89,13 @@
 
 
     /**
-     * Creates the htaccess rewrite block which ensures that iamges in watched directories are filtered by the adaptive images plugin.
+     * Creates the .htaccess rewrite block which ensures that iamges in watched directories are filtered by the adaptive images plugin.
      * 
      * @author Nevma (info@nevma.gr)
      * 
      * @param array $data The adaptive images options. If not given then the existing ones from the database will be used.
      * 
-     * @return string The adaptive images plugin htaccess rewrite block.
+     * @return string The adaptive images plugin .htaccess rewrite block.
      */
 
     function adaptive_images_actions_get_htaccess_block ( $data ) {
@@ -130,7 +132,7 @@
         
 
 
-        // Create the watched directories htaccess block part.
+        // Create the watched directories .htaccess block part.
 
         $htaccess_rewrite_block = 
             "# BEGIN Adaptive Images\n".
@@ -153,7 +155,7 @@
 
 
 
-        // Create the rewrite htaccess block part.
+        // Create the rewrite .htaccess block part.
 
         $htaccess_rewrite_block .= 
             "    # Redirect images through the adaptive images script\n".
@@ -176,7 +178,7 @@
      * 
      * @param array $data The adaptive images options. If not given then the existing ones from the database will be used.
      * 
-     * @return boolean|WP_Error Whether the htaccess file was able to be updated or not.
+     * @return boolean|WP_Error Whether the .htaccess file was able to be updated or not.
      */
 
     function adaptive_images_actions_update_htaccess ( $data ) {
@@ -199,25 +201,25 @@
 
 
 
-        // Check if htaccess is available.
+        // Check if .htaccess is available.
 
         $htaccess_rewrite_block = adaptive_images_actions_get_htaccess_block( $data );
 
         $htaccess = adaptive_images_plugin_get_htaccess_file_path();
 
-        $htaccess_available = adaptive_images_plugin_is_htaccess_available();
+        $htaccess_writeable = adaptive_images_plugin_is_htaccess_writeable();
 
 
 
-        // If htaccess available then update it with the adaprive images rewrite block.
+        // If .htaccess available then update it with the adaprive images rewrite block.
 
-        if ( ! $htaccess_available ) {
+        if ( ! $htaccess_writeable ) {
 
             return new WP_Error( 'adaptive-images-htaccess-unavailable', 'The .htaccess file could not be updated.', array( 'htaccess' => $htaccess, 'rewrite' => $htaccess_rewrite_block ) );
 
         } else {
 
-            // Replace old adaptive images htaccess rewrite block with new one, or write it for the first time if it does not exist yet.
+            // Replace old adaptive images .htaccess rewrite block with new one, or write it for the first time if it does not exist yet.
 
             $htaccess_old_contents = file_get_contents( $htaccess );
 
@@ -235,13 +237,13 @@
 
 
 
-            // Write new contents of htaccess.
+            // Write new contents of .htaccess.
 
             $bytes = @file_put_contents( $htaccess, $htaccess_new_contents );
             
             if ( $bytes === FALSE ) {
 
-                return new WP_Error( 'adaptive-images-htaccess-not-updated', 'The htaccess file could not be updated.', array( 'htaccess' => $htaccess, 'rewrite' => $htaccess_rewrite_block ) );
+                return new WP_Error( 'adaptive-images-htaccess-not-updated', 'The .htaccess file could not be updated.', array( 'htaccess' => $htaccess, 'rewrite' => $htaccess_rewrite_block ) );
 
             } else {
 
@@ -260,37 +262,37 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return boolean|WP_Error Whether the htaccess file was able to be restored or not.
+     * @return boolean|WP_Error Whether the .htaccess file was able to be restored or not.
      */
 
     function adaptive_images_actions_restore_htaccess () {
 
-        // Check if htaccess is available.
+        // Check if .htaccess is available.
 
         $htaccess = adaptive_images_plugin_get_htaccess_file_path();
 
-        $htaccess_available = adaptive_images_plugin_is_htaccess_available();
+        $htaccess_writeable = adaptive_images_plugin_is_htaccess_writeable();
 
 
 
-        // If htaccess available then update it with the adaprive images rewrite block.
+        // If .htaccess available then update it with the adaprive images rewrite block.
 
-        if ( ! $htaccess_available ) {
+        if ( ! $htaccess_writeable ) {
 
-            return new WP_Error( 'adaptive-images-htaccess-unavailable', 'The htaccess file could not be restored.', array( 'htaccess' => $htaccess, 'rewrite' => $htaccess_rewrite_block ) );
+            return new WP_Error( 'adaptive-images-htaccess-unavailable', 'The .htaccess file could not be restored.', array( 'htaccess' => $htaccess, 'rewrite' => $htaccess_rewrite_block ) );
 
         } else {
 
             $htaccess_old_contents = file_get_contents( $htaccess );
             $htaccess_new_contents = preg_replace( '/# BEGIN Adaptive Images.*# END Adaptive Images\n/s', '', $htaccess_old_contents );
 
-            // Write new contents of htaccess.
+            // Write new contents of .htaccess.
 
             $bytes = @file_put_contents( $htaccess, $htaccess_new_contents );
             
             if ( $bytes === FALSE ) {
 
-                return new WP_Error( 'adaptive-images-htaccess-not-updated', 'The htaccess file could not be updated.', array( 'htaccess' => $htaccess, 'rewrite' => $htaccess_rewrite_block ) );
+                return new WP_Error( 'adaptive-images-htaccess-not-updated', 'The .htaccess file could not be updated.', array( 'htaccess' => $htaccess, 'rewrite' => $htaccess_rewrite_block ) );
 
             } else {
 
@@ -431,7 +433,45 @@
 
 
     /**
-     * Checks if the PHP GD image library is available in the server and informs the user in the admin.
+     * Returns whether the installation .htaccess file is available, writeable and that it has been updated with the 
+     * contents that are necessary for the plugin to work.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void Nothing really!
+     */
+
+    function adaptive_images_actions_is_htaccess_ok () {
+
+        // If options have not been saved yet then do not check.
+
+        $options = get_option( 'adaptive-images' );
+
+        if ( ! $options ) {
+
+            return false;
+            
+        }
+
+
+
+        // Do the check and inform user.
+
+        $htaccess                      = adaptive_images_plugin_get_htaccess_file_path();
+        $htaccess_writeable            = adaptive_images_plugin_is_htaccess_writeable();
+        $htaccess_contents             = file_get_contents( $htaccess );
+        $htaccess_rewrite_block_regexp = '/# BEGIN Adaptive Images.*# END Adaptive Images\n/s';
+        $htaccess_contents_updated     = preg_match( $htaccess_rewrite_block_regexp, $htaccess_contents );
+
+        return $htaccess_writeable && $htaccess_contents_updated;
+
+    }
+
+
+
+    /**
+     * Checks if the installation .htaccess file is available, writeable and that it has been updated with the contents
+     * which are necessary for the plugin to work.
      * 
      * @author Nevma (info@nevma.gr)
      * 
@@ -440,7 +480,7 @@
 
     function adaptive_images_actions_check_htaccess_ok () {
 
-        // If options have not been saved yet then do not check.
+        // If options have not been saved yet then do even not check.
 
         $options = get_option( 'adaptive-images' );
 
@@ -450,18 +490,7 @@
             
         }
 
-
-
-        // Do the check and inform user.
-
-        $htaccess = adaptive_images_plugin_get_htaccess_file_path();
-        $htaccess_available = adaptive_images_plugin_is_htaccess_available();
-
-        $htaccess_contents = file_get_contents( $htaccess );
-        $htaccess_rewrite_block_regexp = '/# BEGIN Adaptive Images.*# END Adaptive Images\n/s';
-        $htaccess_contents_updated = preg_match( $htaccess_rewrite_block_regexp, $htaccess_contents );
-
-        if ( ! $htaccess_available || ! $htaccess_contents_updated ) {
+        if ( ! adaptive_images_actions_is_htaccess_ok() ) {
 
             add_action( 'admin_notices', 'adaptive_images_actions_check_htaccess_ok_message' );
 
@@ -472,7 +501,7 @@
 
 
     /**
-     * Adds the admin notice error that informs the user when the check for the htaccess has failed. It is done via an
+     * Adds the admin notice error that informs the user when the check for the .htaccess has failed. It is done via an
      * admin notice and not via the settings errors, because in some pages the settings errors are called by the system
      * itself and this results in being called multiple times.
      * 
@@ -489,7 +518,7 @@
         echo 
             '<div class = "error settings-error notice is-dismissible adaptive-images-settings-error">' .
                 '<p>' . 
-                    'Adaptive Images Error &mdash; Htaccess file not updated' . 
+                    'Adaptive Images Error &mdash; The .htaccess file is not updated' . 
                 '</p>' . 
                 '<hr />' . 
                 '<p>' . 

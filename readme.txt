@@ -6,7 +6,7 @@ Donate link: http://www.nevma.gr/
 Tags: adaptive images, responsive images, mobile images, mobile, images, resize, optimize, downsize, wurfl, wit
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 0.3.04
+Stable tag: 0.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,7 +64,7 @@ being resized at all. This is the whole idea: serving each device the image size
    cache for each device.
  - It does not care whether the device is actually mobile or not. It checks the device screen resolution. If you have 
    set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets 
-   mostly themobile ones.
+   mostly the mobile ones.
  - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` folder. 
 
 = Credits = 
@@ -145,6 +145,15 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.3.5 =
+
+ - Allow for default browser cache settings.
+ - More thorough debugging information.
+ - Added diagnostics debugging in the settings page.
+ - Nicer admin area user messages with icons.
+ - Minor fixes here (and there).
+ - Documentation enhancements.
 
 = 0.3.04 =
 
