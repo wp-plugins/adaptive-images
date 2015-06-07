@@ -37,6 +37,8 @@
 
    - Put the stylings in separate CSS files.
 
+   - SVGs?
+
 
 
   Future ideas:

@@ -10,8 +10,8 @@ Stable tag: 0.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adaptive images plugin transparently resizes your website&apos;s images, by device screen size, in order to reduce 
-download times in mobile environments. 
+Adaptive images plugin transparently resizes your images, per device screen size, in order to reduce download times in 
+mobile environments. 
 
 
 
@@ -32,16 +32,6 @@ image size to it.
  3. Provide a totally transparent solution, independant of your code.
  4. Be unaware of the yet-not-finalized `picture` element or `srcset` attribute.
 
-= Default breakpoints =
-
- - 1024px wide screens
- - 640px wide screens
- - 480px wide screens
-
-The plugin takes into account each device in its landscape -that is its largest- orientation, because it cannot 
-predict which one the user will choose to use or when they might switch between orientations. But the overall result 
-remains excellent.
-
 = How to test it = 
 
  1. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
@@ -54,6 +44,16 @@ remains excellent.
 
 Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
 being resized at all. This is the whole idea: serving each device the image sizes which are appropriate for it.
+
+= Default breakpoints =
+
+ - 1024px wide screens
+ - 640px wide screens
+ - 480px wide screens
+
+The plugin takes into account each device in its landscape -that is its largest- orientation, because it cannot 
+predict which one the user will choose to use or when they might switch between orientations. But the overall result 
+remains excellent.
 
  = Stuff to keep in mind = 
 
