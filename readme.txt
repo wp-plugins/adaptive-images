@@ -6,7 +6,7 @@ Donate link: http://www.nevma.gr/
 Tags: adaptive images, responsive images, mobile images, resize images, optimize images, adaptive, responsive, mobile, resize, optimize, images
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 0.3.51
+Stable tag: 0.3.52
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,18 +19,16 @@ mobile environments.
 
 = Adaptive Images Solution =
 
-Resizes and optimizes images delivered to mobile devices, so that the total download time is drastically reduced. It
-wraps and expands the functionality of Adaptive Images http://adaptive-images.com/ for WordPress! It works 
-transparently, as a filter between the device and your website. With a tiny bit of Javascript on the client, it 
-determines the device size and sets a special resolution cookie, so that it can serve an appropriate optimized 
-image size to it.
+Resizes and optimizes images delivered to mobile devices, in a transparent and unobtrusive way, so that the total 
+download time is dramatically reduced. It works as a filter between the device and your WordPress website. It actually 
+works for all types of deveice screen sizes, although it is targeted mostly at mobile environments. 
 
 = Fundamental goals = 
 
  1. Reduce the total download time in mobile devices dramatically.
  2. Work unobtrusively. Enable it and it works. Disable it vanishes.
  3. Provide a totally transparent solution, independant of your code.
- 4. Be unaware of the yet-not-finalized `picture` element or `srcset` attribute.
+ 4. Be agnostic of the yet-not-finalized `picture` element or `srcset` attribute.
 
 = How to test it = 
 
@@ -69,12 +67,13 @@ remains excellent.
 
 = Credits = 
 
- - The plugin uses Adaptive Images http://adaptive-images.com/ adapted for WordPress. So far this functionality is only
-   very slightly changed.
- - It was originally it was based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/ but 
-   now it is a complete rewrite!
+ - It was originally based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/ but right, now 
+   it is a complete rewrite!
+ - Both plugins, WP-Resolutions and this one, take ideas from the Adaptive Images http://adaptive-images.com/ adapted 
+   specifically for WordPress. 
 
-Thanks for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love creative feedback!
+Thanks for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love creative 
+feedback!
 
 
 
@@ -145,6 +144,10 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.3.52 =
+
+ - Documentation stuff.
 
 = 0.3.51 =
 
