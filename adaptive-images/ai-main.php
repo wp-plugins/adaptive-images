@@ -207,10 +207,29 @@
     }
 
     if($extension=='png'){
-      imagealphablending($dst, false);
-      imagesavealpha($dst,true);
-      $transparent = imagecolorallocatealpha($dst, 255, 255, 255, 127);
-      imagefilledrectangle($dst, 0, 0, $new_width, $new_height, $transparent);
+
+      // Nevma -->>
+
+      // OLD
+
+      // imagealphablending($dst, false);
+      // imagesavealpha($dst,true);
+      // $transparent = imagecolorallocatealpha($dst, 255, 255, 255, 127);
+      // imagefilledrectangle($dst, 0, 0, $new_width, $new_height, $transparent);
+
+      // NEW
+
+      // As specified in http://stackoverflow.com/questions/5752514/how-to-convert-png-to-8-bit-png-using-php-gd-library
+      $rbga = imagecolorallocatealpha($dst, 0, 0, 0, 127);
+      imagecolortransparent($dst, $rbga);
+      imagefill($dst, 0, 0, $rbga);
+      imagecopy($dst, $src, 0, 0, 0, 0, $new_width, $new_height);
+      imagetruecolortopalette($dst, false, 255);
+      // imagealphablending($dst, false);
+      imagesavealpha($dst, true);
+
+      // <<-- Nevma 
+      
     }
     
     ImageCopyResampled($dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height); // do the resize in memory

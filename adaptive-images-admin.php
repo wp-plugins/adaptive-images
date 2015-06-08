@@ -543,10 +543,17 @@
 
     function adaptive_images_admin_settings_actions () {
 
+        if ( ! isset( $_GET['action'] ) ) {
+
+            return;
+
+        }
+
+
+
         // Cleanup image cache action.
 
-        if ( isset( $_GET['action'] ) && 
-             $_GET['action'] == 'cleanup-image-cache' && 
+        if ( $_GET['action'] == 'cleanup-image-cache' && 
              wp_verify_nonce( $_GET['_wpnonce'], 'adaptive-images-cleanup-image-cache' ) ) {
 
             $cache_path = adaptive_images_plugin_get_cahe_directory_path();
@@ -572,8 +579,7 @@
 
         // Calculate image cache size action.
 
-        if ( isset( $_GET['action'] ) && 
-             $_GET['action'] == 'calculate-cache-size' && 
+        if ( $_GET['action'] == 'calculate-cache-size' && 
              wp_verify_nonce( $_GET['_wpnonce'], 'adaptive-images-calculate-cache-size' ) ) {
 
             $cache_path = adaptive_images_plugin_get_cahe_directory_path();
