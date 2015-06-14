@@ -1,0 +1,76 @@
+
+
+
+          .================================================================.
+          #                                                                #
+          #                                                                #
+          #                                                                #
+          #               N  O  T  E  S    &    T  O  D  O  S              #
+          #              =====================================             #
+          #                                                                #
+          #                      Nevma (info@nevma.gr)                     #
+          #                                                                #
+          #                                                                #
+          #                                                                #
+          ==================================================================
+
+
+
+  An off-hand todo list: 
+  ======================
+
+   - Some pngs actually become bigger after being resized!
+   - Some way to test the resized images (perhaps a fake cookie or param).
+   - Ask users to rate plugin after x-images have been cached. 
+
+   - WP Multisite
+   - W3 Total Cache
+   - Hyper Cache
+   - WP Super Cache
+   - Autoptimize
+
+   - Add screenshot from GTmetrix.
+   - Cleanup Webpagetest screenshot from WURFL.
+
+   - Ajax calculate image cache size.
+   - Ajax cleanup image cache size.
+
+   - Put the stylings in separate CSS files.
+
+
+
+  Future ideas:
+  =============
+
+   - Admin setting for portrait/landscape width.
+   - Cleanup cache afer some time, to invalidate it.
+   - Cleanup cache if it gets bigger than a given size.
+   - When an image is deleted in the media gallery then its resized versions should be deleted, too.
+   - What if a user actually wants to see the full version of an image, even in a mobile network? 
+   - When breakpoints are changed delete the cache directories of the unused breakpoints.
+   - Redirect directly from htaccess to correct image size when the cookie is already available without PHP.
+   - Define error handler inside ai-main.php http://php.net/manual/en/function.set-error-handler.php.
+   - Send better error images when adaptive images resize does not work. 
+
+
+
+  Plugin needs 3 settings in order to function properly:
+  ======================================================
+
+   1. database options
+   2. htacess file bit
+   3. user settings php
+
+
+
+  Tests cases to check with each version:
+  =======================================
+
+   - Clean install
+   - Deactivate then activate plugin
+   - Older version upgrade
+   - Is GD PHP library available
+   - Is .htaccess available/writeable
+   - Is user settings file available/writeable
+   - Images correctly sent for each breakpoint
+   - Uninstall cleanup
