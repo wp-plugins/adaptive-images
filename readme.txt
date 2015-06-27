@@ -26,8 +26,7 @@ works for all types of deveice screen sizes, although it is targeted mostly at m
 = Fundamental goals = 
 
  1. Reduce the total download time in mobile devices dramatically.
- 2. Work unobtrusively. Enable it and it works. Disable it vanishes.
- 3. Provide a totally transparent solution, independant of your code.
+ 2. Work transparantly and unobtrusively by being independant of your code.
  4. Be agnostic of the yet-not-finalized `picture` element or `srcset` attribute.
 
 = Supported formats =
@@ -35,7 +34,8 @@ works for all types of deveice screen sizes, although it is targeted mostly at m
  - JPEG (adjustable quality)
  - PNG (is transformed to PNG8)
  - GIF (not animated)
- - HiDPI (retina like screens).
+
+HiDPI (high device pixel density/retina) screens are supported.
 
 = Default breakpoints =
 
@@ -77,8 +77,8 @@ and creative feedback!
 
 = Credits = 
 
- - It was originally based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/ but right, now 
-   it is a complete rewrite!
+ - The plugin was originally based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
+   right, now it is a complete rewrite!
  - Both plugins, WP-Resolutions and this one, take ideas from the Adaptive Images http://adaptive-images.com/ adapted 
    specifically for WordPress. 
 
@@ -195,7 +195,8 @@ as intended. We try to minimize the hassle between these versions. This is not e
  - Fixed some edge cases of not being able to serve a resized image by reverting to original image. 
  - More analytical settings page debugging and diagnostics.
  - Added debugging methods in the image cache generation script.
- - Some ocumentation stuff (as always).
+ - Plugin can be configured to respect your default expires headers.
+ - Some documentation stuff (as always).
  - Completely rewritten the script that generates and caches the resized versions of images in order to avoid the GPL 
    vs CC-BY-3.0 licensing incompatibility of the original Adaptive Images script (http://adaptive-images.com/). Plugin 
    is now totally independant and free of any licensing issues.

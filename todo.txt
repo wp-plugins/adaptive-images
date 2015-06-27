@@ -42,25 +42,18 @@
 
      - WP Multisite
      - WP content outside of installation
-
      - WordPress 3.0 and down allow the "+"" character in filenames.
-
      - Delete old Adaptive Images files
      - In "?debug=true" mode, after the "image requested" part, show "image to be send"
      - Use PHP::exec for cache purge and cache size calculation
-
      - Does this plugin work for you? Then say so!
-
      - Resize (crunch) even the original images!
-
      - Upscale images smoothly?
-
      - Responsive image art direction
 
           Default anchors and zoom levels
 
             1. zoom level 1, 2, 3...
-
             2. anchor in image
 
                 ---------------- 
@@ -71,7 +64,13 @@
                 | bl   bc   br |
                 ----------------
 
-            3. breakpoint
+            3. different by breakpoint
+
+          https://usecases.responsiveimages.org/#art-direction/
+          http://davidwalsh.name/responsive-images/
+          https://developers.google.com/web/fundamentals/media/images/images-in-markup/
+          https://css-tricks.com/which-responsive-images-solution-should-you-use/
+          http://www.smashingmagazine.com/2013/07/08/choosing-a-responsive-image-solution/
 
 
 
@@ -130,15 +129,6 @@
 
       - Add screenshot from GTmetrix.
       - Cleanup WURFL screenshots.
-      - Say that it respects your expires headers.
-      - Say it supports HiDPI screens.
-      - Warn that it tampers with one's .htaccess file.
-      - Warn that it handles all the images you tell it to, and bypasses WordPress.
-      - Say that it does NOT load the WordPress environment when caching and sending resized images. This makes it a lot
-        lighter and implementation agnostic. However it does pose certain restrictions because the script cannot really
-        communicate with WordPress.
-      - How to debug from Chrome Developer Tools (choose a device or a screen size, then open the website in order for 
-        the cookie to be set, then look at an image).
       - What-could-go-wrong section for usual problems users have.
       - A website!
 
@@ -148,8 +138,8 @@
     ====
 
       - https://wordpress.org/plugins/ricg-responsive-images/
-      - WURFL
       - https://wordpress.org/plugins/responsify-wp/
+      - WURFL
 
 
 ########################################################################################################################
