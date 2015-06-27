@@ -6,7 +6,7 @@ Donate link: http://www.nevma.gr/
 Tags: adaptive images, responsive images, mobile images, resize images, optimize images, adaptive, responsive, mobile, resize, optimize, images
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 0.3.52
+Stable tag: 0.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,16 +32,28 @@ works for all types of deveice screen sizes, although it is targeted mostly at m
 
 = How to test it = 
 
- 1. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
+ 1. Test with Chrome Canary&apos;s device emulation mode in Developer Tools. Firefox&apos;s Responsive Design Mode does 
+    not emulate a mobile screen size!
+ 2. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
     setting in the "Advanced Settings" > "Chrome" tab. 
- 2. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing. The plugin will 
+ 3. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing. The plugin will 
     have no effect on desktop sized devices.
- 3. Check in the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is 
-    where the resized images are kept and cached by default.
  4. Test with an actual mobile device, a smartphone or tablet. Watch your website load in a snap.
+ 5. Check in the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is where 
+    the resized images are kept and cached by default.
 
 Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
 being resized at all. This is the whole idea: serving each device the image sizes which are appropriate for it.
+
+= Supported formats =
+
+ - JPEG (adjustable quality)
+ - PNG (is transformed to PNG8)
+ - GIF (not animated)
+
+Also:
+
+ - Supports HiDPI (high resolution, retina, high device pixel ratio) screens.
 
 = Default breakpoints =
 
@@ -63,7 +75,7 @@ remains excellent.
  - It does not care whether the device is actually mobile or not. It checks the device screen resolution. If you have 
    set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets 
    mostly the mobile ones.
- - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` folder. 
+ - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` directory. 
 
 = Credits = 
 
@@ -87,6 +99,21 @@ feedback!
  4. De-activate the plugin to disable it.
  4. Activate the plugin to enable it.
 
+= Debugging =
+
+ 1. Hit the &quot;Print debug info&quot; button in the plugin settings page and check the output.
+ 2. Hit the &quot;Print diagnostics&quot; button in the plugin settings page and check the output.
+ 3. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
+    &quot;http://www.website.com/wp-content/uploads/2015/01/image.jpg?debug=true&quot;. This should print useful debug
+    information about the plugin functions in your installation. If you keep seeing your image then the plugin is not
+    working and the cause is probably the failure to update the .htaccess file properly.
+
+= Incompatibilities =
+
+ 1. Does not support WordPress Multisite (^μ or MU) yet.
+ 2. Supports Nginx but it must be manually configured.
+ 3. Cannot work with installations where the /wp-content directory is not in its default position, which is inside the 
+    root directory of the WordPress installation.
 
 
 == Frequently Asked Questions ==
@@ -101,8 +128,9 @@ maintaining it. Many under the hood changes have taken place, but the overall fu
 = Is this plugin heavy? =
 
 Well, not much really. The image resizing process is not computationally negligible, but the images are only resized 
-when they are first requested and then they are cached. However, the images in the watched directories (the ones the 
-plugin is responsible for resizing) are ultimately delivered by a PHP script and not a generic Apache process. 
+when they are first requested and then they are cached. However, it must be noted that the images in the watched 
+directories, the ones the plugin is responsible for resizing and delivering, are ultimately delivered by a PHP script 
+and not a generic server process! 
 
 = Can it work with a CDN/Varnish? =
 
@@ -129,12 +157,18 @@ you have done art direction on them.
 
 == Upgrade Notice ==
 
+= 0.5.0 =
+
+It is recommended, but not absolutely necessary, to save ones settings anew, due to the big change in the image 
+resizing script, which was completely re-written, renamed and relocated inside the plugin&apos;s directories since this 
+version. 
+
 = 0.3.0 =
 
 Upgrading to version 0.3.0 you may need to:
 
- - Save settings fresh. If you do not then the plugin will operate with its current default settings without problems
-   as it is expected.
+ - Save settings anew. If you do not then the plugin will operate with its current default settings without problems as 
+   it is expected.
  - Manually delete the old image cache directory `/wp-content/cache-ai`. The new default image cache directory is
    `/wp-content/cache/adaptive-images`.
 
@@ -144,6 +178,26 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.5.0 =
+
+ - New option in settings to define whether the plugin should use the bigger dimension of a device as its with or take 
+   into account the current orientation. Up to now the plugin used the width of the landscape orientation, which is the 
+   biggest of each device&apos;s dimensions.
+ - New option in settings to define whether the plugin should use take special care for HiDPI (retina, high pixel 
+   density screens and serve these devices better quality images according to their pixel density.
+ - Better PNG compression via PNG8. This converts true color PNG images to palette image, which reduces colours and the 
+   alpha channel Kudos http://stackoverflow.com/questions/5752514/how-to-convert-png-to-8-bit-png-using-php-gd-library/.
+ - Fixed some edge cases of not being able to serve a resized image by reverting to original image. 
+ - More analytical settings page debugging and diagnostics.
+ - Added debugging methods in the image cache generation script.
+ - Some ocumentation stuff (as always).
+ - Completely rewritten the script that generates and caches the resized versions of images in order to avoid the GPL 
+   vs CC-BY-3.0 licensing incompatibility of the original Adaptive Images script (http://adaptive-images.com/). Plugin 
+   is now totally independant and free of any licensing issues.
+ - Due to the above, the image resizing script is no longer the same, it has been transformed to a new script, named 
+   `adaptive-images-script.php` which is in the root folder of the plugin. However the old script is still left inside 
+   the plugin folders for compatibility purposes (old versions and users not having saved their settings anew).
 
 = 0.3.52 =
 

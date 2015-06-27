@@ -28,7 +28,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_show_admin_css () { ?>
@@ -52,7 +52,7 @@
      * 
      * @param array $links The plugin links array in the plugins listing page.
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_add_plugin_settings_link ( $links ) {
@@ -72,7 +72,7 @@
      * 
      * @param array $links The plugin links array in the plugins listing page.
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_add_row_meta ( $links, $file ) {
@@ -97,7 +97,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_add_options_page () {
@@ -127,7 +127,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_register_settings () {
@@ -161,6 +161,26 @@
            'adaptive_images_admin_resolutions_field_print', // print function callback
            'adaptive-images',                               // plugin page
            'adaptive-images-settings'                       // section
+        );
+
+        // Adds the adaptive images landscape field.
+
+        add_settings_field( 
+           'orientation',                                 // id
+           'Bigger dimension',                            // title 
+           'adaptive_images_admin_landscape_field_print', // print function callback
+           'adaptive-images',                             // plugin page
+           'adaptive-images-settings'                     // section
+        );
+
+        // Adds the adaptive images hidpi field.
+
+        add_settings_field( 
+           'hidpi',                                   // id
+           'HiDPI support',                           // title 
+           'adaptive_images_admin_hidpi_field_print', // print function callback
+           'adaptive-images',                         // plugin page
+           'adaptive-images-settings'                 // section
         );
 
         // Adds the adaptive images cache directory field.
@@ -232,7 +252,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_resolutions_field_print () {
@@ -250,11 +270,69 @@
 
 
     /**
+     * Prints the landscape settings field.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void
+     */
+
+    function adaptive_images_admin_landscape_field_print ()   {
+
+        $options = get_option( 'adaptive-images' ); 
+
+        adaptive_images_plugin_check_empty_setting( $options, 'landscape' ); ?>
+
+        <label for = "adaptive-images[landscape]">
+            
+            <input type = "checkbox" id = "adaptive-images[landscape]" name = "adaptive-images[landscape]" <?php echo $options['landscape'] ? 'checked = "checked"' : ''; ?> /> 
+
+            Check if plugin should resize images according to the landscape device orientation.
+
+        </label> <?php
+
+    }
+
+
+
+    /**
+     * Prints the hidpi settings field.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void
+     */
+
+    function adaptive_images_admin_hidpi_field_print ()   {
+
+        $options = get_option( 'adaptive-images' ); 
+
+        adaptive_images_plugin_check_empty_setting( $options, 'hidpi' ); ?>
+
+        <label for = "adaptive-images[hidpi]">
+            
+            <input type = "checkbox" id = "adaptive-images[hidpi]" name = "adaptive-images[hidpi]" <?php echo $options['hidpi'] ? 'checked = "checked"' : ''; ?> /> 
+
+            Check if plugin should try to show higher resolution images to HiDPI (retina) screens.
+            
+            <br /><br />
+            
+            <small>
+                Provides better image quality for HiDPI (retina) screen devices, but sends them bigger file sizes. 
+            </small>
+
+        </label> <?php
+
+    }
+
+
+
+    /**
      * Prints the cache directory settings field.
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_cache_directory_field_print () {
@@ -266,6 +344,7 @@
         <input type = "text" id = "adaptive-images[cache-directory]" name = "adaptive-images[cache-directory]" value = "<?php echo $options['cache-directory']; ?>" size = "25" /> 
         
         Directory inside /wp-content to store the image cache. 
+
         <br /><br />
 
         <small>
@@ -285,7 +364,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_watched_directories_field_print () {
@@ -298,7 +377,9 @@
 
         <br /><br />
 
-        <small>Directories to watch for images to resize and adapt for mobile devices. Has to be relative paths inside your installation.</small> <?php
+        <small>
+            Directories to watch for images to resize for mobile devices. Has to be relative paths inside your WordPress installation.
+        </small> <?php
 
     }
 
@@ -309,7 +390,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_jpeg_quality_field_print () {
@@ -337,7 +418,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_sharpen_images_field_print () {
@@ -363,7 +444,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_watch_cache_field_print () {
@@ -389,7 +470,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_browser_cache_field_print () {
@@ -427,7 +508,7 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return void
      */
 
     function adaptive_images_admin_options_page_print () {  ?>
@@ -650,7 +731,7 @@
 
         // To avoid the bug of sanitizing twice the first time the option is created.
 
-        if ( $data['sanitized'] ) {
+        if ( isset( $data['sanitized'] ) && $data['sanitized'] ) {
 
             return $data;
 
@@ -664,7 +745,7 @@
 
 
 
-        // Resolutions array validation.
+        // Resolutions field array validation.
 
         $resolutions = trim( $data['resolutions'] );
         $resolutions_array = explode( ',', $resolutions );
@@ -697,7 +778,27 @@
 
 
 
-        // Cache directory validation.
+        // Landscape field validation.
+
+        $landscape = isset( $data['landscape'] ) && $data['landscape'] == 'on' ? TRUE : FALSE;
+
+        $data['landscape'] = $landscape;
+
+        adaptive_images_plugin_check_empty_setting( $data, 'landscape' );
+
+
+
+        // Hidpi field validation.
+
+        $hidpi = isset( $data['hidpi'] ) && $data['hidpi'] == 'on' ? TRUE : FALSE;
+
+        $data['hidpi'] = $hidpi;
+
+        adaptive_images_plugin_check_empty_setting( $data, 'hidpi' );
+
+
+
+        // Cache field directory validation.
 
         $cache_directory = trim( $data['cache-directory'] );
         $cache_directory = preg_replace( '/[^a-zA-Z\d-_\/]+/i', '', $cache_directory );
@@ -716,7 +817,7 @@
 
 
 
-        // Watched directories validation.
+        // Watched field directories validation.
 
         $watched_directories_string = trim( $data['watched-directories'] );
         $watched_directories_array = explode( "\n", $watched_directories_string );
@@ -742,7 +843,7 @@
 
 
 
-        // JPEG quality validation.
+        // JPEG quality field validation.
 
         $jpeg_quality = intval( $data['jpeg-quality'] );
 
@@ -757,9 +858,9 @@
 
 
 
-        // Sharpen validation.
+        // Sharpen field validation.
 
-        $sharpen_images = isset( $data['sharpen-images'] ) ? $data['sharpen-images'] == 'on' : $defaults['sharpen-images'];
+        $sharpen_images = isset( $data['sharpen-images'] ) && $data['sharpen-images'] == 'on' ? TRUE : FALSE;
 
         $data['sharpen-images'] = $sharpen_images;
 
@@ -768,9 +869,9 @@
 
 
 
-        // Watch cache validation.
+        // Watch cache field validation.
 
-        $watch_cache = isset( $data['watch-cache'] ) ? $data['watch-cache'] == 'on' : $defaults['watch-cache'];
+        $watch_cache = isset( $data['watch-cache'] ) && $data['watch-cache'] == 'on' ? TRUE : FALSE;
 
         $data['watch-cache'] = $watch_cache;
 
@@ -778,11 +879,9 @@
 
 
 
-        // Browser cache validation.
+        // Browser cache field validation.
 
         $browser_cache = floatval( $data['browser-cache'] );
-
-        // nwda_pre_var_dump( $browser_cache < 0 );
 
         if ( $browser_cache < 0  ) {
 
@@ -808,8 +907,7 @@
 
         // Notify user appropriately.
 
-        $message = 
-            'Adaptive Images &mdash; Settings updated. <hr /> <p>The settings have been saved in the database.</p>';
+        $message = 'Adaptive Images &mdash; Settings updated. <hr /> <p>The settings have been saved in the database.</p>';
 
 
 
@@ -876,6 +974,8 @@
 
 
 
+        // Inform user accordingly. 
+        
         add_settings_error( 
            'adaptive-images-settings', 
            'adaptive-images-settings-error', 

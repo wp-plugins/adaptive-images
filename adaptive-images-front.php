@@ -30,15 +30,31 @@
      * 
      * @author Nevma (info@nevma.gr)
      * 
-     * @return Nothing really!
+     * @return voidNothing really!
      */
 
-    function adaptive_images_front_head_cookie_javascript () { ?>
+    function adaptive_images_front_head_cookie_javascript () { 
+
+        $options = get_option( 'adaptive-images' ); ?>
 
         <!--noptimize-->
         <script type = "text/javascript">
 
-            document.cookie = 'resolution=' + Math.max( screen.width, screen.height ) + '; path=/';
+            // Set Adaptive Images Wordpress plugin cookie.
+            
+            <?php if ( $options['landscape'] ) : ?>
+
+                var screen_width = Math.max( screen.width, screen.height );
+
+            <?php else : ?>
+
+                var screen_width = screen.width;
+
+            <?php endif; ?>
+
+            var devicePixelRatio = window.devicePixelRatio ? window.devicePixelRatio : 1;
+
+            document.cookie = 'resolution=' + screen_width + ',' + devicePixelRatio + '; path=/';
 
         </script> 
         <!--/noptimize--> <?php

@@ -35,6 +35,8 @@
 
         return array(
             'resolutions'         => array( 1024, 640, 480 ),
+            'landscape'           => TRUE,
+            'hidpi'               => FALSE,
             'cache-directory'     => 'cache/adaptive-images',
             'watched-directories' => array( 'wp-content/uploads', 'wp-content/themes' ),
             'jpeg-quality'        => 65,
@@ -220,6 +222,7 @@
 
     function adaptive_images_plugin_get_user_settings_file_path () {
 
+        return plugin_dir_path( __FILE__ ) . 'user-settings.php';
         return plugin_dir_path( __FILE__ ) . 'adaptive-images/ai-user-settings.php';
 
     }
@@ -385,6 +388,22 @@
      */
 
     function adaptive_images_plugin_dir_size ( $dir ) {
+
+        // var_dump( $dir );
+        // echo '<hr />';
+
+        // $result = exec( 'du -hcs ' . $dir, $output, $code );
+
+        // var_dump( $result ); // ==> empty when not done, echoes "3.5M Total" when done
+        // echo '<hr />';
+        // var_dump( $output ); // ==> empty when not done, holds lines of command output when done
+        // echo '<hr />';
+        // var_dump( $code );   // ==> 0 when command executed successfully, 1 when not
+        // echo '<hr />';
+
+        // return;
+
+
 
         // Keep count of recursively accessed files.
 

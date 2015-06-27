@@ -1,4 +1,21 @@
 <?php
+  /*********************************************************************************************************************
+
+      MESSAGE FROM THE PLUGIN AUTHOR
+      ==============================
+
+      THIS SCRIPT IS NOT !!! USED IN THE CURRENT VERSIONS OF THE PLUGIN.
+      IT IS KEPT HERE AS A COMPATIBILITY MODE FOR USERS WHO HAVE VERSIONS PRIOR TO 0.5.0.
+      SINCE VERSION 0.5.0 THE PLUGIN DOES NOT USE THIS SCRIPT AT ALL.
+      THE REASON IS THE CC-BY-3.0 TO GPL INCOMPATIBILITY.
+
+      NEVMA
+      =====
+
+   ********************************************************************************************************************/
+
+
+
   /* 
     PROJECT INFO
     Version   : 1.5.2
@@ -59,6 +76,86 @@
   $requested_file = basename($requested_uri);
   $source_file    = $_SERVER['DOCUMENT_ROOT'].$requested_uri;
   $resolution     = FALSE;
+
+
+
+  // Nevma -->>
+
+  // Debugging information.
+
+  if ( isset( $_GET['debug'] ) ) {
+
+    if ( $_GET['debug'] == 'true' ) {
+
+      $image_info = @GetImageSize( $source_file );
+
+      header("Content-Type: text/plain" ); ?>
+
+
+
+                                    ADAPTIVE IMAGES DEBUG
+
+
+
+      #######################################################################################
+
+
+
+      Script status
+      =============
+
+      Seeing this means the plugin is running and that the .htaccess is setup alright!
+
+      Cookie         : <?php echo $_COOKIE['resolution']; ?> 
+      Cache writable : <?php echo is_writable( $document_root . '/' . $cache_dir ) ? 'YES' : 'NO'; ?> 
+
+
+
+      User settings
+      =============
+
+      $resolutions   : <?php echo implode( ',', $resolutions ); ?> 
+      $cache_dir     : <?php echo $cache_dir; ?> 
+      $jpg_quality   : <?php echo $jpg_quality; ?> 
+      $sharpen       : <?php echo $sharpen ? 'TRUE' : 'FALSE'; ?> 
+      $watch_cache   : <?php echo $watch_cache ? 'TRUE' : 'FALSE'; ?> 
+      $browser_cache : <?php echo $browser_cache; ?> 
+
+
+
+      Image requested
+      ===============
+
+      Image      : <?php echo $requested_uri; ?> 
+      Exists     : <?php echo file_exists( $source_file ) ? 'YES' : 'NO' ?> 
+      Mime       : <?php echo file_exists( $source_file ) ? $image_info['mime'] : '-'; ?> 
+      Dimensions : <?php echo file_exists( $source_file ) ? $image_info[0] . 'x' . $image_info[1] : '-'; ?> 
+      Size       : <?php echo file_exists( $source_file ) ? filesize( $source_file ) : '-'; ?> 
+
+
+
+      ---------------------------------------------------------------------------------------
+
+      You are viewing this page instead of the image you requested.
+      This is part of the debugging facilities of the Adaptive Images plugin.
+      Just remove the "?debug=true" part in your url above in order to simply see your image. 
+      Add a "?debug=original" to see the original image before being resized. <?php 
+
+      exit();
+
+    } elseif ( $_GET['debug'] == 'original' ) {
+
+      sendImage( $source_file, $browser_cache );
+
+      exit();
+
+    }
+
+  }
+
+  // <<-- Nevma 
+
+
 
   /* Mobile detection 
      NOTE: only used in the event a cookie isn't available. */

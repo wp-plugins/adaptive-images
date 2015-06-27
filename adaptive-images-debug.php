@@ -174,59 +174,41 @@
 
         $debug = array();
 
-        if ( function_exists( 'phpversion' ) ) {
-
-            $debug['PHP'] = esc_html( phpversion() );
-
-        }
-
-        $debug['MySQL'] = esc_html( 
-            empty( $wpdb->use_mysqli ) ? 
-                mysql_get_server_info() : 
-                mysqli_get_server_info( $wpdb->dbh ) 
-        );
-
-        $debug['WordPress']           = get_bloginfo( 'version' );
-        $debug['Multisite']           = ( is_multisite() ) ? 'Yes' : 'No';
-        $debug['Debug Mode']          = esc_html( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No' );
-        $debug['Table Prefix']        = esc_html( $table_prefix );
         $debug['Web Server']          = esc_html( $_SERVER['SERVER_SOFTWARE']  );
-        $debug['Site url']            = esc_html( site_url() );
-        $debug['Home url']            = esc_html( home_url() );
-        $debug['Permalinks']          = esc_html( get_option( 'permalink_structure' ) );
-        $debug['PHP Error Log']       = esc_html( ini_get( 'error_log' ) );
-        $debug['Ext/mysqli']          = empty( $wpdb->use_mysqli ) ? 'No' : 'Yes';
-        $debug['WP Locale']           = esc_html( get_locale() );
-        $debug['DB Charset']          = esc_html( DB_CHARSET );
+        $debug['PHP']                 = esc_html( phpversion() );
         $debug['PHP Time Limit']      = esc_html( ini_get( 'max_execution_time' ) );
-        $debug['WP Memory Limit']     = esc_html( WP_MEMORY_LIMIT );
         $debug['PHP Memory Limit']    = esc_html( ini_get( 'memory_limit' ) );
-        $debug['WP Max Upload Size']  = esc_html( adaptive_images_plugin_file_size_human( wp_max_upload_size() ) );
         $debug['PHP Post Max Size']   = esc_html( ini_get( 'post_max_size' ) );
         $debug['PHP Upload Max Size'] = esc_html( ini_get( 'upload_max_filesize' ) );
         $debug['PHP Max Input Vars']  = esc_html( ini_get( 'max_input_vars' ) );
         $debug['PHP Display Errors']  = esc_html( ini_get( 'display_errors' ) );
-
+        $debug['PHP Error Log']       = esc_html( ini_get( 'error_log' ) );
         if ( $suhosin_limit = ini_get( 'suhosin.post.max_value_length' ) ) {
-
-            $debug['Suhosin Post Max Value'] = 
-                esc_html( is_numeric( $suhosin_limit ) ? 
-                    size_format( $suhosin_limit ) : 
-                    $suhosin_limit 
-                );
-
+            $debug['Suhosin Post Max Value'] = esc_html( $suhosin_limit );
         }
-
         if ( $suhosin_limit = ini_get( 'suhosin.request.max_value_length' ) ) {
-
-            $debug['Suhosin Request Max Value'] = 
-                esc_html( is_numeric( $suhosin_limit ) ? 
-                    size_format( $suhosin_limit ) : 
-                    $suhosin_limit 
-                );
-
+            $debug['Suhosin Request Max Value'] = esc_html( $suhosin_limit );
         }
-
+        $debug['MySQL'] = esc_html( empty( $wpdb->use_mysqli ) ? 
+            mysql_get_server_info() : 
+            mysqli_get_server_info( $wpdb->dbh ) 
+        );
+        $debug['MySQL Ext/mysqli']    = empty( $wpdb->use_mysqli ) ? 'No' : 'Yes';
+        $debug['MySQL Table Prefix']  = esc_html( $table_prefix );
+        $debug['MySQL DB Charset']    = esc_html( DB_CHARSET );
+        $debug['WordPress']           = get_bloginfo( 'version' );
+        $debug['WP Multisite']        = ( is_multisite() ) ? 'Yes' : 'No';
+        $debug['WP Debug Mode']       = esc_html( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No' );
+        $debug['WP Site url']         = esc_html( site_url() );
+        $debug['WP WP Home url']      = esc_html( home_url() );
+        $debug['WP Permalinks']       = esc_html( get_option( 'permalink_structure' ) );
+        $debug['WP content dir']      = esc_html( WP_CONTENT_DIR );
+        $debug['WP content url']      = esc_html( WP_CONTENT_URL );
+        $debug['WP plugin dir']       = esc_html( WP_PLUGIN_DIR );
+        $debug['WP plugin url']       = esc_html( WP_PLUGIN_URL );
+        $debug['WP Locale']           = esc_html( get_locale() );
+        $debug['WP Memory Limit']     = esc_html( WP_MEMORY_LIMIT );
+        $debug['WP Max Upload Size']  = esc_html( adaptive_images_plugin_file_size_human( wp_max_upload_size() ) );
 
 
 
@@ -248,7 +230,7 @@
 
         }
 
-        $debug['Active plugins'] = $active_plugins_output;
+        $debug['WP Active plugins'] = $active_plugins_output;
 
 
 
@@ -269,7 +251,7 @@
                     '<br />';
             }
 
-            $debug['Network active plugins'] = $active_plugins_output;
+            $debug['WP Network active plugins'] = $active_plugins_output;
 
         }
 
@@ -293,13 +275,13 @@
                     '<br />';
             }
 
-            $debug['MU plugins'] = $active_plugins_output;
+            $debug['WP MU plugins'] = $active_plugins_output;
 
         }
 
 
 
-        // Create diagnostic output.
+        // Create diagnostic output HTML table.
 
         $debug_output = '<table><tbody>';
 

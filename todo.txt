@@ -16,61 +16,165 @@
 
 
 
-  An off-hand todo list: 
-  ======================
+  An off-hand todo list
+  =====================
 
-   - PNGs
+  http://www.smashingmagazine.com/2015/06/25/efficient-image-resizing-with-imagemagick/
 
-      - Remove alpha
-      - Transform to JPEG
-      - Add these as settings?
+  I found that slightly different -unsharp settings work better 
+  (
+    -unsharp 0.25x0.08+8.3+0.045 versus 
+    -unsharp 0.25x0.25+8+0.065 without optimization
+  )
+  and that there’s no need to use -strip.
 
-   - Debuging
 
-      - Debug info
-      - Diagnostics info
-      - Image header bit
-      - Url parameter to image
 
-   - WP Multisite
+    Features
+    ========
 
-   - Compatibility
+     - Settings
+
+         - Allow debug
+         - Types of images to handle
+         - Transform PNGs to PNG8
+         - Exceptions for certain images
+
+     - WP Multisite
+     - WP content outside of installation
+
+     - WordPress 3.0 and down allow the "+"" character in filenames.
+
+     - Delete old Adaptive Images files
+     - In "?debug=true" mode, after the "image requested" part, show "image to be send"
+     - Use PHP::exec for cache purge and cache size calculation
+
+     - Does this plugin work for you? Then say so!
+
+     - Resize (crunch) even the original images!
+
+     - Responsive image art direction
+
+          Default anchors and zoom levels
+
+            1. zoom level 1, 2, 3...
+
+            2. anchor in image
+
+                ---------------- 
+                | tl   tc   tr |
+                |              |
+                | ml   mc   mr |
+                |              |
+                | bl   bc   br |
+                ----------------
+
+            3. breakpoint
+
+
+
+    Benchmarks
+    ==========
+
+      - Image generation
+      - Cache calculation
+      - Cache purge
+
+
+
+    Compatibility
+    =============
 
       - W3 Total Cache
-      - Hyper Cache
       - WP Super Cache
-      - Autoptimize
-      - NginX?
+      - NginX
 
-   - Add screenshot from GTmetrix.
-   - Cleanup Webpagetest screenshot from WURFL.
+          location assets {
+          }
+            
+          location ai-cache { ==> *** THE CACHE DIR ***
+          }
+            
+          location / {
+            rewrite \.(?:jpe?g|gif|png)$ /adaptive-images.php; ==> *** THE PHP SCRIPT ***
+          }
 
+      - Varnish
+        Pressidium for configuration
+      - SSL (Jonas Tietgen)
+        The problem seemed to be wrong settings for my SSL certificate. I installed the plugin WordPress HTTPS and now 
+        everything works fine. I guess the problem was that the file was loaded via http instead of https...
+
+
+
+    Unit tests for image generation
+    ===============================
+
+      - PNG
+      - PNG8
+      - PNG256
+      - PNG with alpha
+      - PNG with trasparency
+      - GIF
+      - GIF with trasparency
+      - JPEG
+
+      (Compare with services like TinyPNG, etc.)
+
+
+
+    Documentation
+    =============
+
+      - Add screenshot from GTmetrix.
+      - Cleanup WURFL screenshots.
+      - Say that it respects your expires headers.
+      - Say it supports HiDPI screens.
+      - Warn that it tampers with one's .htaccess file.
+      - Warn that it handles all the images you tell it to, and bypasses WordPress.
+      - Say that it does NOT load the WordPress environment when caching and sending resized images. This makes it a lot
+        lighter and implementation agnostic. However it does pose certain restrictions because the script cannot really
+        communicate with WordPress.
+      - How to debug from Chrome Developer Tools (choose a device or a screen size, then open the website in order for 
+        the cookie to be set, then look at an image).
+      - What-could-go-wrong section for usual problems users have.
+      - A website!
+
+
+
+    Also
+    ====
+
+      - https://wordpress.org/plugins/ricg-responsive-images/
+      - WURFL
+      - https://wordpress.org/plugins/responsify-wp/
+
+
+########################################################################################################################
+
+
+
+  Future ideas
+  ============
+
+   - Put the stylings in separate CSS files.
    - Ask users to rate plugin after x-images have been cached. 
    - Ajax calculate image cache size.
    - Ajax cleanup image cache size.
-   - Put the stylings in separate CSS files.
-
-
-
-  Future ideas:
-  =============
-
-   - Admin setting for portrait/landscape width.
-   - Some way to test the resized images (perhaps a fake cookie or param).
-   - Cleanup cache afer some time, to invalidate it.
-   - Cleanup cache if it gets bigger than a given size.
+   - Report all folders and files in cache.
+   - Per image cache purge.
+   - Purge image cache beyond a size.
+   - Per breakpoint cache purge.
    - Notify about cache size in WP cron, in WP admin, perhaps an email to the admin.
-   - When an image is deleted in the media gallery then its resized versions should be deleted, too.
    - What if a user actually wants to see the full version of an image, even in a mobile network? 
+   - When an image is deleted in the media gallery then its resized versions should be deleted, too.
    - When breakpoints are changed delete the cache directories of the unused breakpoints to clean up.
-   - Define error handler inside ai-main.php http://php.net/manual/en/function.set-error-handler.php.
-   - Send better error images when adaptive images resize does not work. 
    - Original adaptive images PHP script error log is output inside the plugin files.
 
 
 
-  Plugin needs 3 settings in order to function properly:
-  ======================================================
+  Plugin needs 3 settings in order to function properly
+  =====================================================
 
    1. database options set
    2. htacess file bit inserted
@@ -78,8 +182,8 @@
 
 
 
-  Tests cases to check with each version:
-  =======================================
+  Test cases to check with each version
+  =====================================
 
    - Clean install
    - Deactivate then activate
@@ -88,3 +192,11 @@
    - Print debug info 
    - Images correctly sent for each breakpoint
    - Uninstall cleanup
+
+   - Images
+
+     - JPG
+     - GIF
+     - GIF with transparency
+     - PNG
+     - PNG with transparency

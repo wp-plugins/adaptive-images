@@ -79,7 +79,7 @@
 
     // Adds the action which checks for plugin upgrades.
 
-    add_action( 'admin_head', 'adaptive_images_upgrade_plugin_upgraded' );
+    add_action( 'admin_head', 'adaptive_images_upgrade_action_upgraded' );
 
     // Adds the action which checks the PHP GD image library availability.
 
