@@ -64,7 +64,10 @@
                 | bl   bc   br |
                 ----------------
 
-            3. different by breakpoint
+            3. different aspect ratio/dimensions
+
+                - by breakpoint
+                - by orientation
 
           https://usecases.responsiveimages.org/#art-direction/
           http://davidwalsh.name/responsive-images/

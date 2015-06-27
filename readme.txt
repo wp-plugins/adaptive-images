@@ -57,6 +57,10 @@ portrait orientation of each device.
  4. Test with an actual mobile device, a smartphone or tablet. Watch your website load in a snap.
  5. Check in the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is where 
     the resized images are kept and cached by default.
+ 6. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
+    &quot;http://www.website.com/wp-content/uploads/2015/01/image.jpg?debug=true&quot;. This should print useful debug
+    information about the plugin functions in your installation. If you keep seeing your image, then the plugin is not
+    working and the cause is probably the failure to update the .htaccess file properly.
 
 You may test with a normal desktop browser but only of the computer screen size falls under at least on of the 
 specified breakpoints!
@@ -72,15 +76,15 @@ specified breakpoints!
    you have set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets mostly the mobile ones.
  - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` directory. 
 
-Thank you for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love comments 
-and creative feedback!
-
 = Credits = 
 
  - The plugin was originally based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
    right, now it is a complete rewrite!
  - Both plugins, WP-Resolutions and this one, take ideas from the Adaptive Images http://adaptive-images.com/ adapted 
    specifically for WordPress. 
+
+Thank you for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love comments 
+and creative feedback!
 
 
 
@@ -99,10 +103,6 @@ The plugin should simply work! De-activate the plugin to disable it. Activate th
  1. See the &quot;How to test&quot; paragraph in the &quot;Description&quot; tab.
  2. Hit the &quot;Print debug info&quot; button in the plugin settings page and check the output.
  3. Hit the &quot;Print diagnostics&quot; button in the plugin settings page and check the output.
- 4. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
-    &quot;http://www.website.com/wp-content/uploads/2015/01/image.jpg?debug=true&quot;. This should print useful debug
-    information about the plugin functions in your installation. If you keep seeing your image then the plugin is not
-    working and the cause is probably the failure to update the .htaccess file properly.
 
 = Incompatibilities =
 
