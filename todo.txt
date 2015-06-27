@@ -130,8 +130,6 @@
     Documentation
     =============
 
-      - Add screenshot from GTmetrix.
-      - Cleanup WURFL screenshots.
       - What-could-go-wrong section for usual problems users have.
       - A website!
 
