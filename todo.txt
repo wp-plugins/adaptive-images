@@ -53,6 +53,8 @@
 
      - Resize (crunch) even the original images!
 
+     - Upscale images smoothly?
+
      - Responsive image art direction
 
           Default anchors and zoom levels

@@ -30,7 +30,23 @@ works for all types of deveice screen sizes, although it is targeted mostly at m
  3. Provide a totally transparent solution, independant of your code.
  4. Be agnostic of the yet-not-finalized `picture` element or `srcset` attribute.
 
-= How to test it = 
+= Supported formats =
+
+ - JPEG (adjustable quality)
+ - PNG (is transformed to PNG8)
+ - GIF (not animated)
+ - HiDPI (high device pixel ratio screens).
+
+= Default breakpoints =
+
+ - 1024px wide screens
+ - 640px wide screens
+ - 480px wide screens
+
+Since version 0.5.0 and upwards it is configurable whether the plugin should take into account the landscape or the 
+portrait orientation of each device.
+
+= How to test = 
 
  1. Test with Chrome Canary&apos;s device emulation mode in Developer Tools. Firefox&apos;s Responsive Design Mode does 
     not emulate a mobile screen size!
@@ -45,26 +61,6 @@ works for all types of deveice screen sizes, although it is targeted mostly at m
 Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
 being resized at all. This is the whole idea: serving each device the image sizes which are appropriate for it.
 
-= Supported formats =
-
- - JPEG (adjustable quality)
- - PNG (is transformed to PNG8)
- - GIF (not animated)
-
-Also:
-
- - Supports HiDPI (high resolution, retina, high device pixel ratio) screens.
-
-= Default breakpoints =
-
- - 1024px wide screens
- - 640px wide screens
- - 480px wide screens
-
-The plugin takes into account each device in its landscape -that is its largest- orientation, because it cannot 
-predict which one the user will choose to use or when they might switch between orientations. But the overall result 
-remains excellent.
-
  = Stuff to keep in mind = 
 
  - The plugin needs to add a little bit of code to your `.htaccess` file in order to function properly. It removes 
@@ -77,15 +73,15 @@ remains excellent.
    mostly the mobile ones.
  - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` directory. 
 
+Thank you for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love comments 
+and creative feedback!
+
 = Credits = 
 
  - It was originally based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/ but right, now 
    it is a complete rewrite!
  - Both plugins, WP-Resolutions and this one, take ideas from the Adaptive Images http://adaptive-images.com/ adapted 
    specifically for WordPress. 
-
-Thanks for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love creative 
-feedback!
 
 
 
@@ -101,9 +97,10 @@ feedback!
 
 = Debugging =
 
- 1. Hit the &quot;Print debug info&quot; button in the plugin settings page and check the output.
- 2. Hit the &quot;Print diagnostics&quot; button in the plugin settings page and check the output.
- 3. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
+ 1. See the &quot;How to test&quot; paragraph in the &quot;Description&quot; tab.
+ 2. Hit the &quot;Print debug info&quot; button in the plugin settings page and check the output.
+ 3. Hit the &quot;Print diagnostics&quot; button in the plugin settings page and check the output.
+ 4. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
     &quot;http://www.website.com/wp-content/uploads/2015/01/image.jpg?debug=true&quot;. This should print useful debug
     information about the plugin functions in your installation. If you keep seeing your image then the plugin is not
     working and the cause is probably the failure to update the .htaccess file properly.
