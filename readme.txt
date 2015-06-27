@@ -17,7 +17,7 @@ mobile environments.
 
 == Description ==
 
-= Adaptive Images Solution =
+= Adaptive Images =
 
 Resizes and optimizes images delivered to mobile devices, in a transparent and unobtrusive way, so that the total 
 download time is dramatically reduced. It works as a filter between the device and your WordPress website. It actually 
@@ -35,7 +35,7 @@ works for all types of deveice screen sizes, although it is targeted mostly at m
  - JPEG (adjustable quality)
  - PNG (is transformed to PNG8)
  - GIF (not animated)
- - HiDPI (high device pixel ratio screens).
+ - HiDPI (retina like screens).
 
 = Default breakpoints =
 
@@ -48,8 +48,8 @@ portrait orientation of each device.
 
 = How to test = 
 
- 1. Test with Chrome Canary&apos;s device emulation mode in Developer Tools. Firefox&apos;s Responsive Design Mode does 
-    not emulate a mobile screen size!
+ 1. Test with Chrome&apos;s device emulation mode https://developer.chrome.com/devtools/docs/device-mode in Developer 
+    Tools. Unfortunately, Firefox&apos;s Responsive Design Mode does not emulate a mobile screen size!
  2. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
     setting in the "Advanced Settings" > "Chrome" tab. 
  3. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing. The plugin will 
@@ -58,8 +58,8 @@ portrait orientation of each device.
  5. Check in the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is where 
     the resized images are kept and cached by default.
 
-Do not test with a normal desktop browser! A usual browser will simply be served the original images without them 
-being resized at all. This is the whole idea: serving each device the image sizes which are appropriate for it.
+You may test with a normal desktop browser but only of the computer screen size falls under at least on of the 
+specified breakpoints!
 
  = Stuff to keep in mind = 
 
@@ -68,9 +68,8 @@ being resized at all. This is the whole idea: serving each device the image size
  - It cannot work out of the box with a CDN (or Varnish server, for that matter), because the CDN or Varnish server 
    are unaware of the device size cookie and they cannot know in a definitive way which image they should serve or 
    cache for each device.
- - It does not care whether the device is actually mobile or not. It checks the device screen resolution. If you have 
-   set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets 
-   mostly the mobile ones.
+ - The plugin  does not care whether the device is actually mobile or not. It checks the device screen resolution. If 
+   you have set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets mostly the mobile ones.
  - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` directory. 
 
 Thank you for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love comments 
@@ -87,13 +86,13 @@ and creative feedback!
 
 == Installation ==
 
-= No surprises here =
+= Usual process =
 
- 1. Install the plugin via "Plugins > Add New".
+ 1. Install the plugin via "Plugins &gt; Add New".
  2. Activate the plugin.
- 3. It should simply work!
- 4. De-activate the plugin to disable it.
- 4. Activate the plugin to enable it.
+ 3. Go to its settings and save them!
+
+The plugin should simply work! De-activate the plugin to disable it. Activate the plugin to enable it. Delete it and it&apos;s gone. So simple. 
 
 = Debugging =
 
@@ -108,19 +107,23 @@ and creative feedback!
 = Incompatibilities =
 
  1. Does not support WordPress Multisite (^μ or MU) yet.
- 2. Supports Nginx but it must be manually configured.
- 3. Cannot work with installations where the /wp-content directory is not in its default position, which is inside the 
-    root directory of the WordPress installation.
+ 2. Supports Nginx but it must be manually configured first.
+ 3. Cannot work with installations where the `/wp-content` directory is not in its default position, which is inside 
+    the root directory of the WordPress installation, along with `/wp-admin` and `/wp-includes`.
 
 
 == Frequently Asked Questions ==
 
 = What's the story? =
 
-First came the Adaptive images solution http://adaptive-images.com/ which is still there and works on its own. Then 
+First came the Adaptive Images solution http://adaptive-images.com/ which is still there and works on its own. Then 
 came the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions. But it is not in the WordPress plugin
 repository anymore and the Github version is not compatible with the latest WordPress versions. So we are updating and
 maintaining it. Many under the hood changes have taken place, but the overall functionality is the same.
+
+Since version 0.5.0 the plugin has been completely rewritten, in order to not rely on the Adaptive Images solution, 
+which was released under a CC-BY license that is not compatible with the GPL. This problem has now been overcome and 
+the part that used to rely on the Adaptive Images is brand new!
 
 = Is this plugin heavy? =
 
@@ -129,6 +132,9 @@ when they are first requested and then they are cached. However, it must be note
 directories, the ones the plugin is responsible for resizing and delivering, are ultimately delivered by a PHP script 
 and not a generic server process! 
 
+So actually one has to decide on a balance between creating and storing too many image sizes in contrast to burderning 
+their server resources. 
+
 = Can it work with a CDN/Varnish? =
 
 Not out of the box! The reason is that the service responsible for delivering the images (in this case the CDN or Varnish) must be aware of the resizing process and the client cookie it is based on. If one has access to their CDN or
@@ -136,10 +142,11 @@ Varnish configuration, then they could probably extend it to take that cookie in
 
 = Does the plugin help with art direction? =
 
-No! Simple as that. Art direction in responsive images is an entirely different, yet important, problem. This plugin 
-does not tackle with it. But it works in a supplementary way. This means that you can combine it with any art 
-direction solution. This plugin will continue to work and serve resized versions of your responsive images even after 
-you have done art direction on them.
+No! Simple as that. Art direction https://usecases.responsiveimages.org/#art-direction in responsive images is an 
+entirely different, yet important, problem. This plugin does not tackle with it. But it works in a supplementary way 
+without interfereing with other solutions that do. This means that you can combine it with any art direction solution. 
+This plugin will continue to work and serve resized versions of your responsive images even after you have done art 
+direction on them.
 
 
 
