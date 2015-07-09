@@ -316,7 +316,9 @@
             $info = 'l'; // Symbolic Link.
 
         } elseif ( ( $permissions & 0x8000 ) == 0x8000 ) {
+
             $info = '-'; // Regular
+            
         } elseif ( ( $permissions & 0x6000 ) == 0x6000 ) {
 
             $info = 'b'; // Block special.

@@ -533,16 +533,17 @@
 
             </form>
 
-            <br />
             <hr />
 
-            <h3>Adaptive Images Tools</h3>
+            <h3>Image Cache Tools</h3>
 
             <style type = "text/css">
 
                 .adaptive-images-admin-table { margin: 0; padding: 0; border: none; }
 
-                    .adaptive-images-admin-table td { margin: 0; padding: 0 50px 0 0; vertical-align: top; border: none; white-space: nowrap; }
+                    .adaptive-images-admin-table td { margin: 0; padding: 0 0 20px 0; min-width: 200px; vertical-align: top; border: none; white-space: nowrap; }
+
+                        .button-primary { min-width: 150px; text-align: center; }
 
             </style>
 
@@ -552,19 +553,30 @@
                         <td>
                             Cleanup the image cache. 
                             <br /><br />
-                            <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=cleanup-image-cache&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-image-cache' ); ?>">Cleanup image cache</a> 
+                            <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=cleanup-image-cache&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-image-cache' ); ?>">Cleanup cache</a> 
                             <br />
                             <small>(might take some time)</small>
                         </td>
                         <td>
-                            Calculate total size of image cache. 
+                            Calculate total cache size. 
                             <br /><br />
-                            <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=calculate-cache-size&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-calculate-cache-size' ); ?>">Calculate cache size</a> 
+                            <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=calculate-cache-size&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-calculate-cache-size' ); ?>">Calculate size</a> 
                             <br />
                             <small>(might take some time)</small>
                         </td>
+                   </tr> 
+                </tbody>
+            </table>
+
+            <hr />
+
+            <h3>Debugging Tools</h3>
+
+            <table class = "adaptive-images-admin-table">
+                <tbody>
+                   <tr>
                         <td>
-                            Print plugin debug information. 
+                            Print debug information. 
                             <br /><br />
                             <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=print-debug-info&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-print-debug-info' ); ?>">Print debug info</a> 
                             <br />
@@ -577,34 +589,46 @@
                             <br />
                             <small>(this is quite quick)</small>
                         </td>
-                   </tr> 
+                   </tr>
                 </tbody>
             </table>
 
-
-            <br />
             <hr />
 
-            <h3>Contact the developers</h3>
+            <h4>Contact the developers</h4>
 
             <p>
                 Thank you so much for trying out this plugin. <br />
-                We are totally commited to idea of reducing image sizes for mobile devices, but without compromising their quality at the same time. <br />
-                We need your help in order to achieve this. Please, do not hesitate to <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">report any problems and send us any suggestions</a></strong> at the plugin support page. We will really appreciate it!
+                Please, do not hesitate to <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">report</a></strong> any problems and suggestions at the plugin support page. 
+                <br />
+                <br />
+                We will really appreciate it!
                 <br />
                 <br />
                 Many-many thanks, 
                 <br />
-                <strong><a href = "http://www.nevma.gr">Nevma, the development team!</a></strong>
+                <strong><a href = "http://www.nevma.gr">Nevma</a></strong>, the development team!
             </p>
+
+            <hr />
+
+            <h4>Show us your love</h4>
 
             <p>
                 &#127775;&#127775;&#127775;&#127775;&#127775;
                 <br />
-                PS: We also appreciate <strong><a href = "https://wordpress.org/support/view/plugin-reviews/adaptive-images">honest reviews and ratings</a></strong>, if you can spare the time!
+                We appreciate honest reviews and <strong><a href = "https://wordpress.org/support/view/plugin-reviews/adaptive-images">ratings</a></strong>!
             </p>
 
             <?php $options = adaptive_images_plugin_get_options(); ?>
+            
+            <?php global $wp_version; ?>
+
+            <p>
+                &#128077;&#128077;&#128077;&#128077;&#128077;
+                <br />
+                State that the plugin actually works by clicking <strong><a href = "https://wordpress.org/plugins/adaptive-images/?compatibility[version]=<?php echo $wp_version; ?>&compatibility[topic_version]=<?php echo $options['version']; ?>&compatibility[compatible]=1">here</a></strong>!
+            </p>
 
             <p style = "font-style: italic;">Adaptive Images v.<?php echo $options['version']; ?></p>
 

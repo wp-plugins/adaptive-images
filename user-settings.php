@@ -15,7 +15,7 @@
 
         // Whether to show higher resolution images to HiDPI screens or not. 
 
-        $hidpi = TRUE; 
+        $hidpi = FALSE; 
 
         // The directory of the images cache. 
 

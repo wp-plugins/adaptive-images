@@ -785,6 +785,16 @@
 
 
 
+    // Do nothing for cases of unit tests.
+    
+    if ( defined( SILENCE ) ) {
+
+        return;
+        
+    }
+
+
+
     // Collect plugin settings.
 
     $settings = adaptive_images_script_get_settings();

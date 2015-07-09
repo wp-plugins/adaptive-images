@@ -1,73 +1,68 @@
 
 
 
-          .================================================================.
-          #                                                                #
-          #                                                                #
-          #                                                                #
-          #               N  O  T  E  S    &    T  O  D  O  S              #
-          #              =====================================             #
-          #                                                                #
-          #                      Nevma (info@nevma.gr)                     #
-          #                                                                #
-          #                                                                #
-          #                                                                #
-          *================================================================*
-
-
-
-  An off-hand todo list
-  =====================
-
-  http://www.smashingmagazine.com/2015/06/25/efficient-image-resizing-with-imagemagick/
-
-  I found that slightly different -unsharp settings work better 
-  (
-    -unsharp 0.25x0.08+8.3+0.045 versus 
-    -unsharp 0.25x0.25+8+0.065 without optimization
-  )
-  and that there’s no need to use -strip.
+  .================================================================.
+  #                                                                #
+  #                                                                #
+  #                                                                #
+  #               N  O  T  E  S    &    T  O  D  O  S              #
+  #                                                                #
+  #              =====================================             #
+  #                                                                #
+  #                      Nevma (info@nevma.gr)                     #
+  #                                                                #
+  #                                                                #
+  #                                                                #
+  *================================================================*
 
 
 
     Features
     ========
 
-     - Settings
+    - Testing
 
-         - Allow debug
-         - Types of images to handle
-         - Transform PNGs to PNG8
-         - Exceptions for certain images
+      Set up functions in a way that the image generation can be tested.
 
-     - WP Multisite
-     - WP content outside of installation
-     - WordPress 3.0 and down allow the "+"" character in filenames.
-     - Delete old Adaptive Images files
-     - In "?debug=true" mode, after the "image requested" part, show "image to be send"
-     - Use PHP::exec for cache purge and cache size calculation
-     - Does this plugin work for you? Then say so!
-     - Resize (crunch) even the original images!
-     - Upscale images smoothly?
-     - Responsive image art direction
+    - Settings
 
-          Default anchors and zoom levels
+      - Allow debug
+      - Types of images to handle
+      - Transform PNGs to PNG8 or not
+      - Exceptions for certain images
 
-            1. zoom level 1, 2, 3...
-            2. anchor in image
+    - WP Multisite
+    - WP content outside of installation
+    - W3 Total Cache compatibility
+    - WP Super Cache compatibility
 
-                ---------------- 
-                | tl   tc   tr |
-                |              |
-                | ml   mc   mr |
-                |              |
-                | bl   bc   br |
-                ----------------
+    - WordPress 3.0 and down allow the "+"" character in filenames.
+    - Delete old Adaptive Images files
+    - In "?debug=true" mode, after the "image requested" part, show "image to be send" info
+    - Use PHP::exec for cache purge and cache size calculation
+    - Does this plugin work for you? Then say so!
+    - Resize (crunch) even the original images!
+    - Upscale images (smoothly)?
+    
+    - Responsive image art direction
 
-            3. different aspect ratio/dimensions
+      Default anchors and zoom levels
 
-                - by breakpoint
-                - by orientation
+        1. zoom level 1, 2, 3...
+        2. anchor in image
+
+          ---------------- 
+          | tl   tc   tr |
+          |              |
+          | ml   mc   mr |
+          |              |
+          | bl   bc   br |
+          ----------------
+
+        3. different aspect ratio/dimensions
+
+          - by breakpoint
+          - by orientation
 
           https://usecases.responsiveimages.org/#art-direction/
           http://davidwalsh.name/responsive-images/
@@ -80,116 +75,119 @@
     Benchmarks
     ==========
 
-      - Image generation
-      - Cache calculation
-      - Cache purge
+    - Image generation
+    - Cache calculation
+    - Cache purge
 
 
 
     Compatibility
     =============
 
-      - W3 Total Cache
-      - WP Super Cache
-      - NginX
+    - W3 Total Cache
+    - WP Super Cache
+    - NginX
 
-          location assets {
-          }
-            
-          location ai-cache { ==> *** THE CACHE DIR ***
-          }
-            
-          location / {
-            rewrite \.(?:jpe?g|gif|png)$ /adaptive-images.php; ==> *** THE PHP SCRIPT ***
-          }
+        location assets {
+        }
+          
+        location ai-cache { ==> *** THE CACHE DIR ***
+        }
+          
+        location / {
+          rewrite \.(?:jpe?g|gif|png)$ /adaptive-images.php; ==> *** THE PHP SCRIPT ***
+        }
 
-      - Varnish
-        Pressidium for configuration
-      - SSL (Jonas Tietgen)
-        The problem seemed to be wrong settings for my SSL certificate. I installed the plugin WordPress HTTPS and now 
-        everything works fine. I guess the problem was that the file was loaded via http instead of https...
+    - Varnish
+      Pressidium for configuration
+    - SSL (Jonas Tietgen)
+      The problem seemed to be wrong settings for my SSL certificate. I installed the plugin WordPress HTTPS and now 
+      everything works fine. I guess the problem was that the file was loaded via http instead of https...
 
 
 
     Unit tests for image generation
     ===============================
 
-      - PNG
-      - PNG8
-      - PNG256
-      - PNG with alpha
-      - PNG with trasparency
-      - GIF
-      - GIF with trasparency
-      - JPEG
+    - PNG
+    - PNG8
+    - PNG256
+    - PNG with alpha
+    - PNG with trasparency
+    - GIF
+    - GIF with trasparency
+    - JPEG
 
-      (Compare with services like TinyPNG, etc.)
+    (Compare with services like TinyPNG, etc.)
 
 
 
     Documentation
     =============
 
-      - What-could-go-wrong section for usual problems users have.
-      - A website!
+    - What-could-go-wrong section for usual problems.
+    - A website!
 
 
 
     Also
     ====
 
-      - https://wordpress.org/plugins/ricg-responsive-images/
-      - https://wordpress.org/plugins/responsify-wp/
-      - WURFL
-
-
-########################################################################################################################
+    - https://wordpress.org/plugins/ricg-responsive-images/
+    - https://wordpress.org/plugins/responsify-wp/
+    - WURFL
+    - https://usecases.responsiveimages.org/#art-direction/
+    - http://davidwalsh.name/responsive-images/
+    - https://developers.google.com/web/fundamentals/media/images/images-in-markup/
+    - https://css-tricks.com/which-responsive-images-solution-should-you-use/
+    - http://www.smashingmagazine.com/2013/07/08/choosing-a-responsive-image-solution/
 
 
 
   Future ideas
   ============
 
-   - Put the stylings in separate CSS files.
-   - Ask users to rate plugin after x-images have been cached. 
-   - Ajax calculate image cache size.
-   - Ajax cleanup image cache size.
-   - Report all folders and files in cache.
-   - Per image cache purge.
-   - Purge image cache beyond a size.
-   - Per breakpoint cache purge.
-   - Notify about cache size in WP cron, in WP admin, perhaps an email to the admin.
-   - What if a user actually wants to see the full version of an image, even in a mobile network? 
-   - When an image is deleted in the media gallery then its resized versions should be deleted, too.
-   - When breakpoints are changed delete the cache directories of the unused breakpoints to clean up.
-   - Original adaptive images PHP script error log is output inside the plugin files.
+  - Put the stylings in separate CSS files.
+  - Ask users to rate plugin after x-images have been cached. 
+  - Ajax calculate image cache size.
+  - Ajax cleanup image cache size.
+  - Report all folders and files in cache.
+  - Per image cache purge.
+  - Purge image cache beyond a size.
+  - Per breakpoint cache purge.
+  - Notify about cache size in WP cron, in WP admin, perhaps an email to the admin.
+  - What if a user actually wants to see the full version of an image, even in a mobile network? 
+  - When an image is deleted in the media gallery then its resized versions should be deleted, too.
+  - When breakpoints are changed delete the cache directories of the unused breakpoints to clean up.
+  - Original adaptive images PHP script error log is output inside the plugin files.
+  - Send original images to search engine bots to preserve their metadata.
 
 
 
   Plugin needs 3 settings in order to function properly
   =====================================================
 
-   1. database options set
-   2. htacess file bit inserted
-   3. user settings php file created
+  1. database options set
+  2. htacess file bit inserted
+  3. user settings php file created
 
 
 
   Test cases to check with each version
   =====================================
 
-   - Clean install
-   - Deactivate then activate
-   - Version 0.2.08 upgrade
-   - Older version upgrade
-   - Print debug info 
-   - Images correctly sent for each breakpoint
-   - Uninstall cleanup
+  - Clean install
+  - Deactivate then activate
+  - Version 0.2.08 upgrade
+  - Older version upgrade
+  - Print debug info 
+  - Images correctly sent for each breakpoint
+  - Uninstall cleanup
 
-   - Images
+  - Images
 
-     - JPG
-     - GIF
-     - GIF with transparency
-     - PNG
-     - PNG with transparency
+    - JPG
+    - GIF
+    - GIF with transparency
+    - PNG
+    - PNG with transparency
