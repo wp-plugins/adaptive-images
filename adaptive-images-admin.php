@@ -598,8 +598,8 @@
             <h4>Contact the developers</h4>
 
             <p>
-                Thank you so much for trying out this plugin. <br />
-                Please, do not hesitate to <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">report</a></strong> any problems and suggestions at the plugin support page. 
+                Thank you so much for trying out the &quot;Adaptive Images for WordPress&quot; plugin. <br />
+                Please, do not hesitate to <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">report any problems</a></strong> and <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">send us your suggestions</a></strong> at the plugin support page. 
                 <br />
                 <br />
                 We will really appreciate it!
@@ -617,7 +617,7 @@
             <p>
                 &#127775;&#127775;&#127775;&#127775;&#127775;
                 <br />
-                We appreciate honest reviews and <strong><a href = "https://wordpress.org/support/view/plugin-reviews/adaptive-images">ratings</a></strong>!
+                We do appreciate honest reviews and <strong><a href = "https://wordpress.org/support/view/plugin-reviews/adaptive-images">ratings</a></strong>!
             </p>
 
             <?php $options = adaptive_images_plugin_get_options(); ?>

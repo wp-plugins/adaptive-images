@@ -6,7 +6,7 @@ Donate link: http://www.nevma.gr/
 Tags: adaptive images, responsive images, mobile images, resize images, optimize images, adaptive, responsive, mobile, resize, optimize, images
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,10 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.5.2 =
+
+ - Fixed a bug where the path of the image resizing script was not correctly created in the `.htaccess` file (again).
 
 = 0.5.1 =
 

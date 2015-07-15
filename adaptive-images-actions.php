@@ -149,7 +149,9 @@
 
         if ( strpos( $adaptive_images_php_script, '/' ) !== 0 ) {
 
-            $adaptive_images_php_script .= '/';
+            // If no starting slash then add it.
+
+            $adaptive_images_php_script = '/' . $adaptive_images_php_script;
 
         }
         

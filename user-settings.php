@@ -23,7 +23,7 @@
 
         // JPEG quality of resized images. 
 
-        $jpg_quality = 65; 
+        $jpg_quality = 70; 
 
         // Sharpen resized images. 
 

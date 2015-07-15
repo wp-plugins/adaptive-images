@@ -20,6 +20,16 @@
     Features
     ========
 
+    ****************************************************************
+
+     - ADD SPECIAL URL PARAMETER TO THE IMAGES VIA JAVASCRIPT 
+       SO THAT THE CDN MAY BE ABLE TO CACHE DIFFERENT VERSIONS OF IT
+
+     - MY JPEG COVERSIONS ARE ALMOST AS GOOD AS THE TINYJPG ONES
+       FOR INSTANCE 175KB ~ 162KB
+
+    ****************************************************************
+
     - Testing
 
       Set up functions in a way that the image generation can be tested.

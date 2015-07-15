@@ -436,12 +436,16 @@
     /**
      * Checks if the cache directory exists and creates it if possible.
      * 
+     * If the .htaccess file has not been updated correctly then the request for an image will never reach this script
+     * and the this code will not even be attempted to be called and the image will appear as "404 not found"/. Recall 
+     * the starting slash ("/") issue in the Rewrite of the .htaccess file.
+     * 
      * @author Nevma (info@nevma.gr)
      * 
      * @return void
      */
 
-    function adaptive_images_script_ensure_directory_ready ( $cache_path ) {
+    function adaptive_images_script_ensure_cache_directory_ready ( $cache_path ) {
 
         if ( ! is_dir( $cache_path ) && 
              ! is_writable( $cache_path ) && 
@@ -717,7 +721,7 @@
 
         $cache_path = dirname( $cache_file );
 
-        if ( ! adaptive_images_script_ensure_directory_ready( $cache_path ) ) {
+        if ( ! adaptive_images_script_ensure_cache_directory_ready( $cache_path ) ) {
 
             return array( 'success' => false, 'message' => 'Cache directory for image not accessible or writeable.' );
 
@@ -785,9 +789,9 @@
 
 
 
-    // Do nothing for cases of unit tests.
+    // Do nothing for cases of standalone unit tests in the future.
     
-    if ( defined( SILENCE ) ) {
+    if ( defined( SILENCE ) && SILENCE == TRUE ) {
 
         return;
         
@@ -825,7 +829,7 @@
 
     // Ensure cache directory exists and is accessible.
 
-    if ( ! adaptive_images_script_ensure_directory_ready( $settings['wp_content'] . '/' . $settings['cache_dir'] ) ) {
+    if ( ! adaptive_images_script_ensure_cache_directory_ready( $settings['wp_content'] . '/' . $settings['cache_dir'] ) ) {
 
         adaptive_images_script_send_error_message( 'Main cache directory not accessible or writeable.' );
         exit();
