@@ -595,13 +595,11 @@
 
             <hr />
 
-            <h4>Contact the developers</h4>
+            <h3>Contact the developers</h3>
 
             <p>
                 Thank you so much for trying out the &quot;Adaptive Images for WordPress&quot; plugin. <br />
-                Please, do not hesitate to <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">report any problems</a></strong> and <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">send us your suggestions</a></strong> at the plugin support page. 
-                <br />
-                <br />
+                Please, do not hesitate to report any <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">problems</a></strong> and send us your <strong><a href = "https://wordpress.org/support/plugin/adaptive-images">suggestions</a></strong> at the plugin support page. <br />
                 We will really appreciate it!
                 <br />
                 <br />

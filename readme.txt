@@ -49,7 +49,8 @@ portrait orientation of each device.
 = How to test = 
 
  1. Test with Chrome&apos;s device emulation mode https://developer.chrome.com/devtools/docs/device-mode in Developer 
-    Tools. Unfortunately, Firefox&apos;s Responsive Design Mode does not emulate a mobile screen size!
+    Tools. See here https://www.youtube.com/watch?v=hCAC1XUUOvw/ for an example. Unfortunately, Firefox&apos;s 
+    Responsive Design Mode does not actually emulate a mobile screen size!
  2. Test with a tool like Webpagetest http://www.webpagetest.org/. Make sure you set the "Emulate Mobile Browser" 
     setting in the "Advanced Settings" > "Chrome" tab. 
  3. Test with a tool like GTmetrix http://gtmetrix.com/. Make sure you enable mobile device testing. The plugin will 
@@ -57,35 +58,45 @@ portrait orientation of each device.
  4. Test with an actual mobile device, a smartphone or tablet. Watch your website load in a snap.
  5. Check the `/wp-contents/cache` directory to see the `/adaptive-images` directory and its contents. This is where 
     the resized images are kept and cached by default.
- 6. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
+
+Also you can:
+
+ 1. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
     &quot;http://www.website.com/wp-content/uploads/2015/01/image.jpg?debug=true&quot;. This should print useful debug
     information about the plugin functions in your installation. If you keep seeing your image, then the plugin is not
     working as it should and the cause is probably a failure to update the .htaccess file properly.
- 7. Add a &quot;?debug=original&quot; at the end of the url of an image and you will see the orginal version of the 
+ 2. Add a &quot;?debug=original&quot; at the end of the url of an image and you will see the orginal version of the 
     image even when a smaller version of it should have been shown.
- 8. Hit the &quot;Print debug&quot; and &quot;Print diagnostics&quot; buttons at the plugin settings page to see useful 
+ 3. Hit the &quot;Print debug&quot; and &quot;Print diagnostics&quot; buttons at the plugin settings page to see useful 
     debug information about the plugin and your WordPress installation.
 
-You may test with a normal desktop browser but only of the computer screen size falls under at least on of the 
+You could test with a normal desktop browser, but only if the computer screen size falls under at least of one of the 
 specified breakpoints!
+
+ = Incompatibilities and issues = 
+
+ - Cannot work out of the box with a CDN (or Varnish server, for that matter), because the CDN or Varnish server are 
+   unaware of the device size cookie and they cannot know in a definitive way which image they should serve or cache 
+   for each device.
+ - Cannot work with installations where the `/wp-content` directory is not in its default position, which is inside the 
+   root directory of the WordPress installation, along with `/wp-admin` and `/wp-includes`.
+ - The plugin supports Nginx, but it must be manually configured.
+
+We are currently working on a solution that will allow the plugin to work with a CDN or Varnish server.
 
  = Stuff to keep in mind = 
 
  - The plugin needs to add a little bit of code to your `.htaccess` file in order to function properly. It removes 
    this code  once disabled. If you are not cool with that, then&hellip; tough luck! 
- - It cannot work out of the box with a CDN (or Varnish server, for that matter), because the CDN or Varnish server 
-   are unaware of the device size cookie and they cannot know in a definitive way which image they should serve or 
-   cache for each device.
  - The plugin  does not care whether the device is actually mobile or not. It checks the device screen resolution. If 
    you have set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets mostly the mobile ones.
- - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` directory. 
- - Cannot work with installations where the `/wp-content` directory is not in its default position, which is inside the 
-   root directory of the WordPress installation, along with `/wp-admin` and `/wp-includes`.
+ - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` directory. This 
+   causes some storage overhead. It is up to you to judge whether this overhead is a sustainable option in your 
+   hosting environment.
  - The plugin does not help with (nor hinder) art direction. Simple as that. Art direction 
    https://usecases.responsiveimages.org/#art-direction in responsive images is an entirely different, yet important, 
    problem. This plugin does not tackle with it. But it works in a supplementary way without interfering with other 
    solutions that do. This means that you can combine it with any art direction solution.
- - The plugin supports Nginx, but it must be manually configured.
 
 = Credits = 
 
@@ -258,7 +269,6 @@ as intended. We try to minimize the hassle between these versions. This is not e
  - Added upgrade from 0.2.08 to 0.3.0 versions functions.
  - Added unistall script `uninstall.php`.
  - Documentation enhancements (as usual).
-
 
 = 0.2.08 =
 

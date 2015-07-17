@@ -30,6 +30,44 @@
 
     ****************************************************************
 
+      ADAPTIVE IMAGES CRUNCH
+
+      - NOT A SERVICE
+      - NO API KEY
+      - LOSSY JPG
+      - LOSSLESS PNG
+      - PNG2JPG
+
+      Kraken, 
+      EWWW, 
+      Smushit, 
+      TinyJPG,
+      TinyPNG,
+      ShortPixel, 
+      Prizm       => require API key
+      EWWW        => requires API key for JPEGs
+      Imsanity    => has no support for true batch compression
+      CW          => has no support for lossy JPEG compression
+
+      <img sizes="(min-width: 300px) 1024px, (min-width: 150x) 300px, 150px"
+           srcset="thumbnail.jpg 150w,
+           medium.jpg 300w,
+           large.jpg 1024w"
+           alt="Image description">
+
+      <picture>
+          <source srcset="full-size.jpg" media="(min-width: 1024px)">
+          <source srcset="large.jpg" media="(min-width: 300px)">
+          <source srcset="medium.jpg" media="(min-width: 150px)">
+          <img srcset="thumbnail.jpg" alt="Image description">
+      </picture>
+
+    ****************************************************************
+
+    - Functions prefix "ai_".
+
+    - Test with NextGEN.
+
     - Testing
 
       Set up functions in a way that the image generation can be tested.
@@ -40,6 +78,7 @@
       - Types of images to handle
       - Transform PNGs to PNG8 or not
       - Exceptions for certain images
+      - PNG colour depth to keep
 
     - WP Multisite
     - WP content outside of installation
