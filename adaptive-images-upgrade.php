@@ -172,7 +172,7 @@
                 '</p>' . 
                 '<hr />' . 
                 '<p>' . 
-                    'The Adaptive Images plugin has been succesfully updated to version ' . $current_version . '.' .
+                    'The Adaptive Images plugin has been succesfully updated to version ' . $current_version . '. Perhaps you would like to review its <a href = "options-general.php?page=adaptive-images">Settings</a>.' .
                 '</p>' . 
             '</div>';
 

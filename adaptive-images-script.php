@@ -65,16 +65,26 @@
 
 
 
-            // Get resolution cookie.
+            // Get resolution cookie or resolution as a url parameter for CDNs.
+            
+            if ( isset( $_GET['resolution'] ) ) {
+                
+                $cookie_resolution = $_GET['resolution'];
 
-            $cookie_resolution = $_COOKIE['resolution'];
+            } else {
+
+                $cookie_resolution = $_COOKIE['resolution'];
+                
+            }
+
+
 
             // Default values.
 
             $client_width  = $resolutions[0];
             $pixel_density = 1;
 
-            if ( ! isset( $cookie_resolution ) || isset( $cookie_resolution ) && ! preg_match( "/^[0-9]+[,]*[0-9\.]+$/", $cookie_resolution ) ) { 
+            if ( ! isset( $cookie_resolution ) || isset( $cookie_resolution ) && ! preg_match( "/^[0-9]+[,]+[0-9]+$/", $cookie_resolution ) ) { 
 
                 // Delete cookie if not valid, so that the default image is used.
 
@@ -84,7 +94,7 @@
 
                 // If cookie valid then use it.
 
-                $cookie_array = explode( ',', $_COOKIE['resolution'] );
+                $cookie_array = explode( ',', $cookie_resolution );
 
                 // First part of cookie is the client screen width.
 
@@ -300,7 +310,7 @@
 
                 Add "?debug=original" to see the original, non-resized image. 
 
-                Add "?debug=XXX" to see the image resized in XXX pixels. 
+                Add "?resolution=xxxx,y" to see the image resized in XXX pixels and y pixel density. 
 
             </body>
 
@@ -824,6 +834,20 @@
         exit();
         
     }
+
+
+
+    // Special case where no cookie or url parameter is given. 
+
+    if ( ! isset( $_GET['resolution'] ) && ! isset( $_COOKIE['resolution'] ) ) { 
+
+        // Send the original image itself as the best solution.
+
+        adaptive_images_script_send_image( $settings['source_file'], $browser_cache );
+        exit();
+
+    }
+
 
 
 

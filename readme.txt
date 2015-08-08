@@ -2,11 +2,11 @@
 === Adaptive Images for WordPress ===
 
 Contributors: nevma
-Donate link: http://www.nevma.gr/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WCES7V9D45HDS
 Tags: adaptive images, responsive images, mobile images, resize images, optimize images, adaptive, responsive, mobile, resize, optimize, images
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 0.5.2
+Stable tag: 0.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,11 +23,21 @@ Resizes and optimizes images delivered to mobile devices, in a transparent and u
 download time is dramatically reduced. It works as a filter between the device and your WordPress website. It actually 
 works for all types of device screen sizes, although it is targeted mostly at mobile environments. 
 
+Note that this is not a CSS responsive images solution. This plugin does not force browsers to render images as if they 
+were smaller. It actually sends smaller images to them! Then it is the job of the CSS to instruct the browsers how to 
+render them. 
+
 = Fundamental goals = 
 
  1. Reduce the total download time in mobile devices dramatically.
- 2. Work transparantly and unobtrusively by being independant of your code.
- 4. Be agnostic of the yet-not-finalized `picture` element or `srcset` attribute.
+ 2. Work transparantly and unobtrusively by being independant of your theme code.
+ 3. Be agnostic of the yet-not-finalized `picture` element or HTML img `srcset` attribute.
+
+ Side benefits:
+ 1. Respects search engines and sends them the orginal version of each image, because it depends on Javascript.
+ 2. If it does not recognise a device screen it falls over to the original image size. But even this is very rare and 
+    mostly refers to very old or possibly deprecated devices. 
+ 3. Does not need to load the WordPress ennironment in order to resize and compress images.
 
 = Supported formats =
 
@@ -35,7 +45,16 @@ works for all types of device screen sizes, although it is targeted mostly at mo
  - PNG (is transformed to PNG8)
  - GIF (not animated)
 
-HiDPI (high device pixel density/retina) screens are supported.
+HiDPI (high device pixel density or retina) screens are supported too.
+
+= CDN/Varnish/external caching service support =
+
+Since version 0.6.0 CDN/Varnish/external caching service support has been added as an option, in an ***experimental*** 
+mode. This mode is experimental in the following ways: i) it is not thorougly tested yet ii) however, it works in 
+almost all test cases so far iii) it bears no dangers to your isntallation iv) it adds a special url parameter to your 
+image urls, so it is slightly obtrusive.
+
+Tested with MaxCDN and Varnish up to now.
 
 = Default breakpoints =
 
@@ -60,7 +79,6 @@ portrait orientation of each device.
     the resized images are kept and cached by default.
 
 Also you can:
-
  1. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
     &quot;http://www.website.com/wp-content/uploads/2015/01/image.jpg?debug=true&quot;. This should print useful debug
     information about the plugin functions in your installation. If you keep seeing your image, then the plugin is not
@@ -75,20 +93,15 @@ specified breakpoints!
 
  = Incompatibilities and issues = 
 
- - Cannot work out of the box with a CDN (or Varnish server, for that matter), because the CDN or Varnish server are 
-   unaware of the device size cookie and they cannot know in a definitive way which image they should serve or cache 
-   for each device.
  - Cannot work with installations where the `/wp-content` directory is not in its default position, which is inside the 
    root directory of the WordPress installation, along with `/wp-admin` and `/wp-includes`.
  - The plugin supports Nginx, but it must be manually configured.
 
-We are currently working on a solution that will allow the plugin to work with a CDN or Varnish server.
-
  = Stuff to keep in mind = 
 
  - The plugin needs to add a little bit of code to your `.htaccess` file in order to function properly. It removes 
-   this code  once disabled. If you are not cool with that, then&hellip; tough luck! 
- - The plugin  does not care whether the device is actually mobile or not. It checks the device screen resolution. If 
+   this code once disabled. If you are not cool with that, then&hellip; tough luck! 
+ - The plugin does not care whether the device is actually mobile or not. It checks the device screen resolution. If 
    you have set your breakpoints big enough then it should work just as good for desktop devices as well. However it targets mostly the mobile ones.
  - The resized versions of the pictures are kept in a special directory in the `/wp-content/cache` directory. This 
    causes some storage overhead. It is up to you to judge whether this overhead is a sustainable option in your 
@@ -101,9 +114,11 @@ We are currently working on a solution that will allow the plugin to work with a
 = Credits = 
 
  - The plugin was originally based on the WP-Resolutions plugin https://github.com/JorgenHookham/WP-Resolutions/, but 
-   right, now it is a complete rewrite!
- - Both plugins -WP-Resolutions and this one- borrow ideas from the Adaptive Images http://adaptive-images.com/ adapted 
-   specifically for WordPress. 
+   since version 0.3.0 it is a complete rewrite!
+ - Both plugins - WP-Resolutions and this one - have borrowed ideas from the Adaptive Images http://adaptive-images.com/
+   solution specially adapted for WordPress.
+ - Many-many thanks to "railgunner" for the initial idea in the forum and to the Pressidium team for helping with 
+   debugging the CDN/Varnish/external caching service feature.
 
 Thank you for using the plugin and, please, do let us know how it works (or doesn't work) for you. We love comments 
 and creative feedback!
@@ -160,6 +175,10 @@ their server resources.
 
 == Upgrade Notice ==
 
+= 0.6.0 =
+
+New major feature: CDN/Varnish/external caching service compatibility.
+
 = 0.5.0 =
 
 It is recommended, but not absolutely necessary, to save one&apos;s settings anew, due to the big changes in the image 
@@ -181,6 +200,13 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.6.0 =
+
+ - Added CDN/Varnish/external caching service support.
+ - Added Thickbox confirmation dialog on the cache cleanup button in the plugin settings page.
+ - Added donation button in the plugin settings page.
+ - Documentation stuff.
 
 = 0.5.2 =
 

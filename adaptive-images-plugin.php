@@ -37,6 +37,7 @@
             'resolutions'         => array( 1024, 640, 480 ),
             'landscape'           => TRUE,
             'hidpi'               => FALSE,
+            'cdn-support'         => FALSE,
             'cache-directory'     => 'cache/adaptive-images',
             'watched-directories' => array( 'wp-content/uploads', 'wp-content/themes' ),
             'jpeg-quality'        => 65,

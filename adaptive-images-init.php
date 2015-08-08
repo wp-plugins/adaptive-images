@@ -99,4 +99,8 @@
 
     add_action( 'wp_head', 'adaptive_images_front_head_cookie_javascript', 0 );
 
+    // Sets up the Javascript in the head element of the theme which adds a URL parameter to images for CDNs.
+
+    add_action( 'wp_head', 'adaptive_images_front_head_image_cdn_javascript', 0 );
+
 ?>

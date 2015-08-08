@@ -1,42 +1,33 @@
 
 
 
-  .================================================================.
-  #                                                                #
-  #                                                                #
-  #                                                                #
-  #               N  O  T  E  S    &    T  O  D  O  S              #
-  #                                                                #
-  #              =====================================             #
-  #                                                                #
-  #                      Nevma (info@nevma.gr)                     #
-  #                                                                #
-  #                                                                #
-  #                                                                #
-  *================================================================*
+  ===================================================================
+  #                                                                 #
+  #                                                                 #
+  #                                                                 #
+  #               N  O  T  E  S    &    T  O  D  O  S               #
+  #                                                                 #
+  #              =====================================              #
+  #                                                                 #
+  #                      Nevma (info@nevma.gr)                      #
+  #                                                                 #
+  #                                                                 #
+  #                                                                 #
+  ===================================================================
 
 
 
-    Features
-    ========
+********************************************************************************
 
-    ****************************************************************
+      ADAPTIVE IMAGES CRUNCH PLUGIN
+      =============================
 
-     - ADD SPECIAL URL PARAMETER TO THE IMAGES VIA JAVASCRIPT 
-       SO THAT THE CDN MAY BE ABLE TO CACHE DIFFERENT VERSIONS OF IT
-
-     - MY JPEG COVERSIONS ARE ALMOST AS GOOD AS THE TINYJPG ONES
-       FOR INSTANCE 175KB ~ 162KB
-
-    ****************************************************************
-
-      ADAPTIVE IMAGES CRUNCH
-
-      - NOT A SERVICE
-      - NO API KEY
-      - LOSSY JPG
-      - LOSSLESS PNG
-      - PNG2JPG
+        - NOT A SERVICE
+        - NO API KEY
+        - FREE AIF
+        - LOSSY JPG
+        - LOSSLESS PNG
+        - PNG2JPG
 
       Kraken, 
       EWWW, 
@@ -44,9 +35,9 @@
       TinyJPG,
       TinyPNG,
       ShortPixel, 
-      Prizm       => require API key
-      EWWW        => requires API key for JPEGs
-      Imsanity    => has no support for true batch compression
+      Prizm,      => require API key
+      EWWW,       => requires API key for JPEGs
+      Imsanity,   => has no support for true batch compression
       CW          => has no support for lossy JPEG compression
 
       <img sizes="(min-width: 300px) 1024px, (min-width: 150x) 300px, 150px"
@@ -62,38 +53,132 @@
           <img srcset="thumbnail.jpg" alt="Image description">
       </picture>
 
-    ****************************************************************
+      Settings
 
-    - Functions prefix "ai_".
+        - max width
+        - max height
+        - jpeg quality
+        - lossy/lossless jpeg
+        - png compression level
+        - image types to include
+        - date before which to delete images
 
-    - Test with NextGEN.
+      *** BE SUPER CAREFUL WITH PNGs, ALPHA TRANSPARENCY, ETC
+      *** PROCESS IS IRREVERSIBLE - IMAGES CANNOT BE REINSTATED
 
-    - Testing
+      Functions
 
-      Set up functions in a way that the image generation can be tested.
+        - Run recursively on a directory
+        - Run on WordPress attachments
+        - Batch crunch on demand
+        - Partial batch crunch on demand
+        - WP-Cron batch crunch
+        - On image upload crunch
+        - Record which images have been crunched in the past
+        - Warn that the process is irreversible
 
-    - Settings
+      Why
 
-      - Allow debug
-      - Types of images to handle
-      - Transform PNGs to PNG8 or not
-      - Exceptions for certain images
-      - PNG colour depth to keep
+        - Reduce overall website storage
+        - Quicker backups
+        - Precious SSD storage
+        - Reduce page download times
+
+********************************************************************************
+
+
+
+    NEXT
+    ====
 
     - WP Multisite
-    - WP content outside of installation
-    - W3 Total Cache compatibility
-    - WP Super Cache compatibility
 
-    - WordPress 3.0 and down allow the "+"" character in filenames.
-    - Delete old Adaptive Images files
-    - In "?debug=true" mode, after the "image requested" part, show "image to be send" info
-    - Use PHP::exec for cache purge and cache size calculation
-    - Does this plugin work for you? Then say so!
-    - Resize (crunch) even the original images!
-    - Upscale images (smoothly)?
+    - CDN/VARNISH SUPPORT
+
+        *** What about images in CSS?
+
+    - IMMEDIATELY CHECK IF PLUGIN ACTUALLY WORKS 
+
+        AND REPORT THE POSSIBLE PROBLEMS, IF ANY 
+       
+        Pedro.Frota: 
+
+        Long story short: since Adaptive Images works in such a transparent manner, one big question for users is 
+        whether or not it is indeed working. IMHO a visual feedback is the best solution.
+
+    - PERFORMANCE SERVICES CHECK
+
+      - GOOGLE PAGESPEED
+      - YAHOO YSLOW
+      - TOOLS.PINGDOM
+
+      - AND DOCUMENT IT ACCORDINGLY
+
+    - DOCUMENTATION
+
+      - tools which do not emulate a mobile screen cannot test the plugin results (Google pagespeed, YSlow, GTmetrix, 
+        Pingdom)
+
+      - one can use Firebug to debug by editing cookies from the cookies tab
+
+      - make a video of the above
+
+      - an extra way to test is by adding the ?resolution= parameter to an image url
+
+      - Getting started section.
+      - Better "How to test" that the plugin actually works.
+      - What-could-go-wrong section for usual problems.
+      - FAQ.
+      - A website!
+
+    - NEW SETTINGS
+
+      - Images types to handle
+      - PNG colour depth to keep
+      - Transform PNGs to PNG8 or not
+      - Exceptions for certain images
+      - Allow debug or not
+
+    - MODAL CONFIRMATIONS IN PLUGIN SETTINGS BUTTONS
+
+    - SINCE RECURSIVELY TRAVERSING LARGE DIRECTORY STRUCTURES IS QUITE SNAPPY ONE COULD ADD
+
+      - Daily cache calculation
+      - Report it to email
+      - Report as an admin message
+      - Report in a dashboard widget
+
+    - MY JPEG COVERSIONS ARE ALMOST AS GOOD AS THE TINYJPG ONES
+
+        FOR INSTANCE 175KB ~ 162KB
+
+    - Test how much is the storage overhead of the cache for a big site!
+
+    - TESTS
+
+      - Test with NextGEN.
+      - WP content outside of installation
+      - W3 Total Cache compatibility
+      - WP Super Cache compatibility
+
+    - VARIOUS
     
-    - Responsive image art direction
+      - Testing: set up functions in a way that the image generation can be tested.
+      - Functions prefix "ai_".
+      - WordPress 3.0 and down allow the "+"" character in filenames.
+      - In "?debug=true" mode, after the "image requested" part, show "image to be send" info
+      - Use PHP::exec for cache purge and cache size calculation
+      - Does this plugin work for you? Then say so! Mail, tweet, like, etc.
+      - Resize (crunch) even the original images!
+      - Upscale images (smoothly)?
+      - This plugin has server XXX images successfully
+      - This plugin happily serves XXX images from its cache
+      - This plugin happily serves XXmb from its cache
+    
+
+
+    Responsive image art direction
+    ==============================
 
       Default anchors and zoom levels
 
@@ -121,20 +206,9 @@
 
 
 
-    Benchmarks
-    ==========
-
-    - Image generation
-    - Cache calculation
-    - Cache purge
-
-
-
     Compatibility
     =============
 
-    - W3 Total Cache
-    - WP Super Cache
     - NginX
 
         location assets {
@@ -148,10 +222,12 @@
         }
 
     - Varnish
+
       Pressidium for configuration
-    - SSL (Jonas Tietgen)
-      The problem seemed to be wrong settings for my SSL certificate. I installed the plugin WordPress HTTPS and now 
-      everything works fine. I guess the problem was that the file was loaded via http instead of https...
+
+      Or
+
+      The ingenious idea to use url parameters on the image sources via Javascript, as proposed by a guy in the forum.
 
 
 
@@ -171,20 +247,12 @@
 
 
 
-    Documentation
-    =============
-
-    - What-could-go-wrong section for usual problems.
-    - A website!
-
-
-
-    Also
-    ====
+    Also check
+    ==========
 
     - https://wordpress.org/plugins/ricg-responsive-images/
     - https://wordpress.org/plugins/responsify-wp/
-    - WURFL
+    - WURFL.IO service (and my plugin)
     - https://usecases.responsiveimages.org/#art-direction/
     - http://davidwalsh.name/responsive-images/
     - https://developers.google.com/web/fundamentals/media/images/images-in-markup/
@@ -230,11 +298,9 @@
   - Version 0.2.08 upgrade
   - Older version upgrade
   - Print debug info 
-  - Images correctly sent for each breakpoint
+  - Images correctly sent at each breakpoint
   - Uninstall cleanup
-
-  - Images
-
+  - Images to test
     - JPG
     - GIF
     - GIF with transparency

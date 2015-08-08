@@ -114,9 +114,7 @@
 
         // Adds the action which adds the plugin admin actions.
 
-       add_action( 'admin_head-' . $hook_name, 'adaptive_images_admin_settings_actions' ); 
-
-
+        add_action( 'admin_head-' . $hook_name, 'adaptive_images_admin_settings_actions' ); 
 
     }
 
@@ -181,6 +179,16 @@
            'adaptive_images_admin_hidpi_field_print', // print function callback
            'adaptive-images',                         // plugin page
            'adaptive-images-settings'                 // section
+        );
+
+        // Adds the adaptive images CDN support field.
+
+        add_settings_field( 
+           'cdn-support',                                   // id
+           'CDN support',                                   // title 
+           'adaptive_images_admin_cdn_support_field_print', // print function callback
+           'adaptive-images',                               // plugin page
+           'adaptive-images-settings'                       // section
         );
 
         // Adds the adaptive images cache directory field.
@@ -315,10 +323,42 @@
 
             Check if plugin should try to show higher resolution images to HiDPI (retina) screens.
             
-            <br /><br />
+            <br />
             
             <small>
                 Provides better image quality for HiDPI (retina) screen devices, but sends them bigger file sizes. 
+            </small>
+
+        </label> <?php
+
+    }
+
+
+
+    /**
+     * Prints the CDN support settings field.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return void
+     */
+
+    function adaptive_images_admin_cdn_support_field_print ()   {
+
+        $options = get_option( 'adaptive-images' ); 
+
+        adaptive_images_plugin_check_empty_setting( $options, 'cdn-support' ); ?>
+
+        <label for = "adaptive-images[cdn-support]">
+            
+            <input type = "checkbox" id = "adaptive-images[cdn-support]" name = "adaptive-images[cdn-support]" <?php echo $options['cdn-support'] ? 'checked = "checked"' : ''; ?> /> 
+
+            Check to make plugin cooperate with a CDN, Varnish or other external caching solution.
+            
+            <br />
+            
+            <small>
+                *** Experimental feature, that adds a special url at the end of each image source url.  Not dangerous, just experimental! 
             </small>
 
         </label> <?php
@@ -345,7 +385,7 @@
         
         Directory inside /wp-content to store the image cache. 
 
-        <br /><br />
+        <br />
 
         <small>
             Current path on server: 
@@ -375,7 +415,7 @@
 
         <textarea id = "adaptive-images[watched-directories]" name = "adaptive-images[watched-directories]" cols = "60" rows = "5"><?php echo implode( "\n", $options['watched-directories'] ); ?></textarea>
 
-        <br /><br />
+        <br />
 
         <small>
             Directories to watch for images to resize for mobile devices. Has to be relative paths inside your WordPress installation.
@@ -406,7 +446,7 @@
         </select> 
 
         Compression level of JPEG images, 100 means best quality but biggest file size. 
-        <br /><br />
+        <br />
         <small>Usuallly a 60 to 70 JPEG compression level works fine for the human eye and achieves very small file sizes.</small> <?php
 
     }
@@ -496,7 +536,7 @@
         </select> 
 
         How long should browsers be instructed to cache images. 
-        <br /><br />
+        <br />
         <small>Unless you have a very special need and/or you know what you are doing, set this to as high a value as you can.</small> <?php
 
     }
@@ -545,18 +585,14 @@
 
                         .button-primary { min-width: 150px; text-align: center; }
 
+                #TB_window,
+                #TB_ajaxContent { height: auto !important; }
+
             </style>
 
             <table class = "adaptive-images-admin-table">
                 <tbody>
                    <tr>
-                        <td>
-                            Cleanup the image cache. 
-                            <br /><br />
-                            <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=cleanup-image-cache&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-image-cache' ); ?>">Cleanup cache</a> 
-                            <br />
-                            <small>(might take some time)</small>
-                        </td>
                         <td>
                             Calculate total cache size. 
                             <br /><br />
@@ -564,9 +600,45 @@
                             <br />
                             <small>(might take some time)</small>
                         </td>
+                        <td>
+                            Cleanup the image cache. 
+                            <br /><br />
+                            <a class = "button-primary thickbox" href = "#TB_inline?height=300&amp;width=400&amp;inlineId=cleanup-image-cache-modal" title = "Adaptive Images Message">Cleanup cache</a> 
+                            <br />
+                            <small>(might take some time)</small>
+                        </td>
                    </tr> 
                 </tbody>
             </table>
+
+            <?php add_thickbox(); ?>
+
+            <script type = "text/javascript">
+                jQuery( function () {
+                    // Confirmation window close handler.
+                    jQuery( '.tb-confirm' ).on( 'click', function () {
+                        // Does not return false.
+                        tb_remove();
+                    });
+                    jQuery( '.tb-remove' ).on( 'click', function () {
+                        // Returns false.
+                        tb_remove();
+                        return false;
+                    });
+                });
+            </script>
+
+            <div id = "cleanup-image-cache-modal" style = "display:none;">
+                <h3>Please confirm</h3>
+                <hr />
+                <p>
+                    Are you sure you want to delete all images in the cache? This means that all cached images will be lost and that they will be created anew once they are accessed again.
+                </p>
+                <p style = "text-align: right;">
+                    <a class = "button-primary tb-confirm" href = "options-general.php?page=adaptive-images&action=cleanup-image-cache&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-image-cache' ); ?>">Yes, cleanup cache</a> 
+                    <a class = "button-secondary tb-remove" href = "#">No, leave it be</a> 
+                </p>
+            </div>
 
             <hr />
 
@@ -615,7 +687,7 @@
             <p>
                 &#127775;&#127775;&#127775;&#127775;&#127775;
                 <br />
-                We do appreciate honest reviews and <strong><a href = "https://wordpress.org/support/view/plugin-reviews/adaptive-images">ratings</a></strong>!
+                We do appreciate an honest review and <strong><a href = "https://wordpress.org/support/view/plugin-reviews/adaptive-images">rating</a></strong>!
             </p>
 
             <?php $options = adaptive_images_plugin_get_options(); ?>
@@ -627,6 +699,27 @@
                 <br />
                 State that the plugin actually works by clicking <strong><a href = "https://wordpress.org/plugins/adaptive-images/?compatibility[version]=<?php echo $wp_version; ?>&compatibility[topic_version]=<?php echo $options['version']; ?>&compatibility[compatible]=1">here</a></strong>!
             </p>
+
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <style type="text/css" media="screen">
+                    input[type="image"] { 
+                        vertical-align: middle; 
+                        padding: 0;
+                        height: 20px !important;
+                        width: auto;
+                    }
+                </style>
+                <p>
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="WCES7V9D45HDS">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                    <br />
+                    Should you wish to buy us a beer, we prefer weiss! 
+                </p>
+            </form>
+
+            <hr />
 
             <p style = "font-style: italic;">Adaptive Images v.<?php echo $options['version']; ?></p>
 
@@ -817,6 +910,16 @@
         $data['hidpi'] = $hidpi;
 
         adaptive_images_plugin_check_empty_setting( $data, 'hidpi' );
+
+
+
+        // Hidpi field validation.
+
+        $cdn_support = isset( $data['hidpi'] ) && $data['cdn-support'] == 'on' ? TRUE : FALSE;
+
+        $data['cdn-support'] = $cdn_support;
+
+        adaptive_images_plugin_check_empty_setting( $data, 'cdn-support' );
 
 
 
