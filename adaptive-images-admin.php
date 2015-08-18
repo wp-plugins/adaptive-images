@@ -440,8 +440,8 @@
         adaptive_images_plugin_check_empty_setting( $options, 'jpeg-quality' ); ?>
 
         <select type = "text" id = "adaptive-images[jpeg-quality]" name = "adaptive-images[jpeg-quality]">
-            <?php for ( $k = 100; $k >= 5; $k -= 5 ) : ?> 
-                <option value = "<?php echo $k; ?>" <?php echo $options['jpeg-quality'] == $k ? 'selected = "selected"' : ''; ?>><?php echo $k; ?></option>
+            <?php for ( $quality = 100; $quality >= 5; $quality -= 5 ) : ?> 
+                <option value = "<?php echo $quality; ?>" <?php echo $options['jpeg-quality'] == $quality ? 'selected = "selected"' : ''; ?>><?php echo $quality; ?></option>
             <?php endfor; ?>
         </select> 
 

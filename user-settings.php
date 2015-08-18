@@ -11,7 +11,7 @@
 
         // Whether to take the landscape width into account or not. 
 
-        $landscape = TRUE; 
+        $landscape = FALSE; 
 
         // Whether to show higher resolution images to HiDPI screens or not. 
 
@@ -23,7 +23,7 @@
 
         // JPEG quality of resized images. 
 
-        $jpg_quality = 65; 
+        $jpg_quality = 75; 
 
         // Sharpen resized images. 
 

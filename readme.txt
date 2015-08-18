@@ -6,7 +6,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: adaptive images, responsive images, mobile images, resize images, optimize images, adaptive, responsive, mobile, resize, optimize, images
 Requires at least: 4.0
 Tested up to: 4.3
-Stable tag: 0.6.0
+Stable tag: 0.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,8 @@ render them.
  2. Work transparantly and unobtrusively by being independant of your theme code.
  3. Be agnostic of the yet-not-finalized `picture` element or HTML img `srcset` attribute.
 
- Side benefits:
+ = Side benefits =
+
  1. Respects search engines and sends them the orginal version of each image, because it depends on Javascript.
  2. If it does not recognise a device screen it falls over to the original image size. But even this is very rare and 
     mostly refers to very old or possibly deprecated devices. 
@@ -79,6 +80,7 @@ portrait orientation of each device.
     the resized images are kept and cached by default.
 
 Also you can:
+
  1. View an image straight from a browser and add a &quot;?debug=true&quot; at the end of the url like this 
     &quot;http://www.website.com/wp-content/uploads/2015/01/image.jpg?debug=true&quot;. This should print useful debug
     information about the plugin functions in your installation. If you keep seeing your image, then the plugin is not
@@ -174,6 +176,12 @@ their server resources.
 
 
 == Upgrade Notice ==
+
+= 0.6.1 =
+
+CDN/Varnish compatibility improved. Previously some images were downloaded in both their original and their resized 
+version. Now they are only downloaded once. However if the website is too fast there may be 1-2 images that might 
+manage to download in their original size. We guess that is OK, though.
 
 = 0.6.0 =
 

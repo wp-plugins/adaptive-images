@@ -42,22 +42,17 @@
         <script type = "text/javascript">
 
             // 
-            // Get screen dimensions.
+            // Get screen dimensions, device pixel ration and set in a cookie.
             // 
+            
             <?php if ( $options['landscape'] ) : ?>
                 var screen_width = Math.max( screen.width, screen.height );
             <?php else : ?>
                 var screen_width = screen.width;
             <?php endif; ?>
 
-            // 
-            // Get screen device pixel ratio.
-            // 
             var devicePixelRatio = window.devicePixelRatio ? window.devicePixelRatio : 1;
 
-            // 
-            // Set Adaptive Images Wordpress plugin cookie.
-            // 
             document.cookie = 'resolution=' + screen_width + ',' + devicePixelRatio + '; path=/';
 
         </script> 
@@ -90,10 +85,17 @@
         <!--noptimize-->
         <script type = "text/javascript">
 
-            // 
-            // When the DOM is ready.
-            // 
-            document.addEventListener( 'DOMContentLoaded', function ( event ) {
+            //
+            // Anonymous self calling Javascript function to avoid polluting the global namespace.
+            //
+
+            (function () {
+
+                //
+                // Get the resolution cookie.
+                //
+
+                var resolution = null;
 
                 var cookies = document.cookie.split( ';' );
 
@@ -101,31 +103,61 @@
 
                     var cookie = cookies[k].trim();
 
-                    // 
-                    // Get the plugin resolution cookie.
-                    // 
                     if ( cookie.indexOf( 'resolution' ) === 0 ) {
 
-                        // 
-                        // Replace all image sources to add them the resolution cookie value.
-                        // 
-                        var imgs = document.querySelectorAll( 'img' );
-
-                        for ( var k = 0; k < imgs.length; k++ ) {
-                            var img = imgs[k];
-                            var src = img.getAttribute( 'src' );
-                            var new_src = src.indexOf( '?' ) >=0 ? src + '&' + cookie : src + '?' + cookie;
-                            img.removeAttribute( 'src' );
-                            img.setAttribute( 'src', new_src );
-                        }
-
-                        break;
+                        resolution = cookie;
 
                     }
 
                 }
 
-            });
+
+
+                //
+                // Adds the resolution information to image src attributes.
+                //
+
+                function handle_images () {
+
+                    var imgs = document.querySelectorAll( 'img' );
+
+                    for ( var k = 0; k < imgs.length; k++ ) {
+
+                        var img = imgs[k];
+
+                        if ( img.complete || img.getAttribute( 'data-adaptive-images' ) ) {
+
+                            continue;
+
+                        }
+
+                        var src = img.getAttribute( 'src' );
+                        var new_src = src.indexOf( '?' ) >=0 ? src + '&' + resolution : src + '?' + resolution;
+
+                        img.removeAttribute( 'src' );
+                        img.setAttribute( 'src', new_src );
+                        img.setAttribute( 'data-adaptive-images', true );
+
+                    }
+
+                }
+
+
+
+                // 
+                // Start running periodically, as images are available in the DOM.
+                // 
+
+                var handler = window.setInterval( handle_images, 10 );
+
+                document.addEventListener( 'DOMContentLoaded', function ( event ) {
+
+                    window.clearInterval( handler );
+                    handle_images();
+
+                });
+
+            })();
 
         </script> 
         <!--/noptimize--> <?php

@@ -35,12 +35,12 @@
 
         return array(
             'resolutions'         => array( 1024, 640, 480 ),
-            'landscape'           => TRUE,
+            'landscape'           => FALSE,
             'hidpi'               => FALSE,
             'cdn-support'         => FALSE,
             'cache-directory'     => 'cache/adaptive-images',
             'watched-directories' => array( 'wp-content/uploads', 'wp-content/themes' ),
-            'jpeg-quality'        => 65,
+            'jpeg-quality'        => 75,
             'sharpen-images'      => TRUE,
             'watch-cache'         => TRUE,
             'browser-cache'       => 180
