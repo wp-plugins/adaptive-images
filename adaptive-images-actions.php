@@ -128,12 +128,15 @@
 
 
 
-        // Get the document root of the server in order to help isolate the relative path of the adaptive images PHP script.
+        // Get the root WordPress installation direcctory.
 
-        $document_root = $_SERVER['DOCUMENT_ROOT'];
+        $wp_home_path = get_home_path();
 
-        $document_root = preg_replace( '/\//i', '\/', $document_root );
-        $document_root = preg_replace( '/\./i', '\\.', $document_root );
+
+        // In order to help isolate the relative path of the adaptive images PHP script.
+        
+        $wp_home_path = preg_replace( '/\//i', '\/', $wp_home_path );
+        $wp_home_path = preg_replace( '/\./i', '\\.', $wp_home_path );
 
         // Get the directory part of the request URI, if the installation is not in the server root folder.
 
@@ -143,7 +146,7 @@
         // Get the relative path of the adaptive images PHP script.
         
         $adaptive_images_dir_path          = dirname( __FILE__ );
-        $adaptive_images_dir_path_relative = preg_replace( '/' . $document_root . '/i', '', $adaptive_images_dir_path );
+        $adaptive_images_dir_path_relative = preg_replace( '/' . $wp_home_path . '/i', '', $adaptive_images_dir_path );
 
         $adaptive_images_php_script = $adaptive_images_dir_path_relative . '/adaptive-images-script.php';
 
