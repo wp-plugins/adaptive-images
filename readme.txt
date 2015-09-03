@@ -6,7 +6,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: adaptive images, responsive images, mobile images, resize images, optimize images, adaptive, responsive, mobile, resize, optimize, images
 Requires at least: 4.0
 Tested up to: 4.3
-Stable tag: 0.6.2
+Stable tag: 0.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,8 +46,6 @@ render them.
  - PNG (is transformed to PNG8)
  - GIF (not animated)
 
-HiDPI (high device pixel density or retina) screens are supported too.
-
 = CDN/Varnish/external caching service support =
 
 Since version 0.6.0 CDN/Varnish/external caching service support has been added as an option, in an ***experimental*** 
@@ -65,6 +63,8 @@ Tested with MaxCDN and Varnish up to now.
 
 Since version 0.5.0 and upwards it is configurable whether the plugin should take into account the landscape or the 
 portrait orientation of each device.
+
+HiDPI (high device pixel density or retina) screens are supported too.
 
 = How to test = 
 
@@ -198,6 +198,11 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
 
 == Changelog ==
+
+= 0.6.3 =
+
+- Fixed bug in htaccess rewrite rules generation when installation is not in root directory.
+- Fixed bug in image delivery script where browser cache was not set correctly in some case.
 
 = 0.6.2 =
 

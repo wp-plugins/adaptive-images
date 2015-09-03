@@ -12,6 +12,13 @@
      *                                                                                                                *
      ******************************************************************************************************************/
 
+    
+
+    // Define codes for certain debugging cases. 
+    
+    define( 'SILENCE', FALSE );
+
+
 
     /**
      * Retrieves the settings required for this script to run.
@@ -843,7 +850,7 @@
 
         // Send the original image itself as the best solution.
 
-        adaptive_images_script_send_image( $settings['source_file'], $browser_cache );
+        adaptive_images_script_send_image( $settings['source_file'], $settings['browser_cache'] );
         exit();
 
     }
@@ -875,7 +882,7 @@
 
         // Send the original image itself as the best solution.
 
-        adaptive_images_script_send_image( $settings['source_file'], $browser_cache );
+        adaptive_images_script_send_image( $settings['source_file'], $settings['browser_cache'] );
         exit();
 
     }
@@ -888,7 +895,7 @@
 
         // Send the original image itself as the best solution.
 
-        adaptive_images_script_send_image( $settings['source_file'], $browser_cache );
+        adaptive_images_script_send_image( $settings['source_file'], $settings['browser_cache'] );
         exit();
 
     }
@@ -901,7 +908,7 @@
 
         // Send the original image itself as the best solution.
 
-        adaptive_images_script_send_image( $settings['source_file'], $browser_cache );
+        adaptive_images_script_send_image( $settings['source_file'], $settings['browser_cache'] );
         exit();
 
     }

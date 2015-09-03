@@ -128,31 +128,26 @@
 
 
 
-        // Get the root WordPress installation direcctory.
-
-        $wp_home_path = get_home_path();
-
-
-        // In order to help isolate the relative path of the adaptive images PHP script.
-        
-        $wp_home_path = preg_replace( '/\//i', '\/', $wp_home_path );
-        $wp_home_path = preg_replace( '/\./i', '\\.', $wp_home_path );
-
-        // Get the directory part of the request URI, if the installation is not in the server root folder.
+        // Get the directory part of the request, if we are not in the virtual host root directory.
 
         $request_uri      = $_SERVER['REQUEST_URI'];
-        $request_dir_base = substr( $request_uri, 0, strpos( $request_uri, '/wp-admin', 1 ) );
+        $request_uri_base = substr( $request_uri, 0, strpos( $request_uri, '/wp-admin', 1 ) );
 
-        // Get the relative path of the adaptive images PHP script.
+        // Isolate the relative path of the adaptive images PHP script inside the WordPress installation directory.
+        
+        $wp_home_path = get_home_path();
+
+        $wp_home_path = preg_replace( '/\//i', '\/', $wp_home_path );
+        $wp_home_path = preg_replace( '/\./i', '\\.', $wp_home_path );
         
         $adaptive_images_dir_path          = dirname( __FILE__ );
         $adaptive_images_dir_path_relative = preg_replace( '/' . $wp_home_path . '/i', '', $adaptive_images_dir_path );
 
-        $adaptive_images_php_script = $adaptive_images_dir_path_relative . '/adaptive-images-script.php';
+        $adaptive_images_php_script = $request_uri_base. '/' . $adaptive_images_dir_path_relative . '/adaptive-images-script.php';
+
+        // If no starting slash then add it.
 
         if ( strpos( $adaptive_images_php_script, '/' ) !== 0 ) {
-
-            // If no starting slash then add it.
 
             $adaptive_images_php_script = '/' . $adaptive_images_php_script;
 
@@ -177,7 +172,7 @@
             $watched_directory = $data['watched-directories'][$k];
 
             $htaccess_rewrite_block .= 
-                "    RewriteCond %{REQUEST_URI} " . $request_dir_base . '/' . $watched_directory . ( $k < $length-1 ? ' [OR]' : "\n" ) . "\n";
+                "    RewriteCond %{REQUEST_URI} " . $request_uri_base . '/' . $watched_directory . ( $k < $length-1 ? ' [OR]' : "\n" ) . "\n";
 
         }
 
