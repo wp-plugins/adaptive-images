@@ -1,0 +1,68 @@
+
+  ADAPTIVE IMAGES CRUNCH PLUGIN
+  =============================
+
+    - NOT A SERVICE
+    - NO API KEY
+    - FREE AIF
+    - LOSSY JPG
+    - LOSSLESS PNG
+    - PNG2JPG
+
+  Kraken, 
+  EWWW, 
+  Smushit, 
+  TinyJPG,
+  TinyPNG,
+  ShortPixel, 
+  Prizm,      => require API key
+  EWWW,       => requires API key for JPEGs
+  Imsanity,   => has no support for true batch compression
+  CW          => has no support for lossy JPEG compression
+
+  <img sizes="(min-width: 300px) 1024px, (min-width: 150x) 300px, 150px"
+       srcset="thumbnail.jpg 150w,
+       medium.jpg 300w,
+       large.jpg 1024w"
+       alt="Image description">
+
+  <picture>
+      <source srcset="full-size.jpg" media="(min-width: 1024px)">
+      <source srcset="large.jpg" media="(min-width: 300px)">
+      <source srcset="medium.jpg" media="(min-width: 150px)">
+      <img srcset="thumbnail.jpg" alt="Image description">
+  </picture>
+
+  Settings
+
+    - max width
+    - max height
+    - jpeg quality
+    - lossy/lossless jpeg
+    - png compression level
+    - image types to include
+    - date before which to delete images
+
+  *** BE SUPER CAREFUL WITH PNGs, ALPHA TRANSPARENCY, ETC
+  *** PROCESS IS IRREVERSIBLE - IMAGES CANNOT BE REINSTATED
+  *** CHECK wp_handle_upload_prefilter 
+
+  Functions
+
+    - Run recursively on a directory
+    - Run on WordPress attachments
+    - Batch crunch on demand
+    - Partial batch crunch on demand
+    - WP-Cron batch crunch
+    - On image upload crunch
+    - On demand, per image crunch
+    - Record which images have been crunched in the past
+    - Warn that the process is irreversible
+    - Keep record of crunched images
+
+  Why
+
+    - Reduce overall website storage
+    - Quicker backups
+    - Precious SSD storage
+    - Reduce page download times

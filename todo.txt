@@ -1,0 +1,320 @@
+
+
+
+    ===================================================================
+    #                                                                 #
+    #                                                                 #
+    #                                                                 #
+    #               N  O  T  E  S    &    T  O  D  O  S               #
+    #                                                                 #
+    #              =====================================              #
+    #                                                                 #
+    #                      Nevma (info@nevma.gr)                      #
+    #                                                                 #
+    #                                                                 #
+    #                                                                 #
+    ===================================================================
+
+
+
+  NEXT DEVELOPMENT
+  ================
+  
+  ***
+  
+    AFTER EACH UPDATE THE USER SETTINGS PHP FILE SHOULD BE RESTORED WITH SETTINGS FROM THE DATABASE!
+  
+  ***
+
+    1. CDN/VARNISH SUPPORT
+
+      - Images in CSS are not handled
+
+        Solution:
+
+          => Go through all CSS declarations to find background images in urls
+
+      - Two solutions so far
+
+          1. Javascript interval function ran immediately to add resolution url parameter to image sources
+
+            => Misses some images/some images manage to load in their original size before being handled
+            => This has been improved by the IMG complete property to at least not download the same image twice
+
+          2. HTML replace image src server side, then add resolution url parameter browser side on DOMContentLoaded
+
+            => Slight SEO issue because images have no src attribute
+
+               Solutions:
+
+                1. Use <noscript> tags for images for users who don't have JavaScript enabled and search engine bots
+
+                2. Link to your images. The img src or in a hidden href
+
+          3. What if the CDN could forward the resolution cookie from the original domain
+
+          4. Watch DOM for changes and catch newly inserted images
+          5. Provide a function for adding the resolutin url parameter to images as an API
+
+          - Which one is the best?
+          - Should I use them alternatively?
+          - None of them takes into account CSS background images!
+
+    2. PERIODIC CALCULATIONS
+
+      - Daily cache calculation
+      - Show mean image value in cache
+      - Report it plugin settings metaboxes
+      - Report it in email
+      - Report as an admin message
+      - Report in a dashboard widget
+
+    3. NEW SETTINGS
+
+      - Image types to handle (JPEG, PNG, GIF)
+
+    4. NEW SETTINGS
+
+       - Detect if PNGs have transparency and
+
+         - either leave them be
+         - crunch them with their transparency intact if possible
+
+       - See:
+
+         - http://stackoverflow.com/questions/5495275/how-to-check-if-an-image-has-transparency-using-gd
+         - http://www.jonefox.com/blog/2011/04/15/how-to-detect-transparency-in-png-images/comment-page-1/
+         - http://camendesign.com/code/uth1_is-png-32bit
+          
+      - Transform PNGs to PNG8 or not
+
+    5. WP MULTISITE SUPPORT
+
+    6. DEBUG IDEAS: 
+
+      - Put a text input for the use to enter an image url and show it via adaptive images
+      - Parse the result of an image with the ?debug=true to check if all is ok
+      - Load a pseudo template file in the browser where you can test things with javascript
+      - Echo the contents of the htaccess file part along with the other settings dump
+      - Put a "help me, i do not know how to test if the plugin works" section
+
+    7. NEW SETTINGS
+
+      - PNG colour depth to keep
+      - Whether the resize happens exactly equal to a device's size or some multiple of it, eg 150%, for better quality (?)
+      - Exceptions for certain images (?)
+      - Allow debug or not
+
+      - Periodically cleanup cache
+      - Periodically cleanup cache old files (only the fresh ones are usually necessary)
+
+    8. TESTS/COMPATIBILITY
+
+      - VAGRANT environment problem
+
+        See https://wordpress.org/support/topic/images-never-generate-in-cache and https://github.com/wpengine/hgv
+
+      - Test with NextGEN
+      - WP-Rocket
+      - W3 Total Cache compatibility
+      - WP Super Cache compatibility
+      - Autoptimize plugin
+      - Test how much is the storage overhead of the cache for a big site!
+    
+    9. WP CONTENT OUTSIDE OF WORDPRESS INSTALLATION
+
+    10. DOCUMENTATION
+
+      - A diagram of how the plugin works graphically =>
+
+        Browser : Hey, server, could you send me awesome-summer-picture.jpg?
+        Server  : Yeah sure, just one thing, what are your screen dimensions?
+        Browser : Oh, OK, I'am in a 320x568 retina screen device!
+        Server  : Great, so I will shrink the image as close to 320px.
+        Browser : No problemo!
+        Server  : That will be a 480px image according to my configuration. Here you go!
+        Browser : Got it! Whoah, that was quick, thank you very much...
+        Server  : Any time!
+
+      - If you want to provide crystal clear full size images to your users, DO NOT USE THE PLUGIN !!!
+      - I must provide an easy way for users to override the resize wherever necessary
+
+      - Have a clear and complete "features" section
+      - Getting started section
+      - Prerequisites section
+
+        - PHP GD
+        - Writeable file system
+        - Cookies
+        - CDN not strip url parameters
+
+      - What-could-go-wrong section for usual problems.
+      - A website
+      
+      - Tools which do emulate a mobile screen (Webpatetest.org) and tools which don't (GTmetrix, Pingdom)
+      - Chrome Developer Tools, Firebug
+      - Make a video of the testing procedure
+      - An extra way to test is by adding the ?resolution= parameter to an image url
+      - Better "How to test" that the plugin actually works.
+
+    11. NGINX SETTINGS
+
+      Pressidium???
+
+      location assets {
+      }
+        
+      location ai-cache { *** THE CACHE DIR ***
+      }
+        
+      location / {
+        rewrite \.(?:jpe?g|gif|png)$ /adaptive-images.php; *** THIS IS THE PHP SCRIPT ***
+      }
+
+    *** The Martino case:
+
+        Url is like http://clients.nevma.gr/~user/
+        
+        The installation home is like /home/users/username/public_html
+        
+        But the requested URIs are like    --->      /wp-content/uploads/2015/08/...
+                               and not like -> /~user/wp-content/uploads/2015/08/...
+    
+    *** The Jörg case:
+    
+        Images are served via a subdomain, so as to maximize browser connections, 
+        but they are actually still in the usual server dirs.
+        
+        This is one edge case where the plugin cannot serve them, 
+        since the images are not served by the same WordPress installation,
+        neither are they served by a CDN or Varnish!
+
+  
+
+  VARIOUS FEATURES
+  ================
+    
+    - Testing: set up funcions in a way that the image generation can be tested
+    - Functions prefix "ai_"
+    - WordPress 3.0 and down allow the "+"" character in filenames
+    - In "?debug=true" mode, after the "image requested" part, show "image to be send" info
+    - Use PHP::exec for cache purge and cache size calculation (not reliably allowed by hosts)
+    - Does this plugin work for you? Then say so! Mail, tweet, like, etc
+    - Resize (crunch) even the original images!
+    - Upscale images (smoothly)?
+    - This plugin has served XXX images successfully :-)
+    - This plugin happily serves XX images from its cache :-)
+    - This plugin happily serves XXmb from its cache :-)
+    - Cache directory could be anywhere in the server
+    - Watch cache feature is sort of pointless in WordPress or could even be done without asking
+    - Open a page with an adaptive images debug parameter and do your Javascript checks there to see if the plugin is
+      set up properly and working as expected
+    
+
+
+  FUTURE IDEAS
+  ============
+
+    - Put the stylings in separate CSS files.
+    - Ask users to rate plugin after X-images have been cached. 
+    - Ajax calculate image cache size.
+    - Ajax cleanup image cache size.
+    - Report all folders and files in cache.
+    - Per image cache purge.
+    - Purge image cache beyond a size.
+    - Per breakpoint cache purge.
+    - Notify about cache size in WP cron, in WP admin, perhaps an email to the admin.
+    - What if a user actually wants to see the full version of an image, even in a mobile network? 
+    - When an image is deleted in the media gallery then its resized versions should be deleted, too.
+    - When breakpoints are changed delete the cache directories of the unused breakpoints to clean up.
+    - Original adaptive images PHP script error log is output inside the plugin files.
+    - Send original images to search engine bots to preserve their metadata.
+
+
+
+  ART DIRECTION
+  =============
+
+    Default anchors and zoom levels
+
+      1. zoom level 1, 2, 3...
+      2. anchor in image
+
+        ---------------- 
+        | tl   tc   tr | top-left, top-center, top-right
+        |              |
+        | ml   mc   mr | middle-left, middle-center, middle-right
+        |              |
+        | bl   bc   br | bottom-left, bottom-center, bottom-right
+        ----------------
+
+      3. different aspect ratio/dimensions
+
+        - by breakpoint
+        - by orientation
+
+        https://usecases.responsiveimages.org/#art-direction/
+        http://davidwalsh.name/responsive-images/
+        https://developers.google.com/web/fundamentals/media/images/images-in-markup/
+        https://css-tricks.com/which-responsive-images-solution-should-you-use/
+        http://www.smashingmagazine.com/2013/07/08/choosing-a-responsive-image-solution/
+
+
+
+  ALSO CHECK OUT
+  ==============
+
+    - https://wordpress.org/plugins/ricg-responsive-images/
+    - https://wordpress.org/plugins/responsify-wp/
+    - WURFL.IO service (and my plugin)
+    - https://usecases.responsiveimages.org/#art-direction/
+    - http://davidwalsh.name/responsive-images/
+    - https://developers.google.com/web/fundamentals/media/images/images-in-markup/
+    - https://css-tricks.com/which-responsive-images-solution-should-you-use/
+    - http://www.smashingmagazine.com/2013/07/08/choosing-a-responsive-image-solution/
+
+
+
+  PROMOTION
+  =========
+
+    - https://codex.wordpress.org/Plugin_Submission_and_Promotion
+    - https://www.competethemes.com/how-to-promote-wordpress-plugin/
+    - http://wptavern.com/tips-for-promoting-newly-released-wordpress-plugins
+    - http://www.insite.io/blog/the-loneliness-of-the-marketer-or-how-to-promote-a-baby-wordpress-plugin/
+    - http://wpscoop.com/promoting-new-wordpress-plugins/
+
+
+
+  UNIT TESTS FOR IMAGE GENERATION
+  ===============================
+
+    - PNG
+    - PNG8
+    - PNG256
+    - PNG with alpha
+    - PNG with trasparency
+    - GIF
+    - GIF with trasparency
+    - JPEG(s)
+
+    (Compare with services like TinyPNG, etc.)
+
+
+
+  TEST CASES TO CHECK WITH EACH VERSION
+  =====================================
+
+    - Clean install
+    - Deactivate then activate
+    - Version 0.2.08 upgrade
+    - Older version upgrade
+    - Print debug info 
+    - Images correctly sent at each breakpoint
+    - Uninstall cleanup
+    - Images to test
+      - JPG
+      - GIF
+      - GIF with transparency
+      - PNG
+      - PNG with transparency
