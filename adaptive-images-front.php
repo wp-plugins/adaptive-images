@@ -38,25 +38,15 @@
         $options = adaptive_images_plugin_get_options(); ?>
 
         <!--noptimize-->
-        <script type = "text/javascript">
-
-            // Get screen dimensions.
-
-            <?php if ( $options['landscape'] ) : ?>
-                var screen_width = Math.max( screen.width, screen.height );
-            <?php else : ?>
-                var screen_width = screen.width;
-            <?php endif; ?>
-
-            // Get screen device pixel ratio.
-
-            var devicePixelRatio = window.devicePixelRatio ? window.devicePixelRatio : 1;
-
-            // Set Adaptive Images Wordpress plugin cookie.
-
-            document.cookie = 'resolution=' + screen_width + ',' + devicePixelRatio + '; path=/';
-
-        </script> 
+        <?php if ( $options['landscape'] ) : ?>
+        
+            <script src = "<?php echo adaptive_images_plugin_get_url(); ?>/js/frontend-cookie-landscape.js" type = "text/javascript"></script>
+        
+        <?php else : ?>
+        
+            <script src = "<?php echo adaptive_images_plugin_get_url(); ?>/js/frontend-cookie-portrait.js" type = "text/javascript"></script>
+        
+        <?php endif; ?>
         <!--/noptimize--> <?php
 
     }
@@ -197,7 +187,7 @@
      */
     
     function adaptive_images_front_start_buffering_for_cdn () {
-    
+    	
     	ob_start( 'adaptive_images_front_replace_image_sources_from_html' );
     
     }
@@ -213,15 +203,19 @@
      */
     
     function adaptive_images_front_end_buffering_for_cdn () {
+    	
+    	if ( ob_get_level() > 0 ) {
     
-    	ob_end_flush();
+	    	ob_flush();
+	    	
+    	}
     
     }
     
     
     
     /**
-     * Function called via a preg_replace_callback(...) in order to handle matched part of a regular expression.
+     * Function called via a preg_replace_callback() in order to handle matched part of a regular expression.
      *
      * @author Nevma (info@nevma.gr)
      * 
@@ -239,20 +233,20 @@
     
     
     /**
-     * Begins capturing the HTML output to the browser in the buffer and registers the functin that will handle it in
-     * the end. That function will be used to appropriately handle IMG elements so that the corresponding Javascript
-     * in the browser will make it load via the CDN with the resolution cookie details as a url parameter.
+     * Replaces HTML image src attributes with a special data attribute which will be handled by Javascript on the 
+     * browser side and be replaced there with the appropriate source according to the device dimensions.
      *
      * @author Nevma (info@nevma.gr)
      *
-     * @param $matches array The data of the current match of the regular expression.
+     * @param $buffer string The HTML source that is to be sent to the browser.
      * 
-     * @return void Nothing really.
+     * @return string The HTML source to be sent to the browser where the image src attributes have been replaced 
+     * 				  with appropriate data attributes.
      */
     
     function adaptive_images_front_replace_image_sources_from_html ( $buffer ) {
     
-    	$image_src_reg_exp = '/src=\s*"(.[^"]+)"/i';
+    	$image_src_reg_exp = '/<img.+src=\s*"(.[^"]+)"/i';
     
     	return preg_replace_callback( $image_src_reg_exp, 'adaptive_images_front_replace_image_source', $buffer );
     

@@ -32,7 +32,7 @@
      */
 
     function adaptive_images_upgrade_action_upgraded () {
-
+    	
         $options = adaptive_images_plugin_get_options();
 
 
@@ -50,7 +50,7 @@
         // If actually a fresh install, then nothing more is necessary.
         
         if ( ! $options ) {
-
+        	
         	return;
 
         }
@@ -102,6 +102,10 @@
         // Check if upgrading to version 0.7.0 to show a nice informative message.
 
         if ( $current_version == '0.7.0' ) {
+        	
+	        // Delete old sanitized option.
+	        
+	        unset( $options['sanitized'] );
 
             add_action( 'admin_notices', 'adaptive_images_upgrade_message_upgraded_to_v070' );
             
@@ -112,8 +116,10 @@
         // Save current version in plugin settings.
         
         $options['version'] = $current_version;
+        
+        
         update_option( 'adaptive-images', $options );
-
+        
     }
 
 
@@ -133,7 +139,7 @@
 
         $htaccess = adaptive_images_plugin_get_htaccess_file_path();
 
-        $htaccess_available = adaptive_images_plugin_is_htaccess_writeable();
+        $htaccess_available = adaptive_images_debug_is_htaccess_writeable();
 
         if ( $htaccess_available ) {
 

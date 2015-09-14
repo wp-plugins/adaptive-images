@@ -70,7 +70,8 @@
 
 
     /**
-     * Checks if the given option is not set and returns its default value.
+     * Checks if the given option is not set and, if not, returns its default value. It does not check for the validity
+     * of the option value.
      * 
      * @author Nevma (info@nevma.gr)
      * 
@@ -255,6 +256,15 @@
      */
 
     function adaptive_images_plugin_is_file_in_wp_content ( $path ) {
+    	
+    	if ( ! $path        ||
+    		   $path == ''  ||
+    		   $path == '.' ||
+    		   $path == '..' ) {
+    		
+    		return FALSE;
+    		
+    	}
 
         $wp_content = trailingslashit( WP_CONTENT_DIR );
 

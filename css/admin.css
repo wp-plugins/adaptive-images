@@ -1,0 +1,83 @@
+/* Make paragraphs in admin notices not bold except for the first one, which is the title. */
+
+	.settings_page_adaptive-images .settings-error p strong { font-weight: normal !important; }
+	.settings_page_adaptive-images .settings-error p:first-of-type,
+	.settings_page_adaptive-images .settings-error p:first-of-type strong { font-weight: bold !important; }
+	
+	.settings_page_adaptive-images .adaptive-images-debug-table p { margin: 0; padding: 0 0 2px 0; font-weight: normal !important; }
+
+
+
+/* Little info element next to main heading. */
+
+	.adaptive-images-info-h2 { font-size: 12px; border-radius: 3px; background: #77c938; padding: 5px 10px; margin-left: 10px; vertical-align: middle; }
+	.adaptive-images-info-h2.error { background: #ff2533; }
+
+
+
+/* Plugin settings form table. */
+
+	.settings_page_adaptive-images .form-table tr:nth-of-type(2n) { background: rgb(249,249,249); }
+	
+	.settings_page_adaptive-images .form-table th { padding: 20px 10px; } 
+	.settings_page_adaptive-images .form-table td { padding: 20px 10px 20px 20px; position: relative; }
+	
+	p.hndle { padding-bottom: 10px; margin-bottom: 20px; }
+	
+	.settings_page_adaptive-images .hndle-reverse { border-top: 1px solid rgb(221, 221, 221); }
+	
+	.adaptive-images-version { font-style: italic; padding: 10px 0 20px 0; }
+	
+	[for="adaptive-images[content-types-jpeg]"],
+	[for="adaptive-images[content-types-png]"],
+	[for="adaptive-images[content-types-gif]"] { display: inline-block; margin-right: 20px; }
+
+
+
+/* Help messages for the settings. */
+
+	.adaptive-images-help-short { display: inline-block; margin-top: 10px; font-size: 12px; }
+	
+	.adaptive-images-help-button { width: 16px; height: 16px; border-radius: 8px; color: white; background: #45bbe6; border: none; cursor: hand; cursor: pointer; opacity: 0.5; position: absolute; top: 22px; left: -15px; }
+	.form-table tr:hover .adaptive-images-help-button { opacity: 1; }
+	
+	.adaptive-images-help-button::after { display: block; content: "?"; font-size: 10px; font-weight: bold; text-align: center; line-height: 1.3; }
+	
+	.adaptive-images-help-content { display: none; max-width: 560px; padding-top: 10px; }
+	
+	    .adaptive-images-help-content h4 { margin: 0; }
+	    .adaptive-images-help-content p { font-weight: normal; margin: 5px 0 10px 0 !important; }
+
+
+
+/* Settings form input elements */
+
+	[name="adaptive-images[resolutions]"], 
+	[name="adaptive-images[cache-directory]"] { width: 220px; }
+	
+	[name="adaptive-images[watched-directories]"] { width: 100%; max-width: 580px; }
+
+
+
+/* Sidebar meta box fixes. */
+
+	.settings_page_adaptive-images .hndle { cursor: default !important; }
+	
+	.settings_page_adaptive-images .postbox .inside p { font-size: 12px; }
+	
+	.settings_page_adaptive-images #postbox-container-1 .button-primary { width: 125px; text-align: center; }
+	
+	.settings_page_adaptive-images .button-wrapper { display: block; text-align: right; margin-top: 0.5em; }
+	
+	#adaptive-images-banner { display: block; position: relative; }
+	
+	    #adaptive-images-developer { position: absolute; left: 165px; bottom: 0; height: 40px; width: auto; }
+	
+	.settings_page_adaptive-images input[type="image"] { vertical-align: middle; padding: 0; height: 20px !important; width: auto; }
+
+
+
+/* WordPress thickbox styling fixes. */
+
+#TB_window,
+#TB_ajaxContent { height: auto !important; }

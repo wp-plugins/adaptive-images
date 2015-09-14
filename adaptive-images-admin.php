@@ -31,101 +31,15 @@
      * @return void
      */
 
-    function adaptive_images_admin_frontend_css () { 
+    function adaptive_images_admin_css () { 
 
         if ( ! adaptive_images_plugin_is_settings_screen() ) {
 
             return;
 
         } ?>
-
-        <style type = "text/css">
-
-            /* Make paragraphs in admin notices not bold except for the first one, which is the title. */
-
-            .settings_page_adaptive-images .settings-error p strong { font-weight: normal !important; }
-            .settings_page_adaptive-images .settings-error p:first-of-type,
-            .settings_page_adaptive-images .settings-error p:first-of-type strong { font-weight: bold !important; }
-
-            .settings_page_adaptive-images .adaptive-images-debug-table p { margin: 0; padding: 0 0 2px 0; font-weight: normal !important; }
-
-
-
-            /* Little info element next to main heading. */
-
-            .adaptive-images-info-h2 { font-size: 12px; border-radius: 3px; background: #77c938; padding: 5px 10px; margin-left: 10px; vertical-align: middle; }
-            .adaptive-images-info-h2.error { background: #ff2533; }
-
-
-
-            /* Plugin settings form table. */
-
-            .settings_page_adaptive-images .form-table tr:nth-of-type(2n) { background: rgb(249,249,249); }
-
-            .settings_page_adaptive-images .form-table th { padding: 20px 10px; } 
-            .settings_page_adaptive-images .form-table td { padding: 20px 10px 20px 20px; position: relative; }
-
-            p.hndle { padding-bottom: 10px; margin-bottom: 20px; }
-
-            .settings_page_adaptive-images .hndle-reverse { border-top: 1px solid rgb(221, 221, 221); }
-
-            .adaptive-images-version { font-style: italic; padding: 10px 0 20px 0; }
-            
-            [for="adaptive-images[content-types-jpeg]"],
-            [for="adaptive-images[content-types-png]"],
-            [for="adaptive-images[content-types-gif]"] { display: inline-block; margin-right: 20px; }
-
-            
-
-            /* Help messages for the settings. */
-
-            .adaptive-images-help-short { display: inline-block; margin-top: 10px; font-size: 12px; }
-
-            .adaptive-images-help-button { width: 16px; height: 16px; border-radius: 8px; color: white; background: #45bbe6; border: none; cursor: hand; cursor: pointer; opacity: 0.5; position: absolute; top: 22px; left: -15px; }
-            .form-table tr:hover .adaptive-images-help-button { opacity: 1; }
-            
-            .adaptive-images-help-button::after { display: block; content: "?"; font-size: 10px; font-weight: bold; text-align: center; line-height: 1.3; }
-
-            .adaptive-images-help-content { display: none; max-width: 560px; padding-top: 10px; }
-
-                .adaptive-images-help-content h4 { margin: 0; }
-                .adaptive-images-help-content p { font-weight: normal; margin: 5px 0 10px 0 !important; }
-
-
-
-            /* Settings form input elements */
-
-            [name="adaptive-images[resolutions]"], 
-            [name="adaptive-images[cache-directory]"] { width: 220px; }
-
-            [name="adaptive-images[watched-directories]"] { width: 100%; max-width: 580px; }
-
-
-
-            /* Sidebar meta box small fixes. */
-
-            .settings_page_adaptive-images .hndle { cursor: default !important; }
-
-            .settings_page_adaptive-images .postbox .inside p { font-size: 12px; }
-
-            .settings_page_adaptive-images .button-wrapper { display: block; text-align: right; margin-top: 0.5em; }
-
-            #adaptive-images-banner { display: block; position: relative; }
-
-                #adaptive-images-developer { position: absolute; left: 165px; bottom: 0; height: 40px; width: auto; }
-
-            /* Paypal form image button fix. */
-
-            .settings_page_adaptive-images input[type="image"] { vertical-align: middle; padding: 0; height: 20px !important; width: auto; }
-
-
-
-            /* WordPress thickbox styling fixes. */
-
-            #TB_window,
-            #TB_ajaxContent { height: auto !important; }
-
-        </style> <?php
+        
+        <link rel = "stylesheet" href = "<?php echo adaptive_images_plugin_get_url(); ?>/css/admin.css" /> <?php
 
     }
 
@@ -139,7 +53,7 @@
      * @return void
      */
 
-    function adaptive_images_admin_frontend_js () { 
+    function adaptive_images_admin_js () { 
 
         if ( ! adaptive_images_plugin_is_settings_screen() ) {
 
@@ -147,55 +61,7 @@
 
         } ?>
 
-        <script type = "text/javascript">
-
-            jQuery( function () {
-
-                // Confirmation thickbox button handler.
-                
-                jQuery( '.tb-confirm' ).on( 'click', function () {
-
-                    // Does not return false.
-                    tb_remove();
-
-                });
-
-                // Close/cancel thickbox button handler.
-
-                jQuery( '.tb-remove' ).on( 'click', function () {
-
-                    // Rreturns false indeed.
-                    tb_remove();
-                    return false;
-
-                });
-
-                // Open close settings info panel.
-
-                jQuery( '.adaptive-images-help-button' ).toggle(
-                    function () {
-
-                        jQuery( this ).
-                            parent().
-                            find( '.adaptive-images-help-content' ).
-                            slideDown({ duration: 250 });
-                        return false;
-
-                    },
-                    function () {
-                        
-                        jQuery( this ).
-                            parent().
-                            find( '.adaptive-images-help-content' ).
-                            slideUp({ duration: 250 });
-                        return false;
-
-                    }
-                );
-
-            });
-
-        </script> <?php
+        <script src = "<?php echo adaptive_images_plugin_get_url(); ?>/js/admin.js" type = "text/javascript"></script> <?php
 
     }
 
@@ -777,7 +643,7 @@
 
         adaptive_images_plugin_check_empty_setting( $options, 'jpeg-quality' ); ?>
 
-        <select type = "text" id = "adaptive-images[jpeg-quality]" name = "adaptive-images[jpeg-quality]">
+        <select id = "adaptive-images[jpeg-quality]" name = "adaptive-images[jpeg-quality]">
             <?php for ( $quality = 100; $quality >= 5; $quality -= 5 ) : ?> 
                 <option value = "<?php echo $quality; ?>" <?php echo $options['jpeg-quality'] == $quality ? 'selected = "selected"' : ''; ?>><?php echo $quality; ?></option>
             <?php endfor; ?>
@@ -892,7 +758,7 @@
 
         adaptive_images_plugin_check_empty_setting( $options, 'browser-cache' ); ?>
 
-        <select type = "text" id = "adaptive-images[browser-cache]" name = "adaptive-images[browser-cache]">
+        <select id = "adaptive-images[browser-cache]" name = "adaptive-images[browser-cache]">
             <option value = "0"     <?php echo $options['browser-cache'] == '0'     ? 'selected = "selected"' : ''; ?>> Default </option>
             <option value = "0.125" <?php echo $options['browser-cache'] == '0.125' ? 'selected = "selected"' : ''; ?>> 3  hours </option>
             <option value = "0.25"  <?php echo $options['browser-cache'] == '0.25'  ? 'selected = "selected"' : ''; ?>> 6  hours </option>
@@ -940,11 +806,11 @@
      */
 
     function adaptive_images_admin_print_options_page () {
-
+    	
         // Add provision for the thickbox dialog window.
         
         add_thickbox(); ?>
-        
+                
         <div class = "wrap">
 
             <?php $checks = adaptive_images_debug_perform_checks(); ?>
@@ -1254,7 +1120,7 @@
      */
 
     function adaptive_images_admin_settings_sanitize ( $data ) {
-
+    	
         // To avoid the bug of sanitizing twice the first time the option is created.
 
         if ( isset( $_REQUEST['sanitized'] ) && $_REQUEST['sanitized'] ) {
@@ -1262,8 +1128,8 @@
             return $data;
 
         }
-
-
+        
+        
 
         // Get the defaults just in case.
 
@@ -1272,9 +1138,28 @@
 
 
         // Resolutions field array validation.
-
-        $resolutions = trim( $data['resolutions'] );
-        $resolutions_array = explode( ',', $resolutions );
+        
+        if ( isset( $data['resolutions'] ) && is_array( $data['resolutions'] ) ) {
+        	
+        	// Option given as an array or already stored as an array.
+        	
+        	$resolutions_array = $data['resolutions'];
+        	 
+        } else if ( isset( $data['resolutions'] ) && is_string( $data['resolutions'] ) ) {
+        	
+        	// Option coming from settings page form field as a string.
+        	
+        	$resolutions = trim( $data['resolutions'] );
+        	$resolutions_array = explode( ',', $resolutions );
+        	
+        } else {
+        	
+        	// Default case, option has never been set.
+        	        	
+        	$resolutions_array = $defaults['resolutions'];
+        	
+        }
+	
         $resolutions_array_sanitized = array();
 
         for ( $k = 0, $length = count( $resolutions_array ); $k < $length; $k++ ) {
@@ -1300,8 +1185,6 @@
 
         $data['resolutions'] = $resolutions_array_sanitized;
 
-        adaptive_images_plugin_check_empty_setting( $data, 'resolutions' );
-
 
 
         // Landscape field validation.
@@ -1309,8 +1192,6 @@
         $landscape = isset( $data['landscape'] ) && $data['landscape'] == 'on' ? TRUE : FALSE;
 
         $data['landscape'] = $landscape;
-
-        adaptive_images_plugin_check_empty_setting( $data, 'landscape' );
 
 
 
@@ -1320,43 +1201,63 @@
 
         $data['hidpi'] = $hidpi;
 
-        adaptive_images_plugin_check_empty_setting( $data, 'hidpi' );
-
 
 
         // Hidpi field validation.
 
-        $cdn_support = isset( $data['hidpi'] ) && $data['cdn-support'] == 'on' ? TRUE : FALSE;
+        $cdn_support = isset( $data['cdn-support'] ) && $data['cdn-support'] == 'on' ? TRUE : FALSE;
 
         $data['cdn-support'] = $cdn_support;
-
-        adaptive_images_plugin_check_empty_setting( $data, 'cdn-support' );
 
 
 
         // Cache field directory validation.
 
-        $cache_directory = trim( $data['cache-directory'] );
+        $cache_directory = isset( $data['cache-directory'] ) ? trim( $data['cache-directory'] ) : '';
+        
+        if ( $cache_directory == '' ) {
+	        
+        	$cache_directory = $defaults['cache-directory'];
+        	
+        }
+        
         $cache_directory = preg_replace( '/[^a-zA-Z\d-_\/]+/i', '', $cache_directory );
         $cache_directory = wp_normalize_path( $cache_directory );
         $cache_directory = untrailingslashit( $cache_directory );
-
+        
         if ( ! adaptive_images_plugin_is_file_in_wp_content( $cache_directory ) ) {
 
             $cache_directory == $defaults['cache-directory'];
 
         }
-
+                
         $data['cache-directory'] = $cache_directory;
 
-        adaptive_images_plugin_check_empty_setting( $data, 'cache-directory' );
 
 
+        // Watched directories field validation.
+                
+        if ( isset( $data['watched-directories'] ) && is_array( $data['watched-directories'] ) ) {
+        	 
+        	// Option given as an array or already stored as an array.
+        	 
+        	$watched_directories_array = $data['watched-directories'];
+        
+        } else if ( isset( $data['watched-directories'] ) && is_string( $data['watched-directories'] ) ) {
+        	 
+        	// Option coming from settings page form field as a string.
+        	 
+        	$watched_directories_string = trim( $data['watched-directories'] );
+        	$watched_directories_array = explode( "\n", $watched_directories_string );
+        	 
+        } else {
+        	
+        	// Default case, option has never been set.
+        	        	
+        	$watched_directories_array = $defaults['watched-directories'];
+        	
+        }
 
-        // Watched field directories validation.
-
-        $watched_directories_string = trim( $data['watched-directories'] );
-        $watched_directories_array = explode( "\n", $watched_directories_string );
         $watched_directories_array_sanitized = array();
 
         foreach ( $watched_directories_array as $directory ) {
@@ -1374,55 +1275,59 @@
         }
 
         $data['watched-directories'] = $watched_directories_array_sanitized;
-
-        adaptive_images_plugin_check_empty_setting( $data, 'watched-directories' );
         
         
         
         // Content types fields validation.
         
-        $content_types = array();        
-        
-        if ( isset( $data['content-types-jpeg'] ) && $data['content-types-jpeg'] == 'on' ) {
+        if ( isset( $data['content-types-jpeg'] ) ||
+        	 isset( $data['content-types-png'] )  ||
+        	 isset( $data['content-types-gif'] ) ) {
         	
-        	$content_types []= 'jpg'; 
-        	$content_types []= 'jpeg'; 
-        	unset( $data['content-types-jpeg'] );
+        	// Options comming from settings page form as checkbox values.
         	
+     	 	$content_types = array();
+        	 	
+       	 	if ( isset( $data['content-types-jpeg'] ) && $data['content-types-jpeg'] == 'on' ) {
+        	 		 
+       	 		$content_types []= 'jpg';
+       	 		$content_types []= 'jpeg';
+       	 		unset( $data['content-types-jpeg'] );
+        	 	
+       	 	}
+       	 	
+       	 	if ( isset( $data['content-types-png'] ) && $data['content-types-png'] == 'on' ) {
+        	 	
+        		$content_types[] = 'png';
+        		unset( $data['content-types-png'] );
+        	 	
+        	}
+        	 	
+        	if ( isset( $data['content-types-gif'] ) && $data['content-types-gif'] == 'on' ) {
+        	 	
+        		$content_types[] = 'gif';
+        		unset( $data['content-types-gif'] );
+        	
+        	}
+        	 	
+        	$data['content-types'] = $content_types;
+        	 
         }
-        
-        if ( isset( $data['content-types-png'] ) && $data['content-types-png'] == 'on' ) {
-
-        	$content_types[] = 'png'; 
-        	unset( $data['content-types-png'] );
-        	
-        }
-        
-        if ( isset( $data['content-types-gif'] ) && $data['content-types-gif'] == 'on' ) {
-
-        	$content_types[] = 'gif'; 
-        	unset( $data['content-types-gif'] );
-        	
-        }
-        
-        $data['content-types'] = $content_types;
-        
+                
         adaptive_images_plugin_check_empty_setting( $data, 'content-types' );
                 
 
 
         // JPEG quality field validation.
 
-        $jpeg_quality = intval( $data['jpeg-quality'] );
+        $jpeg_quality = isset( $data['jpeg-quality'] ) ? intval( $data['jpeg-quality'] ) : 0;
 
-        if ( $jpeg_quality == 0 ) {
+        if ( $jpeg_quality <= 0 || $jpeg_quality > 100 ) {
             
             $jpeg_quality = $defaults['jpeg-quality'];
         }
 
         $data['jpeg-quality'] = $jpeg_quality;
-
-        adaptive_images_plugin_check_empty_setting( $data, 'jpeg-quality' );
 
 
 
@@ -1432,9 +1337,6 @@
 
         $data['sharpen-images'] = $sharpen_images;
 
-        adaptive_images_plugin_check_empty_setting( $data, 'sharpen-images' );
-
-
 
 
         // Watch cache field validation.
@@ -1443,13 +1345,11 @@
 
         $data['watch-cache'] = $watch_cache;
 
-        adaptive_images_plugin_check_empty_setting( $data, 'watch-cache' );
-
 
 
         // Browser cache field validation.
 
-        $browser_cache = floatval( $data['browser-cache'] );
+        $browser_cache = isset( $data['browser-cache'] ) ? floatval( $data['browser-cache'] ) : -1;
 
         if ( $browser_cache < 0  ) {
 
@@ -1459,15 +1359,15 @@
 
         $data['browser-cache'] = $browser_cache;
 
-        adaptive_images_plugin_check_empty_setting( $data, 'browser-cache' );
-
 
 
         // Save plugin version.
 
         $data['version'] = adaptive_images_plugin_get_version();
+        
+        
 
-        // To avoid the bug of sanitizing twice the first time the option is created.
+        // Avoid the bug of sanitizing twice in the same request.
 
         $_REQUEST['sanitized'] = TRUE;
 
@@ -1561,9 +1461,9 @@
            $message,
            'updated' 
         );
-
-
-
+        
+        
+        
         return $data;
 
     }

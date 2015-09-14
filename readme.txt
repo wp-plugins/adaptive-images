@@ -186,6 +186,11 @@ their server resources.
 
 (If you do not see an upgrade notice for a certain version then this means that all should go smoothly.)
 
+= 0.7.0 =
+
+If you are using the CDN support option, then it is recommended that you saev your settings once again and test the 
+feature anew, because it has a whole new implementation. Still a bit experimental. We 're almost there! 
+
 = 0.5.0 =
 
 It is recommended, but not absolutely necessary, to save one&apos;s settings anew, due to the big changes in the image 
@@ -212,7 +217,7 @@ as intended. We try to minimize the hassle between these versions. This is not e
 
  - CDN/Varnish feature has been re-written. HTML is filtered server side. No images are missed or downloaded twice, 
    except for those declared in CSS rules (background, etc).
- - Plugin settings admin page user interface has been rewritten. More modern. More useful, more colourful, more 
+ - User interface of Plugin settings admin page has been rewritten. More modern. More useful, more colourful, more 
    beautiful. Sidebar added. Logo added. Me added. :-)
  - Image types setting added. User can choose which image types the plugin should handle.
  - Served images are injected with a special HTTP header for informational and debugging purposes.
@@ -220,8 +225,10 @@ as intended. We try to minimize the hassle between these versions. This is not e
  - Debugging tools have been improved and enhanced.
  - When saving settings the .htaccess files is backed up first.
  - Renamed a lot of functions to maintain code sanity.
+ - Admin CSS and are now JS in separate folders and files.
  - Bug fix in resolving installation home path.
- - Some more documentation.
+ - Bug fix in sanitising plugin settings after first save.
+ - Some more documentation and screenshots.
 
 = 0.6.3 =
 

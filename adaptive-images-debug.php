@@ -677,7 +677,7 @@
 
         // PHP GD image library.
 
-        $message .= $checks['gd']['message'];
+        $message = $checks['gd']['message'];
 
         // User settings.
 
@@ -720,8 +720,8 @@
 
     function adaptive_images_debug_diagnostics ( $echo = true ) {
 
-        global $table_prefix;
         global $wpdb;
+        global $table_prefix;
 
 
 
@@ -733,7 +733,7 @@
 
         // Adaptive Images settings.
 
-        $message .= '<pre style = "padding: 0; margin: 0;">';
+        $message = '<pre style = "padding: 2px 0; margin: 0;">';
         $options = adaptive_images_plugin_get_options();
         ob_start();
         var_dump( $options );

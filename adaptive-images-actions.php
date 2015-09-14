@@ -217,7 +217,7 @@
     function adaptive_images_actions_htaccess_update ( $options ) {
 
         // If no options data given then take what is in the database.
-
+        
         if ( ! $options ) {
 
             $options = adaptive_images_plugin_get_options();
@@ -274,7 +274,7 @@
         
         // Backup old htaccess file.
         
-        copy( $htaccess, $htaccess . '.AI.BAK' );
+        copy( $htaccess, $htaccess . '.ai.bak' );
 
 
 
@@ -288,7 +288,7 @@
 
         } else {
 
-        	return FALSE;
+        	return TRUE;
 
         }
 
@@ -335,7 +335,7 @@
 
             } else {
 
-                return FALSE;
+                return TRUE;
 
             }
 

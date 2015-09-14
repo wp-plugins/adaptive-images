@@ -21,11 +21,15 @@
   ================
   
   ***
-  
-    AFTER EACH UPDATE THE USER SETTINGS PHP FILE SHOULD BE RESTORED WITH SETTINGS FROM THE DATABASE!
-  
+    
+    - NEW SCREENSHOTS
+    
+    - CDN ACTIONS STABLE
+    
+    - CDN SRC REPLACEMENT WORKS EVEN ON SCRIPTS
+    
   ***
-
+  
     1. CDN/VARNISH SUPPORT
 
       - Images in CSS are not handled
@@ -159,17 +163,17 @@
 
     11. NGINX SETTINGS
 
-      Pressidium???
+        Pressidium???
 
-      location assets {
-      }
+        location assets {
+        }
         
-      location ai-cache { *** THE CACHE DIR ***
-      }
+        location ai-cache { *** THE CACHE DIR ***
+        }
         
-      location / {
-        rewrite \.(?:jpe?g|gif|png)$ /adaptive-images.php; *** THIS IS THE PHP SCRIPT ***
-      }
+        location / {
+            rewrite \.(?:jpe?g|gif|png)$ /adaptive-images.php; *** THIS IS THE PHP SCRIPT ***
+        }
 
     *** The Martino case:
 
@@ -188,6 +192,11 @@
         This is one edge case where the plugin cannot serve them, 
         since the images are not served by the same WordPress installation,
         neither are they served by a CDN or Varnish!
+        
+    *** Monetisation
+        
+        Ads in the sidebar
+        Replace original images and provide a service that stores the originals just in case!
 
   
 

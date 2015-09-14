@@ -49,7 +49,7 @@
     if ( is_admin() ) {
 
         // Update installation htaccess when plugin is activated.
-
+        
         register_activation_hook( $plugin_name, 'adaptive_images_actions_htaccess_update'  );
 
 
@@ -71,8 +71,8 @@
         
         // Adds the actions which print the plugin admin CSS and JS.
 
-        add_action( 'admin_head', 'adaptive_images_admin_frontend_css' );
-        add_action( 'admin_head', 'adaptive_images_admin_frontend_js' );
+        add_action( 'admin_head', 'adaptive_images_admin_css' );
+        add_action( 'admin_head', 'adaptive_images_admin_js' );
 
         
 
@@ -93,7 +93,7 @@
 
 
 
-    // Theme hooks and filters.
+    // Theme frontend hooks and filters.
     
     if ( ! is_admin() ) {
         
