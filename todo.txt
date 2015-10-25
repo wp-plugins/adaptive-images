@@ -27,6 +27,10 @@
     - CDN ACTIONS STABLE
     
     - CDN SRC REPLACEMENT WORKS EVEN ON SCRIPTS
+
+    adaptive_images_plugin_get_cahe_directory_path
+
+    put wp-content path in the user settings php
     
   ***
   
@@ -195,8 +199,9 @@
         
     *** Monetisation
         
-        Ads in the sidebar
+        Ads (third-party) in the sidebar.
         Replace original images and provide a service that stores the originals just in case!
+        Advertise that we (Nevma) provide WordPress services, we are WordPress experts.
 
   
 
@@ -281,6 +286,8 @@
     - https://developers.google.com/web/fundamentals/media/images/images-in-markup/
     - https://css-tricks.com/which-responsive-images-solution-should-you-use/
     - http://www.smashingmagazine.com/2013/07/08/choosing-a-responsive-image-solution/
+
+    - http://cloudinary.com/
 
 
 

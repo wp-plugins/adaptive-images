@@ -58,7 +58,7 @@
             'cdn-support'         => FALSE,
             'cache-directory'     => 'cache/adaptive-images',
             'watched-directories' => array( 'wp-content/uploads', 'wp-content/themes' ),
-            'content-types'       => array( 'jpg', 'jpeg', 'png', 'gif' ),
+            'content-types'       => array( 'jpg', 'jpeg' ),
             'jpeg-quality'        => 75,
             'sharpen-images'      => TRUE,
             'watch-cache'         => TRUE,

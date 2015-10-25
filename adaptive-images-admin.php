@@ -842,8 +842,12 @@
                                 <p>
                                     Cleanup the image cache or simply calculate its current size (takes some time, depending on the cache size).
                                     <span class = "button-wrapper">
-                                        <a class = "button-primary thickbox" href = "#TB_inline?height=300&amp;width=500&amp;inlineId=cleanup-image-cache-modal" title = "Cleanup image cache" style = "float: left;">Cleanup cache</a>
-                                        <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=calculate-cache-size&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-calculate-cache-size' ); ?>" title = "Calculate cache size">Calculate size</a>
+                                        <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=calculate-cache-size&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-calculate-cache-size' ); ?>" title = "Calculate cache size">
+                                            Calculate size
+                                        </a>
+                                        <a class = "button-primary thickbox" href = "#TB_inline?height=300&amp;width=500&amp;inlineId=cleanup-image-cache-modal" title = "Cleanup image cache">
+                                            Cleanup cache
+                                        </a>
                                     </span>
                                 </p>
 
@@ -860,8 +864,12 @@
                                 Are you sure you want to delete all images in the cache? This means that all cached images will be lost and that they will be created anew, once they are accessed again. This process might take some time.
                             </p>
                             <p style = "text-align: right;">
-                                <a class = "button-primary tb-confirm" href = "options-general.php?page=adaptive-images&action=cleanup-image-cache&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-image-cache' ); ?>">Yes, cleanup cache</a> 
-                                <a class = "button-secondary tb-remove" href = "#">No, leave it be</a> 
+                                <a class = "button-primary tb-confirm" href = "options-general.php?page=adaptive-images&action=cleanup-image-cache&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-cleanup-image-cache' ); ?>">
+                                    Yes, cleanup cache
+                                </a> 
+                                <a class = "button-secondary tb-remove" href = "#">
+                                    No, leave it be
+                                </a> 
                             </p>
 
                         </div> <!-- #cleanup-image-cache-modal -->
@@ -875,8 +883,12 @@
                                 <p>
                                     Print plugin useful debug information.
                                     <span class = "button-wrapper">
-                                        <a class = "button-primary left" href = "options-general.php?page=adaptive-images&action=print-debug-info&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-print-debug-info' ); ?>" style = "float: left;">Print debug info</a>
-                                        <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=print-diagnostic-info&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-print-diagnostic-info' ); ?>">Print diagnostics</a> <br />
+                                        <a class = "button-primary left" href = "options-general.php?page=adaptive-images&action=print-debug-info&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-print-debug-info' ); ?>">
+                                            Print debug info
+                                        </a>
+                                        <a class = "button-primary" href = "options-general.php?page=adaptive-images&action=print-diagnostic-info&_wpnonce=<?php echo wp_create_nonce( 'adaptive-images-print-diagnostic-info' ); ?>">
+                                            Print diagnostics
+                                        </a>
                                     </span>
                                 </p>
 
@@ -1413,6 +1425,12 @@
                 '</p>';
 
         }
+
+
+
+        // Add the wp-content directory path to the settings array.
+        
+        $data['wp-content'] = WP_CONTENT_DIR;
 
 
 

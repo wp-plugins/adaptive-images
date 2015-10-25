@@ -230,6 +230,16 @@ as intended. We try to minimize the hassle between these versions. This is not e
  - Bug fix in sanitising plugin settings after first save.
  - Some more documentation and screenshots.
 
+= 0.6.41 =
+
+- Version 0.6.4 bug fix caused a new bug in image path resolution when the WordPress is installed in a subdirectory of 
+  the server root directory.
+
+= 0.6.4 =
+
+- Fixed bug wp-content dir resolution within the standalone Adaptive Images image handling scrips, where sometimes the
+  server document root was not reported by PHP as being the same as the WordPress installation path. 
+
 = 0.6.3 =
 
 - Fixed bug in htaccess rewrite rules generation when installation is not in root directory.

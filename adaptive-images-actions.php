@@ -400,6 +400,10 @@
             "        \n" .
             "        \$hidpi = " . ( $options['hidpi'] ? 'TRUE' : 'FALSE' ) . "; \n" .
             "\n" .
+            "        // WordPress wp-content directory path. \n" .
+            "        \n" .
+            "        \$wp_content = \"" . $options['wp-content'] . "\"; \n" .
+            "\n" .
             "        // The directory of the images cache. \n" .
             "        \n" .
             "        \$cache_dir = \"" . $options['cache-directory'] . "\"; \n" .

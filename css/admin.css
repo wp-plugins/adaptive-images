@@ -64,9 +64,13 @@
 	.settings_page_adaptive-images .hndle { cursor: default !important; }
 	
 	.settings_page_adaptive-images .postbox .inside p { font-size: 12px; }
-	
-	.settings_page_adaptive-images #postbox-container-1 .button-primary { width: 125px; text-align: center; }
-	
+
+	.settings_page_adaptive-images .inside::after { content: ''; display: block; clear: both; }
+		
+		.settings_page_adaptive-images #postbox-container-1 .button-primary { width: 48%; text-align: center; }
+		.settings_page_adaptive-images #postbox-container-1 .button-primary:nth-of-type(1) { float: left; }
+		.settings_page_adaptive-images #postbox-container-1 .button-primary:nth-of-type(2) { float: right; }
+		
 	.settings_page_adaptive-images .button-wrapper { display: block; text-align: right; margin-top: 0.5em; }
 	
 	#adaptive-images-banner { display: block; position: relative; }

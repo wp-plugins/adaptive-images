@@ -43,8 +43,12 @@
 
         if ( ! isset( $_REQUEST['adaptive-images-settings'] ) ) {
 
-            // Default script settings which are set in the plugin settings page.
+            $current_directory  = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
+            
+            // Default script settings which are consequently in user settings php file.
+
+            $wp_content    = realpath( $current_directory . '/../../' );
             $resolutions   = array( 1024, 600, 480 );
             $landscape     = FALSE;
             $hidpi         = FALSE;
@@ -58,7 +62,6 @@
 
             // Check if user settings from the WordPress admin exist.
 
-            $current_directory  = dirname( $_SERVER['SCRIPT_FILENAME'] );
             $user_settings_file = realpath( $current_directory . '/user-settings.php' );
 
             if ( file_exists( $user_settings_file ) ) {
@@ -71,12 +74,18 @@
 
 
 
-            // Resolve paths of necessary directories.
-
-            $wp_content     = realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../../' );
+            // Resolve original requested image path. 
+            
             $requested_uri  = parse_url( urldecode( $_SERVER['REQUEST_URI']), PHP_URL_PATH );
-            $requested_file = basename( $requested_uri );
-            $source_file    = $_SERVER['DOCUMENT_ROOT'] . $requested_uri;
+            
+            $index = strpos( $requested_uri, '/wp-content' );
+            $index += strlen( '/wp-content' );
+            $source_file = $wp_content . substr( $requested_uri, $index );
+
+
+
+            // Initialize resolution in an unusable value. 
+            
             $resolution     = FALSE;
 
 
