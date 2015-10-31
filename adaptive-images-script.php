@@ -46,7 +46,7 @@
             $current_directory  = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
             
-            // Default script settings which are consequently in user settings php file.
+            // Default script settings which are consequently overriden in user settings php file.
 
             $wp_content    = realpath( $current_directory . '/../../' );
             $resolutions   = array( 1024, 600, 480 );
@@ -81,12 +81,6 @@
             $index = strpos( $requested_uri, '/wp-content' );
             $index += strlen( '/wp-content' );
             $source_file = $wp_content . substr( $requested_uri, $index );
-
-
-
-            // Initialize resolution in an unusable value. 
-            
-            $resolution     = FALSE;
 
 
 

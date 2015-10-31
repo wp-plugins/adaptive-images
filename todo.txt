@@ -31,6 +31,8 @@
     adaptive_images_plugin_get_cahe_directory_path
 
     put wp-content path in the user settings php
+
+    MENTION THAT IT WORKS WITH WPENGINE, PRESSIDIUM, OTHER???
     
   ***
   
@@ -176,7 +178,7 @@
         }
         
         location / {
-            rewrite \.(?:jpe?g|gif|png)$ /adaptive-images.php; *** THIS IS THE PHP SCRIPT ***
+            rewrite \.(?:jpe?g|gif|png)$ /adaptive-images-script.php; *** THIS IS THE PHP SCRIPT ***
         }
 
     *** The Martino case:
@@ -299,6 +301,12 @@
     - http://wptavern.com/tips-for-promoting-newly-released-wordpress-plugins
     - http://www.insite.io/blog/the-loneliness-of-the-marketer-or-how-to-promote-a-baby-wordpress-plugin/
     - http://wpscoop.com/promoting-new-wordpress-plugins/
+    - wplift
+    - wpmayor
+    - elegant themes
+    - envato blog
+    - wpexplorer
+    - wpmudev blog
 
 
 

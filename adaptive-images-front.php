@@ -226,7 +226,7 @@
     
     function adaptive_images_front_replace_image_source ( $matches ) {
     
-    	return 'data-adaptive-images-src="' . $matches[1] . '"';
+    	return '<img' . $matches[1] . 'data-adaptive-images-src="' . $matches[2] . '"';
     
     }
     
@@ -245,8 +245,37 @@
      */
     
     function adaptive_images_front_replace_image_sources_from_html ( $buffer ) {
+
+        /**
+         * Test cases in http://www.regexr.com/
+         * 
+         * <img src="http://www.domain.com/folder/image.jpg" />
+         * <img    src =   "http://www.domain.com/folder/image.jpg" class="test" />
+         * <img class="test"  src =   "http://www.domain.com/folder/image.jpg" />
+         * <script type = "text/javascript" src   = "http://www.domain.com/folder/script.js"></script>
+         * <script type="text/javascript" src="http://www.domain.com/folder/script.js"></script>
+         * 
+         * <picture>
+         *   <source srcset="mdn-logo-wide.png" media="(min-width: 600px)">
+         *   <source srcset="mdn-logo.svg" type="image/svg+xml">
+         *   <img src="mdn-logo-narrow.png" alt="MDN">
+         * </picture>
+         * 
+         * <figure>
+         *   <img src="https://developer.cdn.mozilla.net/media/img/mdn-logo-sm.png" alt="An awesome picture">
+         *   <figcaption>Fig1. MDN Logo</figcaption>
+         * </figure>
+         */
     
-    	$image_src_reg_exp = '/<img.+src=\s*"(.[^"]+)"/i';
+    	$image_src_reg_exp = 
+            '/<img'      . // Starts with IMG element tag
+            '(.+)'       . // Followed by anything which is captured
+            'src'        . // The src attribute
+            '\s*'        . // Any number of spaces
+            '='          . // The equal sign
+            '\s*'        . // Any number of spaces
+            '"(.[^"]+)"' . // The contents of the src attribute captured
+            '/i';          // Case insensitive match
     
     	return preg_replace_callback( $image_src_reg_exp, 'adaptive_images_front_replace_image_source', $buffer );
     

@@ -473,6 +473,9 @@
                 CDNs, Varnish and other external caching servers, when they are used, stand between your website and your users in order to deliver your content -and you images- to them. With this option the Adaptive Images plugin makes <strong>slight and unobtrusive</strong> changes to your HTML, by adding a special url parameter to your image urls, so that the caching server may know which version of an image to serve each time.
             </p>
             <p>
+                ***Uses Javascript on the browser side!***
+            </p>
+            <p>
                 <strong>An image url like:</strong>
             </p>
             <p>
@@ -485,10 +488,10 @@
                 &bull; <code>http://www.mysite.com/wp-content/uploads/2015/08/summer.jpg<strong>?resolution=320,2</strong></code>
             </p>
             <p>
-                This feature is still <strong>experimental</strong>. You are more than welcome to test it, experiment with it and report your feedback to us. We promise to make it stable pretty soon. 
+                ***Still experimental feature!***
             </p>
             <p>
-            	If you are not sure that you are using a CDN or a caching server, like Varnish, then do not use this feature, it will be of absoluytely no use to you.
+                Sorry about that. You are more than welcome to test it, experiment with it and report your feedback to us. We promise to make it stable pretty soon. If you are not sure that you are using a CDN or a caching server, like Varnish, then do not use this feature, it will be of absolutely no use to you.
             </p>
         </div> <?php
 
