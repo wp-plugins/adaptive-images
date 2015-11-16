@@ -74,102 +74,7 @@
         } ?>
 
         <!--noptimize-->
-        <script type = "text/javascript">
-
-            //
-            // THE SERVER SIDE IMG SRC REPLACEMENT SOLUTION (1)
-            // 
-            
-            // When the DOM is ready.
-
-            document.addEventListener( 'DOMContentLoaded', function ( event ) {
-
-                var cookies = document.cookie.split( ';' );
-
-                for ( var k in cookies ) {
-
-                    var cookie = cookies[k].trim();
-
-                    // Get the plugin resolution cookie.
-
-                    if ( cookie.indexOf( 'resolution' ) === 0 ) {
-
-                        // Replace all image sources to add them the resolution cookie value.
-
-                        var imgs = document.querySelectorAll( 'img[data-adaptive-images-src]' );
-
-                        for ( var k = 0; k < imgs.length; k++ ) {
-                            var img = imgs[k];
-                            var data_src = img.getAttribute( 'data-adaptive-images-src' );
-                            var new_src = data_src.indexOf( '?' ) >=0 ? data_src + '&' + cookie : data_src + '?' + cookie;
-                            img.setAttribute( 'src', new_src );
-                        }
-
-                        break;
-
-                    }
-
-                }
-
-            });
-            
-			/*********************************************************************************************************/
-            
-            // 
-            // THE PURE JAVASCRIPT SOLUTION (2)
-            // 
-            
-            // var resolution = null;
-
-            // var cookies = document.cookie.split( ';' );
-
-            // for ( var k in cookies ) {
-
-            //     var cookie = cookies[k].trim();
-
-            //     if ( cookie.indexOf( 'resolution' ) === 0 ) {
-
-            //         resolution = cookie;
-
-            //     }
-
-            // }
-
-            // function handle_images () {
-
-            //     var imgs = document.querySelectorAll( 'img' );
-
-            //     for ( var k = 0; k < imgs.length; k++ ) {
-
-            //         var img = imgs[k];
-
-            //         if ( img.complete || img.getAttribute( 'data-adaptive-images' ) ) {
-
-            //             continue;
-
-            //         }
-
-            //         var src = img.getAttribute( 'src' );
-            //         var new_src = src.indexOf( '?' ) >=0 ? src + '&' + resolution : src + '?' + resolution;
-
-            //         img.removeAttribute( 'src' );
-            //         img.setAttribute( 'src', new_src );
-            //         img.setAttribute( 'data-adaptive-images', true );
-
-            //     }
-
-            // }
-
-            // var handler = window.setInterval( handle_images, 10 );
-
-            // document.addEventListener( 'DOMContentLoaded', function ( event ) {
-
-            //     window.clearInterval( handler );
-            //     handle_images();
-
-            // });
-
-        </script> 
+        <script src = "<?php echo adaptive_images_plugin_get_url(); ?>/js/frontend-cdn-support.js" type = "text/javascript"></script>
         <!--/noptimize--> <?php
 
     }
@@ -224,9 +129,9 @@
      * @return void Nothing really.
      */
     
-    function adaptive_images_front_replace_image_source ( $matches ) {
+    function adaptive_images_front_replace_img_src ( $matches ) {
     
-    	return '<img' . $matches[1] . 'data-adaptive-images-src="' . $matches[2] . '"';
+    	return $matches[1] . 'data-adaptive-images-src' . $matches[2] . '<noscript>' . $matches[0] . '</noscript>';
     
     }
     
@@ -247,13 +152,26 @@
     function adaptive_images_front_replace_image_sources_from_html ( $buffer ) {
 
         /**
-         * Test cases in http://www.regexr.com/
+         * Regular expression test: http://regexr.com/3c7f8
          * 
-         * <img src="http://www.domain.com/folder/image.jpg" />
-         * <img    src =   "http://www.domain.com/folder/image.jpg" class="test" />
-         * <img class="test"  src =   "http://www.domain.com/folder/image.jpg" />
-         * <script type = "text/javascript" src   = "http://www.domain.com/folder/script.js"></script>
-         * <script type="text/javascript" src="http://www.domain.com/folder/script.js"></script>
+         * RICG
+         * ====
+         * 
+         * https://responsiveimages.org/
+         * 
+         * <img src="small.jpg"
+         *      srcset="large.jpg 1024w, medium.jpg 640w, small.jpg 320w"
+         *      sizes="(min-width: 36em) 33.3vw, 100vw"
+         *      alt="A rad wolf">
+         * 
+         * <picture>
+         *   <source media="(min-width: 40em)" srcset="big.jpg 1x, big-hd.jpg 2x">
+         *   <source srcset="small.jpg 1x, small-hd.jpg 2x">
+         *   <img src="fallback.jpg" alt="">
+         * </picture>
+         * 
+         * OTHER
+         * =====
          * 
          * <picture>
          *   <source srcset="mdn-logo-wide.png" media="(min-width: 600px)">
@@ -266,18 +184,10 @@
          *   <figcaption>Fig1. MDN Logo</figcaption>
          * </figure>
          */
+
+    	$image_src_reg_exp = '/(<img\s+(?:[^\s>\"\'=]*\s*=\s*\"[^\"]*\"\s+)*)src(\s*=\s*\"[^\"]*\"(?:\s+[^\s>\"\'=]*\s*=\s*\"[^\"]*\")*\s*\/?>)/im';
     
-    	$image_src_reg_exp = 
-            '/<img'      . // Starts with IMG element tag
-            '(.+)'       . // Followed by anything which is captured
-            'src'        . // The src attribute
-            '\s*'        . // Any number of spaces
-            '='          . // The equal sign
-            '\s*'        . // Any number of spaces
-            '"(.[^"]+)"' . // The contents of the src attribute captured
-            '/i';          // Case insensitive match
-    
-    	return preg_replace_callback( $image_src_reg_exp, 'adaptive_images_front_replace_image_source', $buffer );
+    	return preg_replace_callback( $image_src_reg_exp, 'adaptive_images_front_replace_img_src', $buffer );
     
     }
 

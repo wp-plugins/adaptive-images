@@ -127,6 +127,7 @@ specified breakpoints!
  - Thank you to the guys over at the Pressidium team for helping with debugging the CDN/Varnish/external caching 
    service feature.
  - Thank you Andy Gray for helping debugging the weird filesystem path issues in managed environments. 
+ - Thank you Antonis Zachopoulos for the help on regular expressions. Saved me from going crazy!
  - And, of course, a million thanks to all those who provided useful feedback in the early versions of the plugin, 
    where the inevitable glitches due to server environment variations were more than a few.
 

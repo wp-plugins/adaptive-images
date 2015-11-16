@@ -93,18 +93,18 @@
             } else {
 
                 $cookie_resolution = $_COOKIE['resolution'];
-                
             }
 
 
 
-            // Default values.
+            // Default values for client width and device pixel density.
 
             $client_width  = $resolutions[0];
             $pixel_density = 1;
 
-            if ( ! isset( $cookie_resolution ) || 
-                 ! preg_match( "/^[0-9]+[,]+[0-9]+$/", $cookie_resolution ) ) { 
+            $cookie_invalid = ! isset( $cookie_resolution ) || ! preg_match( "/^[0-9]+[,]+[0-9]+$/", $cookie_resolution );
+
+            if ( $cookie_invalid ) { 
 
                 // Delete cookie if not valid, so that the default image is used.
 
@@ -119,6 +119,7 @@
                 // First part of cookie is the client screen width.
 
                 if ( count( $cookie_array ) > 0 ) { 
+
                     $client_width  = intval( $cookie_array[0] );
                 }
 
@@ -127,6 +128,7 @@
                 if ( $hidpi ) { 
 
                     if ( count( $cookie_array ) > 1 ) { 
+
                         $pixel_density = $cookie_array[1];
                     }
 
@@ -178,6 +180,7 @@
                 'client_width'  => $client_width,
                 'hidpi'         => $hidpi,
                 'pixel_density' => $pixel_density,
+                'cookie'        => $cookie_resolution,
                 'resolution'    => $resolution
             );
 
@@ -261,6 +264,10 @@
                     <tr>
                         <td>Resolution</td>
                         <td><?php echo $settings['resolution']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Cookie</td>
+                        <td><?php echo $settings['cookie']; ?></td>
                     </tr>
                     <tr>
                         <td>Cache exists</td>
@@ -641,6 +648,9 @@
         // Start creating the resized image with a blank true color canvas.
 
         $destination = @ImageCreateTrueColor( $new_width, $new_height );
+
+        $anti_alias = TRUE;
+        @ImageAntialias( $destination, $anti_alias );
 
 
 

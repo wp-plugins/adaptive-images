@@ -657,7 +657,7 @@
         <br />
         
         <span class = "adaptive-images-help-short">
-            Usuallly a 75 JPEG compression level works fine for the human eye with very small file sizes. Your call.
+            Usuallly a 75 JPEG compression level works fine for the human eye with very small file sizes. Your call!
         </span> 
 
         <button class = "adaptive-images-help-button"></button> 
@@ -819,14 +819,9 @@
             <?php $checks = adaptive_images_debug_perform_checks(); ?>
             
             <h2>
-                Adaptive Images Settings
+                Adaptive Images for WordPress Settings
                 <span class = "adaptive-images-info-h2 <?php echo $checks['all'] ? '' : 'error'; ?>">
-                    <?php 
-                        echo 
-                            $checks['all'] ? 
-                                '&#10004; Plugin is setup correctly' : 
-                                '&#10006; Houston, we have a problem'; 
-                    ?>
+                    <?php echo $checks['all'] ? '&#10004; Plugin is setup correctly' : '&#10006; Houston, we have a problem'; ?>
                 </span>
             </h2>
 
@@ -895,18 +890,18 @@
                                     </span>
                                 </p>
 
-                            </div>
+                            </div> <!-- .inside -->
 
                         </div> <!-- .postbox -->
                         
                         <div class = "postbox">
 
-                            <h3 class = "hndle">Need some help</h3>
+                            <h3 class = "hndle">Help &amp; support</h3>
 
                             <div class = "inside">
 
                                 <p>
-                                    Do not hesitate to report any problems you may encounter and send us your suggestions at the <strong><a href = "https://wordpress.org/support/plugin/adaptive-images" target = "_blank">plugin support page</a></strong>.
+                                    Do not hesitate to report any problems you may encounter and send us your suggestions in the <strong><a href = "https://wordpress.org/support/plugin/adaptive-images" target = "_blank">plugin support page</a></strong>.
                                 </p>
                                 
                             </div> <!-- .inside -->
