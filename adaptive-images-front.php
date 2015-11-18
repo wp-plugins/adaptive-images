@@ -33,7 +33,7 @@
      * @return void Nothing really!
      */
 
-    function adaptive_images_front_head_cookie_javascript () { 
+    function adaptive_images_front_echo_javascript_cookie () { 
 
         $options = adaptive_images_plugin_get_options(); ?>
 
@@ -63,7 +63,7 @@
      * @return void Nothing really!
      */
 
-    function adaptive_images_front_head_image_cdn_javascript () { 
+    function adaptive_images_front_echo_javascript_cdn_support () { 
 
         $options = adaptive_images_plugin_get_options(); 
 

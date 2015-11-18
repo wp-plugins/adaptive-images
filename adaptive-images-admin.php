@@ -17,7 +17,7 @@
 
     if ( ! defined( 'ABSPATH' ) ) {
 
-        exit; 
+    	exit; 
 
     }
 
@@ -31,7 +31,7 @@
      * @return void
      */
 
-    function adaptive_images_admin_css () { 
+    function adaptive_images_admin_echo_admin_css () { 
 
         if ( ! adaptive_images_plugin_is_settings_screen() ) {
 
@@ -39,7 +39,7 @@
 
         } ?>
         
-        <link rel = "stylesheet" href = "<?php echo adaptive_images_plugin_get_url(); ?>/css/admin.css" /> <?php
+        <link rel = "stylesheet" href = "<?php echo adaptive_images_plugin_get_url(); ?>/css/admin-settings.css" /> <?php
 
     }
 
@@ -53,7 +53,7 @@
      * @return void
      */
 
-    function adaptive_images_admin_js () { 
+    function adaptive_images_admin_echo_admin_js () { 
 
         if ( ! adaptive_images_plugin_is_settings_screen() ) {
 
@@ -61,7 +61,7 @@
 
         } ?>
 
-        <script src = "<?php echo adaptive_images_plugin_get_url(); ?>/js/admin.js" type = "text/javascript"></script> <?php
+        <script src = "<?php echo adaptive_images_plugin_get_url(); ?>/js/admin-settings.js" type = "text/javascript"></script> <?php
 
     }
 
@@ -470,10 +470,7 @@
         <div class = "adaptive-images-help-content">
             <h4>CDN Support</h4>
             <p>
-                CDNs, Varnish and other external caching servers, when they are used, stand between your website and your users in order to deliver your content -and you images- to them. With this option the Adaptive Images plugin makes <strong>slight and unobtrusive</strong> changes to your HTML, by adding a special url parameter to your image urls, so that the caching server may know which version of an image to serve each time.
-            </p>
-            <p>
-                ***Uses Javascript on the browser side!***
+                CDNs, Varnish and other external caching servers, when they are used, stand between your website and your users in order to deliver your content -and you images- to them. With this option the Adaptive Images plugin <strong>filters</strong> your HTML&apos;s IMG elements slightly and unobtrusively in the server side, and then, in the browser side, it adds a special url parameter to their src attributes <strong>via Javascript</strong>, so that the caching server may know which version of an image to serve each time.
             </p>
             <p>
                 <strong>An image url like:</strong>
@@ -486,12 +483,6 @@
             </p>
             <p>
                 &bull; <code>http://www.mysite.com/wp-content/uploads/2015/08/summer.jpg<strong>?resolution=320,2</strong></code>
-            </p>
-            <p>
-                ***Still experimental feature!***
-            </p>
-            <p>
-                Sorry about that. You are more than welcome to test it, experiment with it and report your feedback to us. We promise to make it stable pretty soon. If you are not sure that you are using a CDN or a caching server, like Varnish, then do not use this feature, it will be of absolutely no use to you.
             </p>
         </div> <?php
 
