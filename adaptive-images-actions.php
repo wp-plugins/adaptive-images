@@ -134,16 +134,21 @@
         $request_uri_base = substr( $request_uri, 0, strpos( $request_uri, '/wp-admin', 1 ) );
 
         // Isolate the relative path of the adaptive images PHP script inside the WordPress installation directory.
-        
+        //this returns the home path with windoze back-slashes converted to unix forward-slashes
         $wp_home_path = get_home_path();
 
-        $wp_home_path = preg_replace( '/\//i', '\/', $wp_home_path );
-        $wp_home_path = preg_replace( '/\./i', '\\.', $wp_home_path );
-        
-        $adaptive_images_dir_path          = dirname( __FILE__ );
-        $adaptive_images_dir_path_relative = preg_replace( '/' . $wp_home_path . '/i', '', $adaptive_images_dir_path );
+        //this is the wrong way to remove regex meta characters...use preg_quote instead (see $pattern below)
+        //$wp_home_path = preg_replace( '/\//i', '\/', $wp_home_path );
+        //$wp_home_path = preg_replace( '/\./i', '\\.', $wp_home_path );
 
-        $adaptive_images_php_script = $request_uri_base. '/' . $adaptive_images_dir_path_relative . '/adaptive-images-script.php';
+        //need to normalize the path to flip the slashes in windoze paths
+        $adaptive_images_dir_path          = wp_normalize_path(dirname( __FILE__ ));
+
+        //now remove the wp_home_path to get the relative dir path
+        $pattern = '/'. preg_quote($wp_home_path,"/") . '/i';
+        $adaptive_images_dir_path_relative = preg_replace( $pattern, '', $adaptive_images_dir_path );
+
+        $adaptive_images_php_script = ( $request_uri_base != '' ? $request_uri_base : '' ) . '/' . $adaptive_images_dir_path_relative . '/adaptive-images-script.php';
 
         // If no starting slash then add it.
 
@@ -189,6 +194,29 @@
             "# END Adaptive Images";
 
         return $htaccess_rewrite_block;
+
+    }
+
+
+
+    /**
+     * Creates a snippet of NginX configuration which must be added manually.
+     * 
+     * @author Nevma (info@nevma.gr)
+     * 
+     * @return string The adaptive images plugin .htaccess rewrite block.
+     */
+
+    function adaptive_images_actions_nginx_get_block () {
+
+        // Create the NginX rewrite  block part.
+
+        $nginx_rewrite_block = 
+            'location / {' . "\n" .
+            '    rewrite \.(?:jpe?g|gif|png)$ /wp-content/plugins/adaptive-images/adaptive-images-script.php;' . "\n" .
+            '}';
+
+        return $nginx_rewrite_block;
 
     }
 
@@ -361,6 +389,14 @@
             "\n" .
             "        \$hidpi = " . ( $data['hidpi'] ? 'TRUE' : 'FALSE' ) . "; \n" .
             "\n" .
+            "        // WordPress /wp-content directory path. \n" .
+            "        \n" .
+            "        \$wp_content_dir = \"" . $data['wp-content-dir'] . "\"; \n" .
+            "\n" .
+            "        // WordPress /wp-content web url. \n" .
+            "        \n" .
+            "        \$wp_content_url = \"" . $data['wp-content-url'] . "\"; \n" .
+            "\n" .
             "        // The directory of the images cache. \n" .
             "\n" .
             "        \$cache_dir = \"" . $data['cache-directory'] . "\"; \n" .
@@ -443,7 +479,7 @@
     function adaptive_images_actions_check_gd_available_message () {
 
         echo 
-            '<div class = "error settings-error notice is-dismissible adaptive-images-settings-error">' .
+            '<div class = "error settings-error notice is-dismissible settings-error-adaptive-images-settings-error">' .
                 '<p>' . 
                     'Adaptive Images Error &mdash; PHP GD image library missing' . 
                 '</p>' . 
@@ -547,7 +583,7 @@
         $permissions = adaptive_images_plugin_file_permissions( $htaccess );
 
         echo 
-            '<div class = "error settings-error notice is-dismissible adaptive-images-settings-error">' .
+            '<div class = "error settings-error notice is-dismissible settings-error-adaptive-images-settings-error">' .
                 '<p>' . 
                     'Adaptive Images Error &mdash; The .htaccess file is not updated' . 
                 '</p>' . 
@@ -602,9 +638,9 @@
     function adaptive_images_actions_check_settings_saved_message () {
 
         echo 
-            '<div class = "error settings-error notice is-dismissible adaptive-images-settings-error">' .
+            '<div class = "error settings-error notice is-dismissible settings-error-adaptive-images-settings-error">' .
                 '<p>' . 
-                    'Adaptive Images Error &mdash; Settings not saved' . 
+                    '<strong>Adaptive Images Error &mdash; Settings not saved</strong>' . 
                 '</p>' .
                 '<hr />' . 
                 '<p>' . 
