@@ -35,9 +35,17 @@
 
         <style type = "text/css">
 
-            /* Make our admin notices look like other WordPress settings errors. */
+            /* Admin notices style. */
 
-            .adaptive-images-settings-error { font-weight: bold; }
+            .settings_page_adaptive-images .settings-error strong { font-weight: normal; }
+            .settings_page_adaptive-images .settings-error > p:first-of-type strong { font-weight: bold; }
+
+            .settings_page_adaptive-images #TB_closeWindowButton:focus .tb-close-icon { box-shadow: none; color: #666; }
+
+            /* Admin notices code output. */
+
+            .settings_page_adaptive-images .settings-error pre { margin: 0.5em 0; }
+            .settings_page_adaptive-images .settings-error pre code { display: block; }
 
         </style> <?php
 
@@ -358,7 +366,7 @@
             <br />
             
             <small>
-                *** Experimental feature, that adds a special url at the end of each image source url.  Not dangerous, just experimental! 
+                *** Experimental feature. Adds a special url parameter at the end of each image url.  Nothing dangerous, just experimental! 
             </small>
 
         </label> <?php
@@ -750,7 +758,7 @@
         // Cleanup image cache action.
 
         if ( $_GET['action'] == 'cleanup-image-cache' && 
-             wp_verify_nonce( $_GET['_wpnonce'], 'adaptive-images-cleanup-image-cache' ) ) {
+            wp_verify_nonce( $_GET['_wpnonce'], 'adaptive-images-cleanup-image-cache' ) ) {
 
             $cache_path = adaptive_images_plugin_get_cahe_directory_path();
 
@@ -913,9 +921,9 @@
 
 
 
-        // Hidpi field validation.
+        // CDN support field validation.
 
-        $cdn_support = isset( $data['hidpi'] ) && $data['cdn-support'] == 'on' ? TRUE : FALSE;
+        $cdn_support = isset( $data['cdn-support'] ) && $data['cdn-support'] == 'on' ? TRUE : FALSE;
 
         $data['cdn-support'] = $cdn_support;
 
@@ -1069,6 +1077,13 @@
 
 
 
+        // Add the /wp-content directory path and web url to the settings.
+        
+        $data['wp-content-dir'] = wp_normalize_path(WP_CONTENT_DIR);
+        $data['wp-content-url'] = WP_CONTENT_URL;
+
+
+
         // Save user settings PHP file.
 
         $result = adaptive_images_actions_save_user_settings( $data );
@@ -1096,6 +1111,18 @@
                 '</p>';
 
         }
+
+
+
+        // Add NginX configuration info.
+
+        $message .= 
+            '<p>' . 
+                'If you are using NginX, you probably need such a bit of code in your configuration file:' .
+            '</p>' .
+            '<pre><code>' .
+                adaptive_images_actions_nginx_get_block() .
+            '</code></pre>';
 
 
 

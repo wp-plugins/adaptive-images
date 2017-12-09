@@ -18,6 +18,35 @@
     
     define( 'SILENCE', FALSE );
 
+    require("../../../wp-config.php");
+
+
+    /**
+     * Calculates the current full requested url path, that is the full url 
+     * without the GET parameters and the HTML fragment identifier.
+     * 
+     * @param boolean $use_forwarded_host Whether to check for a requested host
+     *                                    set by a caching server or CDN and use
+     *                                    it instead.
+     * 
+     * @return string The current full requested url path.
+     */
+
+    function adaptive_images_script_get_url ( $use_forwarded_host=false ) {
+
+        $ssl         = ( ! empty( $_SERVER['HTTPS'] ) && strcasecmp( $_SERVER['HTTPS'], 'on' ) == 0 );
+        $protocol    = strtolower( $_SERVER['SERVER_PROTOCOL'] );
+        $protocol    = substr( $protocol, 0, strpos( $protocol, '/' ) ) . ( ( $ssl ) ? 's' : '' );
+        $port        = $_SERVER['SERVER_PORT'];
+        $port        = ( ( ! $ssl && $port=='80' ) || ( $ssl && $port=='443' ) ) ? '' : ':' . $port;
+        $host        = ( $use_forwarded_host && isset( $_SERVER['HTTP_X_FORWARDED_HOST'] ) ) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : ( isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : null );
+        $host        = isset( $host ) ? $host : $_SERVER['SERVER_NAME'] . $port;
+        $request_uri = parse_url( urldecode( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH );
+
+        return $protocol . '://' . $host . $request_uri;
+
+    }
+
 
 
     /**
@@ -34,22 +63,28 @@
 
         if ( ! isset( $_REQUEST['adaptive-images-settings'] ) ) {
 
-            // Default script settings which are set in the plugin settings page.
+            $current_directory  = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
-            $resolutions   = array( 1024, 600, 480 );
-            $landscape     = TRUE;
-            $hidpi         = TRUE;
-            $cache_dir     = "cache/adaptive-images";
-            $jpg_quality   = 65;
-            $sharpen       = TRUE;
-            $watch_cache   = TRUE;
-            $browser_cache = 60*60*24*7;
+
+
+            // Default script settings which are overriden by the user settings.
+
+            $resolutions    = array( 1024, 600, 480 );
+            $landscape      = TRUE;
+            $hidpi          = TRUE;
+            $wp_content_dir = wp_normalize_path(realpath( $current_directory . '/../../' ));
+            $wp_content_url = 'http://' . $_SERVER['HTTP_HOST'] . '/wp-content';
+            $cache_dir      = "cache/adaptive-images";
+            $jpg_quality    = 65;
+            $png8           = FALSE;
+            $sharpen        = TRUE;
+            $watch_cache    = TRUE;
+            $browser_cache  = 60*60*24*7;
 
 
 
             // Check if user settings from the WordPress admin exist.
 
-            $current_directory  = dirname( $_SERVER['SCRIPT_FILENAME'] );
             $user_settings_file = realpath( $current_directory . '/user-settings.php' );
 
             if ( file_exists( $user_settings_file ) ) {
@@ -62,13 +97,19 @@
 
 
 
-            // Resolve paths of necessary directories.
+            // Resolve original requested image path on disk. 
+            
+            $request_uri    = parse_url( urldecode( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH );
+            $wp_content_url = preg_replace( '/^https?/',  '', $wp_content_url );
+            $url            = preg_replace( '/^https?/',  '', adaptive_images_script_get_url()  );
+            $source_file    = str_ireplace( $wp_content_url, $wp_content_dir, $url );
 
-            $wp_content     = realpath( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/../../' );
-            $requested_uri  = parse_url( urldecode( $_SERVER['REQUEST_URI']), PHP_URL_PATH );
-            $requested_file = basename( $requested_uri );
-            $source_file    = $_SERVER['DOCUMENT_ROOT'] . $requested_uri;
-            $resolution     = FALSE;
+            // echo $request_uri . '<br/>';
+            // echo $wp_content_url . '<br/>';
+            // echo $wp_content_dir . '<br/>';
+            // echo $url . '<br/><br/>';
+            // echo $source_file . '<br/>';
+            // exit;
 
 
 
@@ -78,10 +119,14 @@
                 
                 $cookie_resolution = $_GET['resolution'];
 
-            } else {
+            } else if ( isset( $_COOKIE['resolution'] ) ) { 
 
                 $cookie_resolution = $_COOKIE['resolution'];
-                
+
+            } else {
+
+                $cookie_resolution = null;
+
             }
 
 
@@ -91,7 +136,7 @@
             $client_width  = $resolutions[0];
             $pixel_density = 1;
 
-            if ( ! isset( $cookie_resolution ) || isset( $cookie_resolution ) && ! preg_match( "/^[0-9]+[,]+[0-9]+$/", $cookie_resolution ) ) { 
+            if ( ! isset( $cookie_resolution ) || isset( $cookie_resolution ) && ! preg_match( "/^[\d]+[,]+[\d]+[\.]?[\d]*$/", $cookie_resolution ) ) { 
 
                 // Delete cookie if not valid, so that the default image is used.
 
@@ -156,12 +201,13 @@
                 'resolutions'    => $resolutions,
                 'cache_dir'      => $cache_dir,
                 'jpg_quality'    => $jpg_quality,
+                'png8'           => $png8,
                 'sharpen'        => $sharpen,
                 'watch_cache'    => $watch_cache,
                 'browser_cache'  => $browser_cache,
-                'requested_uri'  => $requested_uri,
+                'request_uri'    => $request_uri,
                 'source_file'    => $source_file,
-                'wp_content'     => $wp_content,
+                'wp_content'     => $wp_content_dir,
                 'client_width'   => $client_width,
                 'hidpi'          => $hidpi,
                 'pixel_density'  => $pixel_density,
@@ -169,6 +215,7 @@
             );
 
         }
+
 
         return $_REQUEST['adaptive-images-settings'];
 
@@ -291,7 +338,7 @@
                 <table><tbody>
                     <tr>
                         <td>Image</td>
-                        <td><?php echo $settings['requested_uri']; ?></td>
+                        <td><?php echo $settings['request_uri']; ?></td>
                     </tr>
                     <tr>
                         <td>Exists</td>
@@ -317,7 +364,7 @@
 
                 Add "?debug=original" to see the original, non-resized image. 
 
-                Add "?resolution=xxxx,y" to see the image resized in XXX pixels and y pixel density. 
+                Add "?resolution=xxxx,y" to see the image resized in xxxx pixels and y pixel density. 
 
             </body>
 
@@ -552,12 +599,13 @@
      * @param string $cache_file  The target file where the resized version will be cached.
      * @param int    $resolution  The resolution breakpoint at which the given image is to be resized.
      * @param int    $jpg_quality The JPEG quality that will be used for resizing the images.
+     * @param bool   $png8        Whether to use PNG8 compression for PNGs or let 32bit PNGs.
      * @param bool   $sharpen     Whether to sharpen the resized images or not.
      * 
      * @return array Associative array( bool: success, string: message) with the result of the image cache generation.
      */
     
-    function adaptive_images_script_generate_image ( $source_file, $cache_file, $resolution, $jpg_quality, $sharpen ) {
+    function adaptive_images_script_generate_image ( $source_file, $cache_file, $resolution, $jpg_quality, $png8, $sharpen ) {
 
         // Get original image dimensions.
 
@@ -595,6 +643,7 @@
 
             default:
 
+                // jpg/jpeg
                 $source = @ImageCreateFromJpeg( $source_file );
                 break;
 
@@ -609,28 +658,38 @@
             // Create a transparent color and fill the blank canvas with it.
 
             $rbga_color = @ImageColorAllocateAlpha( $destination, 0, 0, 0, 127 );
-
             @ImageColorTransparent( $destination, $rbga_color );
             @ImageFill( $destination, 0, 0, $rbga_color );
+            
 
-            // Copy source image to destination image with interpolation.
 
-            @ImageCopyResampled( $destination, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
-
-            // Convert true colour image to pallette image to achieve PNG-8 compression.
-
-            $dither = TRUE;
-            @ImageTrueColorToPalette( $destination, $dither, 255 );
+            // Disable blending of destination image to allow for alpha (transparency) above.
+            
+            $enable_alpha_blending = FALSE;
+            @ImageAlphaBlending( $destination, $enable_alpha_blending );
 
             // Save alpha (transparency) of destination image.
             
             $save_alpha = TRUE;
             @ImageSaveAlpha( $destination, $save_alpha );
 
-            // Disable blending of destination image to allow for alpha (transparency) above.
+
+
+            // Copy source image to destination image with interpolation.
+
+            @ImageCopyResampled( $destination, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+
+
             
-            $enable_alpha_blending = FALSE;
-            @ImageAlphaBlending( $destination, $enable_alpha_blending );
+
+            // Convert true colour image to pallette image to achieve PNG-8 compression.
+
+            if ( $png8 ) {
+
+                $dither = TRUE;
+                @ImageTrueColorToPalette( $destination, $dither, 255 );
+                
+            }
 
         }
 
@@ -643,7 +702,6 @@
             // Create a transparent color and fill the blank canvas with it.
             
             $rbga_color = @ImageColorAllocateAlpha( $destination, 0, 0, 0, 127 );
-
             @ImageColorTransparent( $destination, $rbga_color );
             @ImageFill( $destination, 0, 0, $rbga_color );
 
@@ -671,7 +729,7 @@
 
             // Enable JPEG interlacing.
 
-            ImageInterlace( $destination, TRUE );
+            @ImageInterlace( $destination, TRUE );
 
             // Interpolates source image to destination image to make it more clear for JPGs.
 
@@ -687,9 +745,10 @@
 
 
 
-        // Do sharpening if requested.
+        // Do sharpening if requested (only for JPEGs).
 
-        if ( $sharpen && function_exists( 'imageconvolution' ) ) {
+        if ( ( $extension == 'jpg' || $extension == 'jpeg' ) && 
+               $sharpen && function_exists( 'imageconvolution' ) ) {
             
             $sharpness_factor = adaptive_images_script_sharpness_factor( $width, $new_width );
             
@@ -917,7 +976,7 @@
 
     // Locate cached image.
 
-    $cache_file = $settings['wp_content'] . '/' . $settings['cache_dir'] . '/' . $settings['resolution'] . $settings['requested_uri'];
+    $cache_file = $settings['wp_content'] . '/' . $settings['cache_dir'] . '/' . $settings['resolution'] . $settings['request_uri'];
 
 
 
@@ -943,7 +1002,7 @@
         
         // So create cached image now.
         
-        $result = adaptive_images_script_generate_image( $settings['source_file'], $cache_file, $settings['resolution'], $settings['jpg_quality'], $settings['sharpen'] );
+        $result = adaptive_images_script_generate_image( $settings['source_file'], $cache_file, $settings['resolution'], $settings['jpg_quality'], $settings['png8'], $settings['sharpen'] );
 
         // If cached image could not be created. 
 
